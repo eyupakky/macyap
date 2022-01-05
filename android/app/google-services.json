@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "875863625859",
+    "project_id": "gamebuy-213613",
+    "storage_bucket": "gamebuy-213613.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875863625859:android:4e2da42eab81c917534bb6",
+        "android_client_info": {
+          "package_name": "com.eyupakky.halisaha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875863625859-hh3d3aecniht9gop96tlo2ccub6564eb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7BKv5olWF2FC4gTyBxTrBOl8L9bjeojs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875863625859-hh3d3aecniht9gop96tlo2ccub6564eb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
