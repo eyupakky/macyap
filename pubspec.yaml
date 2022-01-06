@@ -31,13 +31,15 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.0
   firebase_messaging: ^11.2.4
-  flutter_local_notifications: ^9.1.5
   cached_network_image: ^3.2.0
   flutter_chat_ui: ^1.5.3
   google_fonts: ^2.2.0
+  fluttertoast: ^8.0.8
+  flutter_easyloading: ^3.0.3
   font_awesome_flutter: ^9.2.0
   settings_ui: ^1.0.0
   validators: ^3.0.0
+  intl: ^0.17.0
   shared_preferences: ^2.0.11
   calendar_timeline:
     git:

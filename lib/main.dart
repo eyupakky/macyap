@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/page/account/email/update_email.dart';
 import 'package:halisaha/page/account/followers/followers.dart';
 import 'package:halisaha/page/account/password_update.dart';
@@ -15,14 +16,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:halisaha/page/login/login_page.dart';
 import 'package:halisaha/page/message/message_details.dart';
+import 'package:halisaha/page/splash_page.dart';
 
 import 'cubit/cubit_abstract.dart';
+import 'help/app_context.dart';
 
 /// Define a top-level named handler which background/terminated messages will
 /// call.
@@ -38,7 +41,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //late AndroidNotificationChannel channel;
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
-late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+// late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,16 +49,18 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  // flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
     sound: true,
   );
+  AppContext appContext = AppContext();
   // }
   BlocOverrides.runZoned(
-    () => runApp(const MyApp()),
+    () => runApp(ContextProvider(
+        current: appContext, key: UniqueKey(), child: const MyApp())),
     blocObserver: AppBlocObserver(),
   );
 }
@@ -90,9 +95,11 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
-        initialRoute: "/login",
+        initialRoute: "/splash",
+        builder: EasyLoading.init(),
         routes: {
           "/": (context) => const HomePage(),
+          "/splash": (context) => const SplashPage(),
           "/messageDetails": (context) => MessageDetails(),
           "/profile": (context) => ProfilePage(),
           "/followers": (context) => FollowersPage(),
@@ -100,7 +107,7 @@ class MyApp extends StatelessWidget {
           "/email": (context) => UpdateEmailPage(),
           "/setting": (context) => SettingsPage(),
           "/password": (context) => PasswordUpdatePage(),
-           "/login": (context) => LoginPage(),
+          "/login": (context) => LoginPage(),
         },
         theme: ThemeData(
           tabBarTheme: const TabBarTheme(

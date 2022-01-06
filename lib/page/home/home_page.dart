@@ -2,12 +2,12 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/cubit/cubit_abstract.dart';
 import 'package:halisaha/page/account/account_page.dart';
 import 'package:halisaha/page/home/main_list.dart';
 import 'package:halisaha/page/message/message_page.dart';
 import 'package:halisaha/page/places_page.dart';
-import 'package:provider/src/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,7 +23,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -42,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         showElevation: true,
         onItemSelected: (index) => setState(() {
           _selectedIndex = index;
-         // context.read<ChangeBottomCubit>().changeFlushBar(index);
+          // context.read<ChangeBottomCubit>().changeFlushBar(index);
         }),
         items: [
           FlashyTabBarItem(
