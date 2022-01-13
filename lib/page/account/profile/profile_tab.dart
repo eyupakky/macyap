@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha/page/account/profile/attended_tab_page.dart';
+import 'package:halisaha/page/account/profile/played_tab_page.dart';
+import 'package:repository_eyup/model/user.dart';
 
 class ProfileTab extends StatefulWidget {
-  const ProfileTab({Key? key}) : super(key: key);
+  User user;
+  ProfileTab({Key? key,required this.user}) : super(key: key);
 
   @override
   State<ProfileTab> createState() => _ProfileTabState();
@@ -36,14 +40,11 @@ class _ProfileTabState extends State<ProfileTab>
               // ),
               child: TabBar(
                 controller: _tabController,
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    25.0,
-                  ),
-                  color: Colors.green,
-                ),
-                labelColor: Colors.white,
+                labelColor: Colors.black,
+                indicatorColor: Colors.green,
                 unselectedLabelColor: Colors.black,
+                unselectedLabelStyle: const TextStyle(fontSize: 14),
+                labelStyle: const TextStyle(fontSize: 16),
                 tabs: const [
                   Tab(
                     text: 'KATILDIKLARIM',
@@ -58,25 +59,9 @@ class _ProfileTabState extends State<ProfileTab>
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: const [
-                  Center(
-                    child: Text(
-                      'KATILDIKLARIM',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      'OYNADIKLARIM',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                children: [
+                  AttendedPage(user:widget.user),
+                  PlayedTabPage(user:widget.user)
                 ],
               ),
             ),

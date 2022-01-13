@@ -8,11 +8,16 @@ class BaseResponse {
     success = json['success'];
     description = json['description'];
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['success'] = success;
-    data['description'] = description;
-    return data;
+class RatingResponse {
+  bool? success;
+  int? field;
+
+  RatingResponse({this.success, this.field});
+
+  RatingResponse.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    field = json['field'];
   }
 }

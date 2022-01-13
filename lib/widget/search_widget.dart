@@ -1,24 +1,27 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha/help/utils.dart';
 
 class SearchWidget extends StatelessWidget {
   String hintText;
+  FunctionStringCallback callback;
 
-  SearchWidget({Key? key, required this.hintText}) : super(key: key);
+  SearchWidget({Key? key, required this.hintText,required this.callback}) : super(key: key);
+  final _debouncer = Debouncer(milliseconds: 700);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       textInputAction: TextInputAction.search,
-      onSubmitted: (as) {
-        //getSearch(as);
+      onSubmitted: (val) {
+        callback(val);
       },
       onEditingComplete: () {},
       onChanged: (String val) {
-        // _debouncer.run(() {
-        //   search = val;
-        //   getSearch(val);
-        // });
+        _debouncer.run(() {
+          callback(val);
+        });
       },
       decoration: InputDecoration(
           hintText: hintText,
@@ -29,3 +32,5 @@ class SearchWidget extends StatelessWidget {
     );
   }
 }
+
+typedef FunctionStringCallback = Function(String result);

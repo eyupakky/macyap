@@ -53,6 +53,11 @@ class _MainListState extends State<MainList> {
                       Flexible(
                         child: SearchWidget(
                           hintText: "Maç ara...",
+                          callback: (search) {
+                            setState(() {
+                              map["search"] = search;
+                            });
+                          },
                         ),
                       ),
                       IconButton(
@@ -60,9 +65,9 @@ class _MainListState extends State<MainList> {
                             _scaffoldKey.currentState!.openEndDrawer();
                           },
                           icon: const Icon(Icons.filter_alt_rounded)),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.plus_one_rounded))
+                      // IconButton(
+                      //     onPressed: () {},
+                      //     icon: const Icon(Icons.plus_one_rounded))
                     ],
                   ),
                 ),
@@ -76,6 +81,7 @@ class _MainListState extends State<MainList> {
                 dayWidth: 50,
                 dayHeight: 60,
                 onDateSelected: (date) {
+                  EasyLoading.show();
                   setState(() {
                     _selectedDate = date!;
                     map["tarih"] = f.format(_selectedDate);
@@ -96,16 +102,31 @@ class _MainListState extends State<MainList> {
                 height: constraints.maxHeight - 135,
                 color: Colors.black.withAlpha(20),
                 child: FutureBuilder<List<Match>>(
-                    future:_homeController.getLazyMatches(map),
+                    future: _homeController.getLazyMatches(map),
                     builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return const Center(child: Text("Maç bulunamadı."));
+                      if (snapshot.data == null || snapshot.data!.isEmpty) {
+                        EasyLoading.isShow ? EasyLoading.dismiss() : null;
+                        return SizedBox(
+                          height: 200,
+                          child: Center(
+                              child: Column(
+                            children: [
+                              snapshot.data == null
+                                  ? const CircularProgressIndicator()
+                                  : const SizedBox(),
+                              Text(snapshot.data == null
+                                  ? "Maç aranıyor..."
+                                  : "Maç bulunmuyor..."),
+                            ],
+                          )),
+                        );
                       }
-                      EasyLoading.isShow ? EasyLoading.dismiss() : null;
+
                       var matches = snapshot.data;
                       return ListView.builder(
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
+                            EasyLoading.isShow ? EasyLoading.dismiss() : null;
                             return HomeListItem(matches![index]);
                           });
                     }),

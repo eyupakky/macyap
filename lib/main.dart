@@ -7,6 +7,7 @@ import 'package:halisaha/page/account/password_update.dart';
 import 'package:halisaha/page/account/profile/profile.dart';
 import 'package:halisaha/page/account/settings/settings.dart';
 import 'package:halisaha/page/account/wallet/wallet.dart';
+import 'package:halisaha/page/home/game_list/game_detail.dart';
 import 'package:halisaha/page/home/home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,8 +22,10 @@ import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:halisaha/page/login/login_page.dart';
+import 'package:halisaha/page/login/register_page.dart';
 import 'package:halisaha/page/message/message_details.dart';
 import 'package:halisaha/page/splash_page.dart';
+import 'package:halisaha/page/venues/venues_detail.dart';
 
 import 'cubit/cubit_abstract.dart';
 import 'help/app_context.dart';
@@ -87,16 +90,20 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ChangeBottomCubit>(
-          create: (BuildContext context) => ChangeBottomCubit(0),
+          create: (BuildContext context) => ChangeBottomCubit(false),
         ),
-        BlocProvider<ThemeCubit>(
-          create: (BuildContext context) => ThemeCubit(),
+        BlocProvider<ChangeFavorite>(
+          create: (BuildContext context) => ChangeFavorite(false),
+        ),
+        BlocProvider<NewVenuesComment>(
+          create: (BuildContext context) => NewVenuesComment(0),
         ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         initialRoute: "/splash",
         builder: EasyLoading.init(),
+        debugShowCheckedModeBanner: false,
         routes: {
           "/": (context) => const HomePage(),
           "/splash": (context) => const SplashPage(),
@@ -108,6 +115,9 @@ class MyApp extends StatelessWidget {
           "/setting": (context) => SettingsPage(),
           "/password": (context) => PasswordUpdatePage(),
           "/login": (context) => LoginPage(),
+          "/register": (context) => const RegisterPage(),
+          "/gameDetail": (context) => GameDetail(),
+          "/venuesDetail": (context) => VenuesDetail(),
         },
         theme: ThemeData(
           tabBarTheme: const TabBarTheme(
@@ -116,7 +126,11 @@ class MyApp extends StatelessWidget {
               indicator: UnderlineTabIndicator(
                   // color for indicator (underline)
                   borderSide: BorderSide(color: Colors.green))),
-          primaryColor: Colors.pink[800], // deprecated,
+          primaryColor: Colors.pink[800],
+          indicatorColor: Colors.red,
+          backgroundColor: Colors.red,
+          fontFamily: "Montserrat-bold",
+          // deprecated,
           primarySwatch: Colors.green,
         ),
       ),

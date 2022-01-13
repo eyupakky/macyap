@@ -1,13 +1,10 @@
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:halisaha/cubit/cubit_abstract.dart';
 import 'package:halisaha/page/account/account_page.dart';
-import 'package:halisaha/page/home/main_list.dart';
+import 'package:halisaha/page/home/game_list/main_list.dart';
 import 'package:halisaha/page/message/message_page.dart';
-import 'package:halisaha/page/places_page.dart';
+import 'package:halisaha/page/venues/venues_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

@@ -1,19 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class WalletPage extends StatefulWidget {
+class WalletPage extends StatelessWidget {
   WalletPage({Key? key}) : super(key: key);
 
-  @override
-  State<WalletPage> createState() => _WalletPageState();
-}
-
-class _WalletPageState extends State<WalletPage>
-    with SingleTickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +15,7 @@ class _WalletPageState extends State<WalletPage>
             children: [
               ListTile(
                 title: const Text(
-                  "İşlemler",
+                  "Cüzdanım",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 leading: IconButton(
@@ -37,12 +27,17 @@ class _WalletPageState extends State<WalletPage>
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                "50.0 ₺",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24),
+              FutureBuilder<Object>(
+                future: null,
+                builder: (context, snapshot) {
+                  return const Text(
+                    "50.0 ₺",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24),
+                  );
+                }
               ),
               const Text(
                 "Bakiye",

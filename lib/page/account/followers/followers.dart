@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha/page/account/profile/profile_tab.dart';
+import 'package:repository_eyup/constant.dart';
 
 import 'followers_tab.dart';
 
@@ -28,9 +29,9 @@ class _FollowersPageState extends State<FollowersPage>
           child: Column(
             children: [
               ListTile(
-                title: const Text(
-                  "username",
-                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                title:  Text(
+                  Constant.userName,
+                  style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                 ),
                 leading: IconButton(
                     onPressed: () {

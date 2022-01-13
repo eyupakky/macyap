@@ -34,17 +34,19 @@ class Match {
   String? name;
   String? username;
   String? image;
+  int? joinedGamers;
 
   Match(
       {this.gameId,
-        this.title,
-        this.tagler,
-        this.gamePrice,
-        this.limit,
-        this.date,
-        this.name,
-        this.username,
-        this.image});
+      this.title,
+      this.tagler,
+      this.gamePrice,
+      this.limit,
+      this.date,
+      this.name,
+      this.username,
+      this.image,
+      this.joinedGamers});
 
   Match.fromJson(Map<String, dynamic> json) {
     gameId = json['game_id'];
@@ -58,6 +60,7 @@ class Match {
     name = json['name'];
     username = json['username'];
     image = json['image'];
+    joinedGamers = json['joined_gamers'];
   }
 
   Map<String, dynamic> toJson() {
@@ -71,6 +74,7 @@ class Match {
     data['name'] = name;
     data['username'] = username;
     data['image'] = image;
+    data['joined_gamers'] = joinedGamers;
     return data;
   }
 }

@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha/page/account/followers/following_tab_page.dart';
+import 'package:repository_eyup/constant.dart';
+
+import 'followers_tab_page.dart';
 
 class FollowersTab extends StatefulWidget {
   const FollowersTab({Key? key}) : super(key: key);
@@ -15,8 +19,7 @@ class _FollowersTabState extends State<FollowersTab>
   @override
   void initState() {
     super.initState();
-
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -37,15 +40,11 @@ class _FollowersTabState extends State<FollowersTab>
               // ),
               child: TabBar(
                 controller: _tabController,
-                // give the indicator a decoration (color and border radius)
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    25.0,
-                  ),
-                  color: Colors.green,
-                ),
-                labelColor: Colors.white,
+                labelColor: Colors.black,
+                indicatorColor: Colors.green,
                 unselectedLabelColor: Colors.black,
+                unselectedLabelStyle: const TextStyle(fontSize: 14),
+                labelStyle: const TextStyle(fontSize: 16),
                 tabs: const [
                   Tab(
                     text: 'Followers',
@@ -53,9 +52,9 @@ class _FollowersTabState extends State<FollowersTab>
                   Tab(
                     text: 'Following',
                   ),
-                  Tab(
-                    text: 'Blocked',
-                  ),
+                  // Tab(
+                  //   text: 'Blocked',
+                  // ),
                 ],
               ),
             ),
@@ -63,37 +62,19 @@ class _FollowersTabState extends State<FollowersTab>
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: const [
+                children: [
                   // first tab bar view widget
-                  Center(
-                    child: Text(
-                      'Followers',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-
-                  // second tab bar view widget
-                  Center(
-                    child: Text(
-                      'Following',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      'Blocked',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                  FollowersTabPage(),
+                  FollowingTabPage(),
+                  // Center(
+                  //   child: Text(
+                  //     'Blocked',
+                  //     style: TextStyle(
+                  //       fontSize: 18,
+                  //       fontWeight: FontWeight.w600,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

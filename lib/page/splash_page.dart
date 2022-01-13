@@ -24,8 +24,12 @@ class SplashPage extends StatelessWidget {
   void getAccessToken(BuildContext context) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString("accessToken");
+    String? userName = preferences.getString("username");
+    String? userId = preferences.getString("user_id");
     if (token != null && token != "") {
       Constant.accessToken = token;
+      Constant.userName = userName!;
+      Constant.userId = int.parse('$userId');
       Navigator.pushReplacementNamed(context, "/");
     } else {
       Navigator.pushReplacementNamed(context, "/login");

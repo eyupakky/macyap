@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:halisaha/base_widget.dart';
 import 'package:halisaha/help/app_context.dart';
 import 'package:halisaha/help/ui_guide.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/controller/login_controller.dart';
+
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
 
@@ -19,8 +22,10 @@ class _LoginState extends State<LoginPage> {
   BaseContext get appContext => ContextProvider.of(context)!.current;
 
   final LoginController _loginController = LoginController();
+  final AccountController _accountController = AccountController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -31,48 +36,34 @@ class _LoginState extends State<LoginPage> {
   Widget build(BuildContext context) {
     sizeConfig.init(context);
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Stack(
-          children: [
-            // Container(
-            //   height: MediaQuery.of(context).size.height,
-            //   width: double.infinity,
-            // child: Opacity(
-            //   opacity: .4,
-            //   child:
-            //   Image.asset(
-            //     UIGuide.pirpleImg,
-            //     height: SizeConfig.blockSizeVertical * 100,
-            //     width: SizeConfig.blockSizeHorizontal * 100,
-            //     fit: BoxFit.fitHeight,
-            //   ),
-            // ),
-            // ),
-            Positioned(
-              top: SizeConfig.blockSizeVertical * 2,
-              left: SizeConfig.blockSizeHorizontal * 4,
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 40, horizontal: 28),
-                child: Image.asset(
-                  UIGuide.pirpleLogo,
-                  height: SizeConfig.blockSizeVertical * 9.5,
-                  width: SizeConfig.blockSizeHorizontal * 19,
-                  fit: BoxFit.fill,
+      body: BaseWidget(
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Stack(
+            children: [
+              Positioned(
+                top: SizeConfig.blockSizeVertical * 2,
+                left: SizeConfig.blockSizeHorizontal * 4,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 40, horizontal: 28),
+                  child: Image.asset(
+                    UIGuide.pirpleLogo,
+                    height: SizeConfig.blockSizeVertical * 9.5,
+                    width: SizeConfig.blockSizeHorizontal * 19,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
-            ),
-
-            Positioned(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 200, 150, 100),
-                child: tabs(),
+              Positioned(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 200, 150, 100),
+                  child: tabs(),
+                ),
               ),
-            ),
-            _emailFiled(),
-          ],
+              _emailFiled(),
+            ],
+          ),
         ),
       ),
     );
@@ -81,7 +72,13 @@ class _LoginState extends State<LoginPage> {
   Widget tabs() {
     return DefaultTabController(
       length: 2,
+      initialIndex: _selectedIndex,
       child: TabBar(
+        onTap: (index) {
+          if (index == 1) {
+            Navigator.pushNamed(context, "/register");
+          }
+        },
         tabs: [
           Tab(
             child: Text(
@@ -113,12 +110,12 @@ class _LoginState extends State<LoginPage> {
         children: [
           TextField(
             controller: emailController,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.black),
             decoration: InputDecoration(
-                focusColor: Colors.white,
+                focusColor: Colors.black,
                 hintText: "Email adresi",
                 hintStyle: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w300, color: Colors.white),
+                    fontWeight: FontWeight.w300, color: Colors.black),
                 enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey))),
             keyboardType: TextInputType.emailAddress,
@@ -126,17 +123,17 @@ class _LoginState extends State<LoginPage> {
           const SizedBox(height: 30),
           TextField(
             controller: passwordController,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.black),
             decoration: InputDecoration(
                 suffixIcon: const Icon(
                   Icons.remove_red_eye,
                   color: Colors.grey,
                 ),
                 hintText: "Şifre girin",
-                fillColor: Colors.white,
-                labelStyle: const TextStyle(color: Colors.white),
+                fillColor: Colors.black,
+                labelStyle: const TextStyle(color: Colors.black),
                 hintStyle: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w300, color: Colors.white),
+                    fontWeight: FontWeight.w300, color: Colors.black),
                 enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey))),
             obscureText: true,
@@ -158,7 +155,7 @@ class _LoginState extends State<LoginPage> {
                     "GİRİŞ YAP",
                     style: GoogleFonts.montserrat(
                         fontSize: 16,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.w500),
                   ),
                   color: Colors.blueGrey.withOpacity(0.9))
@@ -172,7 +169,7 @@ class _LoginState extends State<LoginPage> {
                 "Şununla giriş yap",
                 style: GoogleFonts.roboto(
                     fontSize: 16,
-                    color: Colors.white,
+                    color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
             ],
@@ -192,7 +189,7 @@ class _LoginState extends State<LoginPage> {
                     ),
                     child: const FaIcon(
                       FontAwesomeIcons.facebookF,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                     color: Colors.blueGrey.withOpacity(0.9),
                   )),
@@ -208,7 +205,7 @@ class _LoginState extends State<LoginPage> {
                     ),
                     child: const FaIcon(
                       FontAwesomeIcons.twitter,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                     color: Colors.blueGrey.withOpacity(0.9),
                   )),
@@ -224,7 +221,7 @@ class _LoginState extends State<LoginPage> {
                     ),
                     child: const FaIcon(
                       FontAwesomeIcons.googlePlusG,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                     color: Colors.blueGrey.withOpacity(0.9),
                   )),
@@ -244,7 +241,7 @@ class _LoginState extends State<LoginPage> {
         Text(
           "Şifremi unuttum",
           style: GoogleFonts.roboto(
-              fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500),
+              fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
         ),
       ],
     );
@@ -256,9 +253,13 @@ class _LoginState extends State<LoginPage> {
         .login(emailController.text, passwordController.text)
         .then((value) {
       appContext.setAccessToken(value);
-      Navigator.pushNamed(context, "/");
+      _accountController.getMyUser().then((value){
+        appContext.setMyUser(value);
+        Navigator.pushNamed(context, "/");
+      });
     }).catchError((err) {
-      showToast(err);
+      EasyLoading.dismiss();
+      showToast(err,color:Colors.redAccent);
     });
   }
 }

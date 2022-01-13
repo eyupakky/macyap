@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -34,14 +36,29 @@ class SizeConfig {
     safeBlockVertical = (screenHeight - _safeAreaVertical) / 100;
   }
 }
-void showToast(String text){
+
+void showToast(String text, {Color? color}) {
   Fluttertoast.showToast(
       msg: text,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
+      backgroundColor: color ?? Colors.redAccent,
       textColor: Colors.white,
-      fontSize: 16.0
-  );
+      fontSize: 16.0);
+}
+class Debouncer {
+  late final int milliseconds;
+
+  Debouncer({required this.milliseconds});
+
+  late VoidCallback? action;
+  Timer? _timer;
+
+  run(VoidCallback action) {
+    if (null != _timer) {
+      _timer!.cancel();
+    }
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
+  }
 }

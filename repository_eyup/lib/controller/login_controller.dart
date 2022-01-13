@@ -6,4 +6,5 @@ class LoginController{
   Future<String> login(String email,String password){
     return Future.value(loginRepository.login(email, password));
   }
+
 }

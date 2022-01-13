@@ -16,13 +16,24 @@ class CounterBloc extends Bloc<CounterEvent, int> {
     on<Decrement>((event, emit) => emit(state - 1));
   }
 }
-class ChangeBottomCubit extends Cubit<int> {
-  ChangeBottomCubit(int initialState) : super(initialState);
-  void changeFlushBar(int widget) {
-    emit(widget);
+class ChangeBottomCubit extends Cubit<bool> {
+  ChangeBottomCubit(bool initialState) : super(initialState);
+  void changeFlushBar(bool change) {
+    emit(change);
   }
 }
-
+class ChangeFavorite extends Cubit<bool> {
+  ChangeFavorite(bool initialState) : super(initialState);
+  void changeFavorite(bool change) {
+    emit(change);
+  }
+}
+class NewVenuesComment extends Cubit<int> {
+  NewVenuesComment(int initialState) : super(initialState);
+  void changeVenuesComment(int change) {
+    emit(change);
+  }
+}
 class MacListesiCubit extends Cubit<int> {
   MacListesiCubit(int initialState) : super(initialState);
   void changeFlushBar(int widget) {
