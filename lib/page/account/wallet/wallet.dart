@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:repository_eyup/controller/wallet_controller.dart';
 
 class WalletPage extends StatelessWidget {
   WalletPage({Key? key}) : super(key: key);
-
+  final WalletController _walletController = WalletController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +28,17 @@ class WalletPage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              FutureBuilder<Object>(
-                future: null,
-                builder: (context, snapshot) {
-                  return const Text(
-                    "50.0 ₺",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24),
-                  );
-                }
-              ),
+              FutureBuilder<String>(
+                  future: _walletController.getUserBalance(),
+                  builder: (context, snapshot) {
+                    return Text(
+                      snapshot.data ?? "",
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24),
+                    );
+                  }),
               const Text(
                 "Bakiye",
                 style:
