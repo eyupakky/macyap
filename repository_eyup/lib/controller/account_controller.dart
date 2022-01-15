@@ -16,7 +16,9 @@ class AccountController {
   Future<User> getMyUser() {
     return Future.value(iAccountRepository.getMyUser());
   }
-
+  Future<User> getUserProfile(int? id) {
+    return Future.value(iAccountRepository.getUserProfile(id));
+  }
   Future<List<AccountModel>> getAccount(String id) async {
     _accountModel = await iAccountRepository.getAccount(id);
     return _accountModel;

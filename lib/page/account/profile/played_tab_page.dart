@@ -35,8 +35,8 @@ class PlayedTabPage extends StatelessWidget {
                 onTap: () {
                   Navigator.pushNamed(context, "/gameDetail",arguments: match);
                 },
-                title: Text('${match.name}'),
-                subtitle: Text('${match.date}'),
+                title: Text('${match.name}',style: const TextStyle(fontSize: 14),),
+                subtitle: Text('${match.date}',style: const TextStyle(fontSize: 10),),
               );
             },
             separatorBuilder: (context, index) {

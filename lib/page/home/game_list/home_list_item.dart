@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:repository_eyup/model/matches_model.dart';
 
 class HomeListItem extends StatelessWidget {
@@ -12,7 +13,7 @@ class HomeListItem extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () {
-           Navigator.pushNamed(context, "/gameDetail",arguments: match);
+          Navigator.pushNamed(context, "/gameDetail", arguments: match);
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -27,7 +28,7 @@ class HomeListItem extends StatelessWidget {
                   style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontSize: 15),
+                      fontSize: 12),
                 ),
               ),
               const SizedBox(
@@ -62,11 +63,17 @@ class HomeListItem extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 30,
-                    child: OutlinedButton(
+                    width: 65,
+                    child: FlatButton(
+                      color: (match.limit! ~/ 2) < match.joinedGamers!
+                          ? ((match.limit! ~/ 2) == match.joinedGamers!
+                              ? Colors.blue
+                              : Colors.grey)
+                          : HexColor('#FFCE45'),
                       onPressed: () {},
                       child: Text(
                         '${match.joinedGamers}/${match.limit}',
-                        style: const TextStyle(fontSize: 10),
+                        style: const TextStyle(fontSize: 10,color: Colors.white),
                       ),
                     ),
                   )

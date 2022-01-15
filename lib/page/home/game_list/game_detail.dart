@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha/base_widget.dart';
 import 'package:halisaha/page/home/game_list/game_detail/line_up.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/model/matches_model.dart';
@@ -28,33 +29,35 @@ class _GameDetailState extends State<GameDetail>
   Widget build(BuildContext context) {
     Match match = ModalRoute.of(context)!.settings.arguments as Match;
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          bottom: TabBar(
-            controller: _tabController,
-            indicatorColor: Colors.red,
-            labelColor: Colors.red,
-            unselectedLabelColor: Colors.grey,
-            tabs: const [
-              Tab(
-                text: "Bilgi",
-              ),
-              Tab(text: "Takım"),
-              Tab(text: "Yorumlar"),
-            ],
-          ),
-          title: Text(
-            '${match.name}',
-            style: const TextStyle(color: Colors.black,fontSize: 14),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: TabBarView(
+        bottom: TabBar(
+          controller: _tabController,
+          indicatorColor: Colors.red,
+          labelColor: Colors.red,
+          unselectedLabelColor: Colors.grey,
+          labelStyle: const TextStyle(fontSize: 16),
+          unselectedLabelStyle: const TextStyle(fontSize: 13),
+          tabs: const [
+            Tab(
+              text: "Bilgi",
+            ),
+            Tab(text: "Takım"),
+            Tab(text: "Yorumlar"),
+          ],
+        ),
+        title: Text(
+          '${match.name}',
+          style: const TextStyle(color: Colors.black, fontSize: 14),
+        ),
+      ),
+      body: BaseWidget(
+        child: TabBarView(
           controller: _tabController,
           children: [
             GameDetailInfoTab(

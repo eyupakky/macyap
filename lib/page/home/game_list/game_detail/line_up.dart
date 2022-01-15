@@ -21,7 +21,7 @@ class LineUp extends StatelessWidget {
     return Scaffold(
       body: FutureBuilder<GameUsers>(
           future: homeController.getGameUsers(id),
-          builder: (context, snapshot) {
+          builder: (cnx, snapshot) {
             if (snapshot.data != null) {
               var myListFiltered = snapshot.data!.allTeam!
                   .where((e) => e.userId == Constant.userId);
@@ -39,35 +39,41 @@ class LineUp extends StatelessWidget {
                         flex: 1,
                         child: Column(
                           children: List.generate(myTeam!.length, (index) {
-                            return Column(
-                              children: [
-                                Container(
-                                  height: 60,
-                                  width: 60,
-                                  margin: const EdgeInsets.all(12),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: myTeam[index].userId != -1
-                                        ? Image.network(
-                                            '${myTeam[index].image}',
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.asset(
-                                            '${myTeam[index].image}',
-                                            fit: BoxFit.fill,
-                                          ),
+                            return InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/profile',
+                                    arguments: myTeam[index].userId);
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 60,
+                                    width: 60,
+                                    margin: const EdgeInsets.all(12),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: myTeam[index].userId != -1
+                                          ? Image.network(
+                                              '${myTeam[index].image}',
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.asset(
+                                              '${myTeam[index].image}',
+                                              fit: BoxFit.fill,
+                                            ),
+                                    ),
                                   ),
-                                ),
-                                Text("@${myTeam[index].username}",
+                                  Text("@${myTeam[index].username}",
+                                      style: const TextStyle(
+                                          color: Colors.black87, fontSize: 12)),
+                                  Text(
+                                    "${myTeam[index].favoritePosition == "" ? myTeam[index].favoritePosition : "Ayarlanmadı"}",
                                     style: const TextStyle(
-                                        color: Colors.black87, fontSize: 12)),
-                                Text(
-                                  "${myTeam[index].favoritePosition == "" ? myTeam[index].favoritePosition : "Ayarlanmadı"}",
-                                  style: const TextStyle(
-                                      color: Colors.grey, fontSize: 12),
-                                ),
-                                Divider(),
-                              ],
+                                        color: Colors.grey, fontSize: 12),
+                                  ),
+                                  Divider(),
+                                ],
+                              ),
                             );
                           }),
                         )),
@@ -75,35 +81,41 @@ class LineUp extends StatelessWidget {
                         flex: 1,
                         child: Column(
                           children: List.generate(rivalTeam!.length, (index) {
-                            return Column(
-                              children: [
-                                Container(
-                                  height: 60,
-                                  width: 60,
-                                  margin: const EdgeInsets.all(12),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: rivalTeam[index].userId != -1
-                                        ? Image.network(
-                                            '${rivalTeam[index].image}',
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.asset(
-                                            '${rivalTeam[index].image}',
-                                            fit: BoxFit.fill,
-                                          ),
+                            return InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, "/profile",
+                                    arguments: rivalTeam[index].userId);
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 60,
+                                    width: 60,
+                                    margin: const EdgeInsets.all(12),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: rivalTeam[index].userId != -1
+                                          ? Image.network(
+                                              '${rivalTeam[index].image}',
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.asset(
+                                              '${rivalTeam[index].image}',
+                                              fit: BoxFit.fill,
+                                            ),
+                                    ),
                                   ),
-                                ),
-                                Text("@${rivalTeam[index].username}",
+                                  Text("@${rivalTeam[index].username}",
+                                      style: const TextStyle(
+                                          color: Colors.black87, fontSize: 12)),
+                                  Text(
+                                    "${rivalTeam[index].favoritePosition == "" ? rivalTeam[index].favoritePosition : "Ayarlanmadı"}",
                                     style: const TextStyle(
-                                        color: Colors.black87, fontSize: 12)),
-                                Text(
-                                  "${rivalTeam[index].favoritePosition == "" ? rivalTeam[index].favoritePosition : "Ayarlanmadı"}",
-                                  style: const TextStyle(
-                                      color: Colors.grey, fontSize: 12),
-                                ),
-                                Divider(),
-                              ],
+                                        color: Colors.grey, fontSize: 12),
+                                  ),
+                                  Divider(),
+                                ],
+                              ),
                             );
                           }),
                         )),

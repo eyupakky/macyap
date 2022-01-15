@@ -2,6 +2,9 @@
 class Constant{
   static String accessToken="";
   static String userName = "";
+  static String name="";
+  static String surname="";
+  static String image="";
   static int userId =0;
   static String baseUrl = "http://78.111.98.76:5241/";
 
@@ -23,6 +26,7 @@ class Constant{
   static String quitGame = "Games/QuitGame";
   // Account
   static String getMyUser = "Account/GetMyUserProfile";
+  static String getUserProfile = "Account/GetUserProfile";
   static String getUsersAttendingMatchs = "Account/GetUsersAttendingMatchs";
   static String getUsersPlayedMatchs = "Account/GetUsersPlayedMatchs";
   static String getMyFollowers = "Account/GetMyFollowers";
@@ -39,5 +43,10 @@ class Constant{
   static String addVenueComment = "Venue/AddVenueComment";
   //Wallet
   static String getUserBalance = "Payment/GetUserBalance";
+
+  //Message
+  static String getMyChatList = "Chat/GetMyChatList";
+  static String getMyChat = "Chat/GetMyChat";
+  static String sendMessage = "Chat/SendMessage";
 
 }

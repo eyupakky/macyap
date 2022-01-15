@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/page/account/email/update_email.dart';
 import 'package:halisaha/page/account/followers/followers.dart';
 import 'package:halisaha/page/account/password_update.dart';
@@ -10,15 +11,7 @@ import 'package:halisaha/page/account/wallet/wallet.dart';
 import 'package:halisaha/page/home/game_list/game_detail.dart';
 import 'package:halisaha/page/home/home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:async';
-import 'dart:convert';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:halisaha/page/login/login_page.dart';
@@ -26,14 +19,11 @@ import 'package:halisaha/page/login/register_page.dart';
 import 'package:halisaha/page/message/message_details.dart';
 import 'package:halisaha/page/splash_page.dart';
 import 'package:halisaha/page/venues/venues_detail.dart';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'cubit/cubit_abstract.dart';
 import 'help/app_context.dart';
+import 'help/default_firebase_config.dart';
 
-/// Define a top-level named handler which background/terminated messages will
-/// call.
-///
-/// To verify things are working, check out the native platform logs.
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
@@ -41,24 +31,38 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
 }
 
-//late AndroidNotificationChannel channel;
+/// Create a [AndroidNotificationChannel] for heads up notifications
+late AndroidNotificationChannel channel;
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
-// late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  // flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  if (!kIsWeb) {
+    channel = const AndroidNotificationChannel(
+      'high_importance_channel', // id
+      'High Importance Notifications', // title
+      'This channel is used for important notifications.', // description
+      importance: Importance.high,
+    );
 
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
   AppContext appContext = AppContext();
   // }
   BlocOverrides.runZoned(
@@ -82,8 +86,18 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,10 +114,8 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
         initialRoute: "/splash",
         builder: EasyLoading.init(),
-        debugShowCheckedModeBanner: false,
         routes: {
           "/": (context) => const HomePage(),
           "/splash": (context) => const SplashPage(),
@@ -127,13 +139,15 @@ class MyApp extends StatelessWidget {
                   // color for indicator (underline)
                   borderSide: BorderSide(color: Colors.green))),
           primaryColor: Colors.pink[800],
-          indicatorColor: Colors.red,
-          backgroundColor: Colors.red,
+          indicatorColor: Colors.green,
+          backgroundColor: Colors.white,
           fontFamily: "Montserrat-bold",
           // deprecated,
           primarySwatch: Colors.green,
         ),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
+
 }

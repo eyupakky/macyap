@@ -44,6 +44,6 @@ class AppContext implements BaseContext {
     preferences.setString("username", '${myUser.username}');
     preferences.setString("firstname", '${myUser.firstname}');
     preferences.setString("lastname", '${myUser.lastname}');
-    preferences.setString("image", '${myUser..image}');
+    preferences.setString("image", '${myUser.image}');
   }
 }

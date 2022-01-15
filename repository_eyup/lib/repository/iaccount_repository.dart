@@ -11,6 +11,7 @@ import '../constant.dart';
 
 abstract class IAccountRepository {
   Future<User> getMyUser();
+  Future<User> getUserProfile(int? id);
 
   Future<List<AccountModel>> getAccount(String id);
 
@@ -120,6 +121,16 @@ class AccountRepository extends IAccountRepository {
         data: {"access_token": Constant.accessToken, "user_id": id});
     if (res.statusCode == 200 && res.data["success"]) {
       return Future.value(BaseResponse.fromJson(res.data));
+    }
+    return Future.error("Giriş Başarısız.");
+  }
+
+  @override
+  Future<User> getUserProfile(int? id)async {
+    var res = await _dio.post(Constant.baseUrl + Constant.getUserProfile,
+        data: {"access_token": Constant.accessToken,"user_id":id});
+    if (res.statusCode == 200 && res.data["success"]) {
+      return Future.value(User.fromJson(res.data));
     }
     return Future.error("Giriş Başarısız.");
   }

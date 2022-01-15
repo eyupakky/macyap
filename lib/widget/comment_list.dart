@@ -14,6 +14,10 @@ class CommentList extends StatelessWidget {
       ),
       itemCount: comment!.comments!.length,
       itemBuilder: (context, index) => ListTile(
+        onTap: (){
+          Navigator.pushNamed(context, '/profile',
+              arguments: comment!.comments![index].userId);
+        },
         leading: Container(
           height: 40,
           width: 40,

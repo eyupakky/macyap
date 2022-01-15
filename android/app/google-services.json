@@ -1,33 +1,42 @@
 {
   "project_info": {
-    "project_number": "875863625859",
-    "project_id": "gamebuy-213613",
-    "storage_bucket": "gamebuy-213613.appspot.com"
+    "project_number": "13434311474",
+    "firebase_url": "https://bankomac-d809c.firebaseio.com",
+    "project_id": "bankomac-d809c",
+    "storage_bucket": "bankomac-d809c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:875863625859:android:4e2da42eab81c917534bb6",
+        "mobilesdk_app_id": "1:13434311474:android:f49633ce15207e248ebd2b",
         "android_client_info": {
           "package_name": "com.eyupakky.halisaha"
         }
       },
       "oauth_client": [
         {
-          "client_id": "875863625859-hh3d3aecniht9gop96tlo2ccub6564eb.apps.googleusercontent.com",
+          "client_id": "13434311474-5v1f3ant1kpmdg9t1n9ui1ing42mlm1a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eyupakky.halisaha",
+            "certificate_hash": "141cd8ce601c3d0d4691f79d1c3b1c5eec507b98"
+          }
+        },
+        {
+          "client_id": "13434311474-5hmctgqktsfc8qmivvd4lsfa4ov1ooam.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB7BKv5olWF2FC4gTyBxTrBOl8L9bjeojs"
+          "current_key": "AIzaSyCdlnW6PIleNkf1J0WcTa1ayJzZx9MS3z0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "875863625859-hh3d3aecniht9gop96tlo2ccub6564eb.apps.googleusercontent.com",
+              "client_id": "13434311474-5hmctgqktsfc8qmivvd4lsfa4ov1ooam.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

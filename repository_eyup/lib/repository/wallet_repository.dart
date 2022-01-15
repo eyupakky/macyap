@@ -30,6 +30,6 @@ class WalletRepository extends IWalletRepository{
         }).catchError((err) {
       print(err);
     });
-    return Future.value(response.data["balance"]);
+    return Future.value(response.data["balance"].toString());
   }
 }

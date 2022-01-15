@@ -1,17 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/model/matches_model.dart';
+import 'package:repository_eyup/model/message_detail.dart';
 import 'package:repository_eyup/model/message_model.dart';
 import 'package:repository_eyup/repository/imatches_repository.dart';
 import 'package:repository_eyup/repository/imessage_repository.dart';
 
 class MessageController {
-  IMessageRepository iMessageRepository = MessageRepository(Dio());
-  late List<MessageModel> messageList = [];
+  final IMessageRepository _iMessageRepository = MessageRepository(Dio());
+  late MessageModel _messageList;
 
-  Future<List<MessageModel>> getLazyMessage() async {
-    if (messageList.isEmpty) {
-      messageList = await iMessageRepository.getLazyMessages();
-    }
-    return messageList;
+  Future<MessageModel> getLazyMessage() async {
+    return _iMessageRepository.getLazyMessages();
+  }
+  Future<MessageDetail> getMessageDetail(int? id) async {
+    return _iMessageRepository.getDetail(id);
+  }
+  Future<bool> sendMessage(int? id,String? message) async {
+    return _iMessageRepository.sendMessage(id,message);
   }
 }
