@@ -26,7 +26,7 @@ class ProfilePage extends StatelessWidget {
                 );
               }
               User? myUser = snapshot.data;
-              return ProfileWidget(myUser: myUser);
+              return ProfileWidget(myUser: myUser,controller:_accountController);
             }),
       ),
     ));

@@ -27,6 +27,8 @@ class Constant{
   // Account
   static String getMyUser = "Account/GetMyUserProfile";
   static String getUserProfile = "Account/GetUserProfile";
+  static String updateEmail = "Account/UpdateEmail";
+  static String updatePassword = "Account/UpdatePassword";
   static String getUsersAttendingMatchs = "Account/GetUsersAttendingMatchs";
   static String getUsersPlayedMatchs = "Account/GetUsersPlayedMatchs";
   static String getMyFollowers = "Account/GetMyFollowers";
@@ -43,6 +45,7 @@ class Constant{
   static String addVenueComment = "Venue/AddVenueComment";
   //Wallet
   static String getUserBalance = "Payment/GetUserBalance";
+  static String getPaymentLogs = "Payment/GetPaymentLogs";
 
   //Message
   static String getMyChatList = "Chat/GetMyChatList";

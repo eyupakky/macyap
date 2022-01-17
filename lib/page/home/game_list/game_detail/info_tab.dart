@@ -94,6 +94,10 @@ class GameDetailInfoTab extends StatelessWidget {
                       ),
                     ),
                     ListTile(
+                      onTap: (){
+                        Navigator.pushNamed(context, '/profile',
+                            arguments: gameDetail.userId);
+                      },
                       title: Text("${gameDetail.gameOrg}"),
                       // subtitle:Text("@${gameDetail.gameOrg}"),
                       leading: Container(

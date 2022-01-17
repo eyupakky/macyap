@@ -15,7 +15,12 @@ class FollowersTabPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.data == null) {
             return const Center(
-              child: Text("Oynadığım maçlar yükleniyor..."),
+              child: Text("Takipçiler yükleniyor..."),
+            );
+          }
+          if (snapshot.data!.users!.isEmpty) {
+            return const Center(
+              child: Text("Takipçi bulunamadı..."),
             );
           }
           var userList = snapshot.data;
@@ -26,7 +31,8 @@ class FollowersTabPage extends StatelessWidget {
               Users user = userList.users![index];
               return ListTile(
                 onTap: () {
-                  //Navigator.pushNamed(context, "/gameDetail",arguments: match);
+                  Navigator.pushNamed(context, '/profile',
+                      arguments: userList.users![index].userId);
                 },
                 leading: Container(
                   height: 40,

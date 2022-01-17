@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -237,74 +239,73 @@ class _LoginState extends State<LoginPage> {
                   color: Colors.blueGrey.withOpacity(0.9))
             ],
           ),
-          const SizedBox(height: 50),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                "Şununla giriş yap",
-                style: GoogleFonts.roboto(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                  width: 50,
-                  height: 50,
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    onPressed: () {},
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: const FaIcon(
-                      FontAwesomeIcons.facebookF,
-                      color: Colors.black,
-                    ),
-                    color: Colors.blueGrey.withOpacity(0.9),
-                  )),
-              const SizedBox(width: 10),
-              SizedBox(
-                  width: 50,
-                  height: 50,
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    onPressed: () {},
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: const FaIcon(
-                      FontAwesomeIcons.twitter,
-                      color: Colors.black,
-                    ),
-                    color: Colors.blueGrey.withOpacity(0.9),
-                  )),
-              const SizedBox(width: 10),
-              SizedBox(
-                  width: 50,
-                  height: 50,
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    onPressed: () {
-                      _handleSignIn();
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: const FaIcon(
-                      FontAwesomeIcons.googlePlusG,
-                      color: Colors.black,
-                    ),
-                    color: Colors.blueGrey.withOpacity(0.9),
-                  )),
-            ],
-          ),
+          // const SizedBox(height: 50),
+          // Text(
+          //   "Şununla giriş yap",
+          //   style: GoogleFonts.roboto(
+          //       fontSize: 16,
+          //       color: Colors.black,
+          //       fontWeight: FontWeight.w500),
+          // ),
+          // const SizedBox(height: 30),
+          // Row(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+          //     SizedBox(
+          //         width: 50,
+          //         height: 50,
+          //         // ignore: deprecated_member_use
+          //         child: FlatButton(
+          //           onPressed: () {
+          //             signInWithFacebook().then((value){
+          //               print(value.toString());
+          //             });
+          //           },
+          //           shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(10.0),
+          //           ),
+          //           child: const FaIcon(
+          //             FontAwesomeIcons.facebookF,
+          //             color: Colors.black,
+          //           ),
+          //           color: Colors.blueGrey.withOpacity(0.9),
+          //         )),
+          //     const SizedBox(width: 10),
+          //     SizedBox(
+          //         width: 50,
+          //         height: 50,
+          //         // ignore: deprecated_member_use
+          //         child: FlatButton(
+          //           onPressed: () {},
+          //           shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(10.0),
+          //           ),
+          //           child: const FaIcon(
+          //             FontAwesomeIcons.twitter,
+          //             color: Colors.black,
+          //           ),
+          //           color: Colors.blueGrey.withOpacity(0.9),
+          //         )),
+          //     const SizedBox(width: 10),
+          //     SizedBox(
+          //         width: 50,
+          //         height: 50,
+          //         // ignore: deprecated_member_use
+          //         child: FlatButton(
+          //           onPressed: () {
+          //             _handleSignIn();
+          //           },
+          //           shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(10.0),
+          //           ),
+          //           child: const FaIcon(
+          //             FontAwesomeIcons.googlePlusG,
+          //             color: Colors.black,
+          //           ),
+          //           color: Colors.blueGrey.withOpacity(0.9),
+          //         )),
+          //   ],
+          // ),
           const SizedBox(height: 40),
           _forgotPass()
         ],
@@ -323,7 +324,16 @@ class _LoginState extends State<LoginPage> {
       ],
     );
   }
+  Future<UserCredential> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
 
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+    // Once signed in, return the UserCredential
+    return  FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
   void login() async {
     EasyLoading.show(status: 'loading...');
     _loginController

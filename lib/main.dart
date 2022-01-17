@@ -8,6 +8,7 @@ import 'package:halisaha/page/account/password_update.dart';
 import 'package:halisaha/page/account/profile/profile.dart';
 import 'package:halisaha/page/account/settings/settings.dart';
 import 'package:halisaha/page/account/wallet/wallet.dart';
+import 'package:halisaha/page/create/create_game.dart';
 import 'package:halisaha/page/home/game_list/game_detail.dart';
 import 'package:halisaha/page/home/home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -130,6 +131,7 @@ class _MyAppState extends State<MyApp> {
           "/register": (context) => const RegisterPage(),
           "/gameDetail": (context) => GameDetail(),
           "/venuesDetail": (context) => VenuesDetail(),
+          "/createGame": (context) => CreateGame(),
         },
         theme: ThemeData(
           tabBarTheme: const TabBarTheme(

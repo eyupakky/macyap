@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:repository_eyup/controller/wallet_controller.dart';
+import 'package:repository_eyup/model/payment_history_model.dart';
 
 class WalletPage extends StatelessWidget {
   WalletPage({Key? key}) : super(key: key);
   final WalletController _walletController = WalletController();
+  final f = DateFormat('yyyy-MM-dd');
+  final f2 = DateFormat('dd.MM.yyyy');
 
   @override
   Widget build(BuildContext context) {
@@ -57,20 +61,50 @@ class WalletPage extends StatelessWidget {
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.7,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return const ListTile(
-                      title: Text("20 tl yükleme gerçekleştirildi."),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const Divider(
-                      thickness: 1,
-                    );
-                  },
-                ),
+                child: FutureBuilder<PaymentHistoryModel>(
+                    future: _walletController.getPaymentLogs(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const Center(
+                          child: Text("Satın alma geçmişi yükleniyor.."),
+                        );
+                      } else if (snapshot.data!.paymentHistory!.isEmpty) {
+                        return const Center(
+                          child:
+                              Text("Satın alma geçmişiniz bulunmamaktadır..."),
+                        );
+                      }
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.paymentHistory!.length,
+                        itemBuilder: (context, index) {
+                          PaymentHistory item =
+                              snapshot.data!.paymentHistory![index];
+                          return ListTile(
+                            title: Text(
+                              "${item.description}",
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                            subtitle: Text(
+                              f2.format(f.parse(item.date!.split("T")[0])),
+                              style: const TextStyle(fontSize: 10),
+                            ),
+                            trailing: Text(
+                              "${item.arti == 1 ? '+' : '-'} ${item.cash} TL",
+                              style: TextStyle(
+                                  color: item.arti == 1
+                                      ? Colors.green
+                                      : Colors.redAccent),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const Divider(
+                            thickness: 1,
+                          );
+                        },
+                      );
+                    }),
               )
             ],
           ),

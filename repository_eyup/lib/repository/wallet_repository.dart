@@ -1,9 +1,10 @@
 import 'package:dio/src/dio.dart';
+import 'package:repository_eyup/model/payment_history_model.dart';
 
 import '../constant.dart';
 
 abstract class IWalletRepository{
-  Future<List<String>> getWalletHistory();
+  Future<PaymentHistoryModel> getWalletHistory();
   Future<String> addMoney();
   Future<String> getUserBalance();
 }
@@ -18,8 +19,18 @@ class WalletRepository extends IWalletRepository{
   }
 
   @override
-  Future<List<String>> getWalletHistory() {
-    return Future.value([]);
+  Future<PaymentHistoryModel> getWalletHistory()async {
+    var response = await _dio.post(Constant.baseUrl + Constant.getPaymentLogs,
+        data: {
+          "access_token": Constant.accessToken
+        }).catchError((err) {
+      return Future.error(err);
+    });
+    if(response.data["success"]){
+      return Future.value(PaymentHistoryModel.fromJson(response.data));
+    }else{
+      return Future.error("error");
+    }
   }
 
   @override

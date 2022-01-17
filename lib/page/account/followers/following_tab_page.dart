@@ -8,6 +8,7 @@ class FollowingTabPage extends StatelessWidget {
   FollowingTabPage({Key? key}) : super(key: key);
   final AccountController _accountController = AccountController();
   String search = "";
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<UserList>(
@@ -15,7 +16,12 @@ class FollowingTabPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.data == null) {
             return const Center(
-              child: Text("Takip ettiğim kullanıcılar yükleniyor..."),
+              child: Text("Takip ettiğiniz kullanıcılar yükleniyor..."),
+            );
+          }
+          if (snapshot.data!.users!.isEmpty) {
+            return const Center(
+              child: Text("Takip ettiğiniz kullanıcı bulunmamaktadır..."),
             );
           }
           var userList = snapshot.data;
@@ -26,7 +32,8 @@ class FollowingTabPage extends StatelessWidget {
               Users user = userList.users![index];
               return ListTile(
                 onTap: () {
-                  //Navigator.pushNamed(context, "/gameDetail",arguments: match);
+                  Navigator.pushNamed(context, '/profile',
+                      arguments: userList.users![index].userId);
                 },
                 leading: Container(
                   height: 40,
@@ -40,7 +47,10 @@ class FollowingTabPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                title: Text('@${user.username}',style: const TextStyle(fontSize: 14),),
+                title: Text(
+                  '@${user.username}',
+                  style: const TextStyle(fontSize: 14),
+                ),
               );
             },
             separatorBuilder: (context, index) {
@@ -53,4 +63,3 @@ class FollowingTabPage extends StatelessWidget {
         });
   }
 }
-

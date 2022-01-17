@@ -32,8 +32,10 @@ dependencies:
   flutter_bloc: ^8.0.0
   firebase_messaging: ^10.0.8
   google_sign_in: ^5.2.3
+  firebase_auth: ^3.3.5
   flutter_local_notifications: ^8.2.0
   cached_network_image: ^3.2.0
+  flutter_facebook_auth: ^4.0.1
   flutter_chat_ui: ^1.5.3
   firebase_core: ^1.7.0
   google_fonts: ^2.2.0

@@ -10,8 +10,8 @@ import 'package:repository_eyup/repository/iaccount_repository.dart';
 class AccountController {
   IAccountRepository iAccountRepository = AccountRepository(Dio());
   late List<AccountModel> _accountModel;
-  late UserList myFollowers = UserList();
-  late UserList followingUsers = UserList();
+  late UserList _myFollowers = UserList();
+  late UserList _followingUsers = UserList();
 
   Future<User> getMyUser() {
     return Future.value(iAccountRepository.getMyUser());
@@ -35,21 +35,29 @@ class AccountController {
   }
 
   Future<UserList> getFollowingUsers(String search) async {
-    if (followingUsers.users!.isEmpty) {
-      followingUsers = await iAccountRepository.getFollowingUsers(search);
+    if (_followingUsers.users!.isEmpty) {
+      _followingUsers = await iAccountRepository.getFollowingUsers(search);
     }
-    return followingUsers;
+    return _followingUsers;
   }
 
   Future<UserList> getMyFollowers(String search) async {
-    if (followingUsers.users!.isEmpty) {
-      myFollowers = await iAccountRepository.getMyFollowers(search);
+    if (_myFollowers.users!.isEmpty) {
+      _myFollowers = await iAccountRepository.getMyFollowers(search);
     }
-    return myFollowers;
+    return _myFollowers;
   }
 
   Future<BaseResponse> follow(int? id) async {
     var users = await iAccountRepository.follow(id);
+    return users;
+  }
+  Future<BaseResponse> updateEmail(String? newEmail,String? password) async {
+    var users = await iAccountRepository.updateEmail(newEmail,password);
+    return users;
+  }
+  Future<BaseResponse> updatePassword(String? oldPass,String? newPass,String? newPassValid) async {
+    var users = await iAccountRepository.updatePassword(oldPass,newPass,newPassValid);
     return users;
   }
 }

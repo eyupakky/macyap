@@ -129,7 +129,9 @@ class _MainListState extends State<MainList> {
                           return ListView.builder(
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, index) {
-                                EasyLoading.isShow ? EasyLoading.dismiss() : null;
+                                EasyLoading.isShow
+                                    ? EasyLoading.dismiss()
+                                    : null;
                                 return HomeListItem(matches![index]);
                               });
                         }),
@@ -138,6 +140,12 @@ class _MainListState extends State<MainList> {
               ),
             );
           }),
+        ),
+        floatingActionButton: FloatingActionButton.small(
+          onPressed: () {
+            Navigator.pushNamed(context, "/createGame");
+          },
+          child: Icon(Icons.add),
         ),
       ),
     );

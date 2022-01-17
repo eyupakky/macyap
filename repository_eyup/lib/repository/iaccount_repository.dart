@@ -11,6 +11,7 @@ import '../constant.dart';
 
 abstract class IAccountRepository {
   Future<User> getMyUser();
+
   Future<User> getUserProfile(int? id);
 
   Future<List<AccountModel>> getAccount(String id);
@@ -24,6 +25,11 @@ abstract class IAccountRepository {
   Future<UserList> getFollowingUsers(String? search);
 
   Future<BaseResponse> follow(int? id);
+
+  Future<BaseResponse> updateEmail(String? newEmail, String? password);
+
+  Future<BaseResponse> updatePassword(
+      String? oldPass, String? newPass, String? newPassValid);
 }
 
 class AccountRepository extends IAccountRepository {
@@ -117,8 +123,35 @@ class AccountRepository extends IAccountRepository {
 
   @override
   Future<BaseResponse> follow(int? id) async {
-    var res = await _dio.post(Constant.baseUrl + Constant.follow,
+    var res = await _dio.post(Constant.baseUrl + Constant.follow, data: {
+      "access_token": Constant.accessToken,
+      "user_id": id
+    }).catchError((onError) {
+      return Future.error(onError);
+    });
+    if (res.statusCode == 200 && res.data["success"]) {
+      return Future.value(BaseResponse.fromJson(res.data));
+    }
+    return Future.error(res.data["description"]);
+  }
+
+  @override
+  Future<User> getUserProfile(int? id) async {
+    var res = await _dio.post(Constant.baseUrl + Constant.getUserProfile,
         data: {"access_token": Constant.accessToken, "user_id": id});
+    if (res.statusCode == 200 && res.data["success"]) {
+      return Future.value(User.fromJson(res.data));
+    }
+    return Future.error("Giriş Başarısız.");
+  }
+
+  @override
+  Future<BaseResponse> updateEmail(String? newEmail, String? password) async {
+    var res = await _dio.post(Constant.baseUrl + Constant.updateEmail, data: {
+      "access_token": Constant.accessToken,
+      "new_email": newEmail,
+      "password": password
+    });
     if (res.statusCode == 200 && res.data["success"]) {
       return Future.value(BaseResponse.fromJson(res.data));
     }
@@ -126,12 +159,20 @@ class AccountRepository extends IAccountRepository {
   }
 
   @override
-  Future<User> getUserProfile(int? id)async {
-    var res = await _dio.post(Constant.baseUrl + Constant.getUserProfile,
-        data: {"access_token": Constant.accessToken,"user_id":id});
+  Future<BaseResponse> updatePassword(
+      String? oldPass, String? newPass, String? newPassValid) async {
+    var res =
+        await _dio.post(Constant.baseUrl + Constant.updatePassword, data: {
+      "access_token": Constant.accessToken,
+      "old_password": oldPass,
+      "new_password_one": newPass,
+      "new_password_two": newPassValid
+    }).catchError((onError) {
+      return Future.error(onError);
+    });
     if (res.statusCode == 200 && res.data["success"]) {
-      return Future.value(User.fromJson(res.data));
+      return Future.value(BaseResponse.fromJson(res.data));
     }
-    return Future.error("Giriş Başarısız.");
+    return Future.error(res.data["success"]);
   }
 }

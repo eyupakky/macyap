@@ -1,42 +1,33 @@
 {
   "project_info": {
-    "project_number": "13434311474",
-    "firebase_url": "https://bankomac-d809c.firebaseio.com",
-    "project_id": "bankomac-d809c",
-    "storage_bucket": "bankomac-d809c.appspot.com"
+    "project_number": "864529782982",
+    "project_id": "oceanic-spider-338322",
+    "storage_bucket": "oceanic-spider-338322.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:13434311474:android:f49633ce15207e248ebd2b",
+        "mobilesdk_app_id": "1:864529782982:android:cf3c95bbd0c75d8eb39fc7",
         "android_client_info": {
           "package_name": "com.eyupakky.halisaha"
         }
       },
       "oauth_client": [
         {
-          "client_id": "13434311474-5v1f3ant1kpmdg9t1n9ui1ing42mlm1a.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.eyupakky.halisaha",
-            "certificate_hash": "141cd8ce601c3d0d4691f79d1c3b1c5eec507b98"
-          }
-        },
-        {
-          "client_id": "13434311474-5hmctgqktsfc8qmivvd4lsfa4ov1ooam.apps.googleusercontent.com",
+          "client_id": "864529782982-e9mmfdhtfgjoosookb3cbfsqkoql13bb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCdlnW6PIleNkf1J0WcTa1ayJzZx9MS3z0"
+          "current_key": "AIzaSyBRWQvnBsCjx1fSc6OE0YYjGd86pA-_mIA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "13434311474-5hmctgqktsfc8qmivvd4lsfa4ov1ooam.apps.googleusercontent.com",
+              "client_id": "864529782982-e9mmfdhtfgjoosookb3cbfsqkoql13bb.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
