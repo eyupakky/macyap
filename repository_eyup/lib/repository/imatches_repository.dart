@@ -18,12 +18,11 @@ abstract class IMatchesRepository {
 
   Future<Comment> getGameComment(int? id);
 
-  Future<BaseResponse> writeGameComment(String comment,int? id);
-  
-  Future<BaseResponse> joinGame(int? id);
-  
-  Future<BaseResponse> quitGame(int? id);
+  Future<BaseResponse> writeGameComment(String comment, int? id);
 
+  Future<BaseResponse> joinGame(int? id);
+
+  Future<BaseResponse> quitGame(int? id);
 }
 
 class MatchesRepository extends IMatchesRepository {
@@ -37,7 +36,7 @@ class MatchesRepository extends IMatchesRepository {
     var response = await _dio
         .post(Constant.baseUrl + Constant.getGamesNoFilter, data: search)
         .catchError((err) {
-      print(err);
+      Future.error(err);
     });
     MatchesModel model = MatchesModel.fromJson(response.data);
     return Future.value(model.match);
@@ -56,7 +55,7 @@ class MatchesRepository extends IMatchesRepository {
   }
 
   @override
-  Future<GameUsers> getGameUsers(int id,int? limit)async {
+  Future<GameUsers> getGameUsers(int id, int? limit) async {
     var response = await _dio.post(Constant.baseUrl + Constant.getGameUsers,
         data: {
           "access_token": Constant.accessToken,
@@ -64,11 +63,11 @@ class MatchesRepository extends IMatchesRepository {
         }).catchError((err) {
       print(err);
     });
-    return Future.value(GameUsers.fromJson(response.data,limit));
+    return Future.value(GameUsers.fromJson(response.data, limit));
   }
 
   @override
-  Future<Comment> getGameComment(int? id) async{
+  Future<Comment> getGameComment(int? id) async {
     var response = await _dio.post(Constant.baseUrl + Constant.getGameComments,
         data: {
           "access_token": Constant.accessToken,
@@ -80,12 +79,12 @@ class MatchesRepository extends IMatchesRepository {
   }
 
   @override
-  Future<BaseResponse> writeGameComment(String comment, int? id)async {
+  Future<BaseResponse> writeGameComment(String comment, int? id) async {
     var response = await _dio.post(Constant.baseUrl + Constant.writeGameComment,
         data: {
           "access_token": Constant.accessToken,
           "game_id": id,
-          "comment":comment
+          "comment": comment
         }).catchError((err) {
       print(err);
     });
@@ -93,24 +92,22 @@ class MatchesRepository extends IMatchesRepository {
   }
 
   @override
-  Future<BaseResponse> joinGame(int? id) async{
-    var response = await _dio.post(Constant.baseUrl + Constant.joinGame,
-        data: {
-          "access_token": Constant.accessToken,
-          "game_id": id,
-        }).catchError((err) {
+  Future<BaseResponse> joinGame(int? id) async {
+    var response = await _dio.post(Constant.baseUrl + Constant.joinGame, data: {
+      "access_token": Constant.accessToken,
+      "game_id": id,
+    }).catchError((err) {
       print(err);
     });
     return Future.value(BaseResponse.fromJson(response.data));
   }
 
   @override
-  Future<BaseResponse> quitGame(int? id) async{
-    var response = await _dio.post(Constant.baseUrl + Constant.quitGame,
-        data: {
-          "access_token": Constant.accessToken,
-          "game_id": id,
-        }).catchError((err) {
+  Future<BaseResponse> quitGame(int? id) async {
+    var response = await _dio.post(Constant.baseUrl + Constant.quitGame, data: {
+      "access_token": Constant.accessToken,
+      "game_id": id,
+    }).catchError((err) {
       print(err);
     });
     return Future.value(BaseResponse.fromJson(response.data));

@@ -51,8 +51,18 @@ class Match {
   Match.fromJson(Map<String, dynamic> json) {
     gameId = json['game_id'];
     title = json['title'];
+    tagler = [];
     if (json['tagler'] != null && json['tagler'] != "") {
-      tagler = json['tagler'].split(",");
+      tagler = json['tagler'].split(" ");
+    }
+    if(json["il"]!=null){
+      tagler!.add(json["il"]);
+    }
+    if(json["ilce"]!=null){
+      tagler!.add(json["ilce"]);
+    }
+    if(json["cinsiyet"]!=null){
+      tagler!.add(json["cinsiyet"]);
     }
     gamePrice = json['game_price'];
     limit = json['limit'];

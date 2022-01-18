@@ -19,7 +19,7 @@ class MainList extends StatefulWidget {
 }
 
 class _MainListState extends State<MainList> {
-  late DateTime _selectedDate;
+  late DateTime _selectedDate, afterMonth;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final HomeController _homeController = HomeController();
   Map<String, String> map = {};
@@ -33,6 +33,8 @@ class _MainListState extends State<MainList> {
 
   void _resetSelectedDate() {
     _selectedDate = DateTime.now();
+    afterMonth = DateTime.now();
+    afterMonth.month + 1;
     map.putIfAbsent("tarih", () => f.format(_selectedDate));
   }
 
@@ -77,7 +79,7 @@ class _MainListState extends State<MainList> {
                   ),
                   CalendarTimeline(
                     showYears: false,
-                    showMonth: false,
+                    showMonth: true,
                     initialDate: _selectedDate,
                     firstDate: DateTime.now(),
                     lastDate: DateTime.now().add(const Duration(days: 365)),
@@ -90,10 +92,10 @@ class _MainListState extends State<MainList> {
                         map["tarih"] = f.format(_selectedDate);
                       });
                     },
-                    dayFontSize: 16,
+                    dayFontSize: 14,
                     dayTextFontSize: 12,
                     leftMargin: 20,
-                    monthColor: Colors.white70,
+                    monthColor: Colors.black,
                     dayColor: Colors.black,
                     dayNameColor: const Color(0xFF333A47),
                     activeDayColor: Colors.white,
@@ -102,7 +104,7 @@ class _MainListState extends State<MainList> {
                     locale: 'tr',
                   ),
                   Container(
-                    height: constraints.maxHeight - 135,
+                    height: constraints.maxHeight - 165,
                     color: Colors.black.withAlpha(20),
                     child: FutureBuilder<List<Match>>(
                         future: _homeController.getLazyMatches(map),

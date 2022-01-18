@@ -38,86 +38,14 @@ class LineUp extends StatelessWidget {
                     Expanded(
                         flex: 1,
                         child: Column(
-                          children: List.generate(myTeam!.length, (index) {
-                            return InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(context, '/profile',
-                                    arguments: myTeam[index].userId);
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 60,
-                                    width: 60,
-                                    margin: const EdgeInsets.all(12),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: myTeam[index].userId != -1
-                                          ? Image.network(
-                                              '${myTeam[index].image}',
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Image.asset(
-                                              '${myTeam[index].image}',
-                                              fit: BoxFit.fill,
-                                            ),
-                                    ),
-                                  ),
-                                  Text("@${myTeam[index].username}",
-                                      style: const TextStyle(
-                                          color: Colors.black87, fontSize: 12)),
-                                  Text(
-                                    "${myTeam[index].favoritePosition == "" ? myTeam[index].favoritePosition : "Ayarlanmadı"}",
-                                    style: const TextStyle(
-                                        color: Colors.grey, fontSize: 12),
-                                  ),
-                                  Divider(),
-                                ],
-                              ),
-                            );
-                          }),
+                          children: list(myTeam, context,
+                              "Açık Takım\n${snapshot.data!.myTeamSize} / ${myTeam!.length}"),
                         )),
                     Expanded(
                         flex: 1,
                         child: Column(
-                          children: List.generate(rivalTeam!.length, (index) {
-                            return InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(context, "/profile",
-                                    arguments: rivalTeam[index].userId);
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 60,
-                                    width: 60,
-                                    margin: const EdgeInsets.all(12),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: rivalTeam[index].userId != -1
-                                          ? Image.network(
-                                              '${rivalTeam[index].image}',
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Image.asset(
-                                              '${rivalTeam[index].image}',
-                                              fit: BoxFit.fill,
-                                            ),
-                                    ),
-                                  ),
-                                  Text("@${rivalTeam[index].username}",
-                                      style: const TextStyle(
-                                          color: Colors.black87, fontSize: 12)),
-                                  Text(
-                                    "${rivalTeam[index].favoritePosition == "" ? rivalTeam[index].favoritePosition : "Ayarlanmadı"}",
-                                    style: const TextStyle(
-                                        color: Colors.grey, fontSize: 12),
-                                  ),
-                                  Divider(),
-                                ],
-                              ),
-                            );
-                          }),
+                          children: list(rivalTeam, context,
+                              "Koyu Takım\n${snapshot.data!.rivalTeamSize} / ${rivalTeam!.length}"),
                         )),
                   ],
                 ),
@@ -148,6 +76,58 @@ class LineUp extends StatelessWidget {
                 : Colors.red.withOpacity(0.9)),
       ),
     );
+  }
+
+  List<Widget> list(List<Users>? myTeam, context, String teamName) {
+    List<Widget> list = [];
+    list.add(SizedBox(
+        height: 50,
+        child: Center(
+            child: Text(
+          teamName,
+          textAlign: TextAlign.center,
+        ))));
+    list.addAll(getItem(myTeam, context));
+    return list;
+  }
+
+  List<Widget> getItem(List<Users>? myTeam, context) {
+    return List.generate(myTeam!.length, (index) {
+      return InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, '/profile',
+              arguments: myTeam[index].userId);
+        },
+        child: Column(
+          children: [
+            Container(
+              height: 60,
+              width: 60,
+              margin: const EdgeInsets.all(12),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: myTeam[index].userId != -1
+                    ? Image.network(
+                        '${myTeam[index].image}',
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        '${myTeam[index].image}',
+                        fit: BoxFit.fill,
+                      ),
+              ),
+            ),
+            Text("@${myTeam[index].username}",
+                style: const TextStyle(color: Colors.black87, fontSize: 12)),
+            Text(
+              "${myTeam[index].favoritePosition == "" ? myTeam[index].favoritePosition : "Ayarlanmadı"}",
+              style: const TextStyle(color: Colors.grey, fontSize: 12),
+            ),
+            Divider(),
+          ],
+        ),
+      );
+    });
   }
 
   void joinMatch(count, context) {

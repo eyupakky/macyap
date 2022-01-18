@@ -15,11 +15,13 @@ class HomeController {
   Map<int, GameDetail> gameMap = {};
 
   Future<List<Match>> getLazyMatches(Map<String, String> map) async {
-    String? tarih = map["tarih"];
+    // String? tarih = map["tarih"];
     /* && matchesList[tarih]==null */
     if (temp) {
       temp = false;
-      var response = await iMatchesRepository.getLazyMatches(map);
+      var response = await iMatchesRepository.getLazyMatches(map).catchError((err){
+        temp = true;
+      });
       matches = response;
       temp = true;
     }

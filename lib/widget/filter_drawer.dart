@@ -24,43 +24,55 @@ class _FilterDrawerState extends State<FilterDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 40),
-      child: Wrap(
-        children: [
-          RadioGroup<String>.builder(
-            groupValue: _verticalGroupValue,
-            onChanged: (value) => setState(() {
-              _verticalGroupValue = value!;
-            }),
-            items: _status,
-            topMargin: 18,
-            itemBuilder: (item) => RadioButtonBuilder(
-              item,
+    return Column(
+      children: [
+        RadioGroup<String>.builder(
+          groupValue: _verticalGroupValue,
+          onChanged: (value) => setState(() {
+            _verticalGroupValue = value!;
+          }),
+          items: _status,
+          topMargin: 18,
+          itemBuilder: (item) => RadioButtonBuilder(
+            item,
+          ),
+        ),
+        const SizedBox(
+          height: 60,
+        ),
+        Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: TextButton(
+                  onPressed: () {},
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                        top: 4, bottom: 4, right: 20, left: 20),
+                    color: Colors.blue,
+                    child: const Text(
+                      "İptal",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: TextButton(
-                onPressed: () {},
-                child: Container(
-                  padding: const EdgeInsets.only(top: 4,bottom: 4,right:20,left: 20),
-                  color: Colors.blue,
-                  child: const Text("İptal",style: TextStyle(color: Colors.white),),
-                )),
-          ),
-          Expanded(
-            flex: 1,
-            child: TextButton(
-                onPressed: () {},
-                child: Container(
-                  padding: const EdgeInsets.only(top: 4,bottom: 4,right:20,left: 20),
-                  color: Colors.blue,
-                  child: const Text("Uygula",style: TextStyle(color: Colors.white),),
-                )),
-          ),
-        ],
-      ),
+            Expanded(
+              flex: 1,
+              child: TextButton(
+                  onPressed: () {},
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                        top: 4, bottom: 4, right: 20, left: 20),
+                    color: Colors.blue,
+                    child: const Text(
+                      "Uygula",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

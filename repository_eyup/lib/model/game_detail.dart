@@ -3,6 +3,7 @@ class GameDetail {
   int? limit;
   int? userId;
   String? gun;
+  int? gunSayi;
   String? ay;
   String? yil;
   String? gameStart;
@@ -37,6 +38,7 @@ class GameDetail {
     limit = json['limit'];
     userId = json['user_id'];
     gun = json['gun'];
+    gunSayi = json['gun_sayi'];
     ay = json['ay'];
     yil = json['yil'];
     gameStart = json['game_start'];
@@ -72,6 +74,9 @@ class GameDetail {
     if(ayakkabiKira==1)tags!.add("Ayakkabı kiralama");
     if(servis==1)tags!.add("Servis");
     if(dus==1)tags!.add("Duş");
+    if(json["gameVenuesehir"]!=null)tags!.add(json["gameVenuesehir"]);
+    if(json["gameVenueilce"]!=null)tags!.add(json["gameVenueilce"]);
+    if(gender!=null)tags!.add('$gender');
 
   }
   //

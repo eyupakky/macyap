@@ -3,6 +3,8 @@ class GameUsers {
   List<Users>? allTeam;
   List<Users>? myTeam;
   List<Users>? rivalTeam;
+  int? myTeamSize = 0;
+  int? rivalTeamSize = 0;
 
   GameUsers();
 
@@ -22,6 +24,7 @@ class GameUsers {
           myTeam!.add(users);
         }
       });
+      rivalTeamSize = rivalTeam!.length;
       if (rivalTeam!.length <= teamSize) {
         int temp = teamSize - rivalTeam!.length;
         for (int i = 0; i < temp; i++) {
@@ -31,6 +34,7 @@ class GameUsers {
               username: "Açık"));
         }
       }
+      myTeamSize = myTeam!.length;
       if (myTeam!.length <= teamSize) {
         int temp = teamSize - myTeam!.length;
         for (int i = 0; i < temp; i++) {

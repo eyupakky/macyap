@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,10 +12,7 @@ class GameDetailInfoTab extends StatelessWidget {
   HomeController homeController;
 
   GameDetailInfoTab(
-      {Key? key,
-        this.id,
-      required this.homeController,
-      required this.callback})
+      {Key? key, this.id, required this.homeController, required this.callback})
       : super(key: key);
 
   @override
@@ -28,7 +26,7 @@ class GameDetailInfoTab extends StatelessWidget {
           },
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           child: Text(
-            "Kullanabilirliği kontol et",
+            "Maç Kadrosunu Gör",
             style: GoogleFonts.montserrat(
                 fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500),
           ),
@@ -41,6 +39,15 @@ class GameDetailInfoTab extends StatelessWidget {
               return SingleChildScrollView(
                 child: Column(
                   children: [
+                    CachedNetworkImage(
+                      height: 200,
+                      width: MediaQuery.of(context).size.width,
+                      imageUrl: "${gameDetail!.imageVenue}",
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    ),
                     ListTile(
                       leading: const Icon(
                         Icons.calendar_today_outlined,
@@ -48,7 +55,7 @@ class GameDetailInfoTab extends StatelessWidget {
                         size: 20,
                       ),
                       title: Text(
-                        '${gameDetail!.gun}, ${gameDetail.yil}',
+                        '${gameDetail.gunSayi} ${gameDetail.ay} ${gameDetail.gun}, ${gameDetail.yil}',
                         style: const TextStyle(
                             color: Colors.black87, fontSize: 14),
                       ),
@@ -94,7 +101,7 @@ class GameDetailInfoTab extends StatelessWidget {
                       ),
                     ),
                     ListTile(
-                      onTap: (){
+                      onTap: () {
                         Navigator.pushNamed(context, '/profile',
                             arguments: gameDetail.userId);
                       },
@@ -122,11 +129,11 @@ class GameDetailInfoTab extends StatelessWidget {
                         gameDetail.tags != null ? gameDetail.tags!.length : 0,
                         (int index) {
                           return Container(
-                            margin: const EdgeInsets.all(2),
-                            padding: const EdgeInsets.all(2),
+                            margin: const EdgeInsets.all(4),
+                            padding: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4.0),
-                                color: Colors.grey.shade200),
+                                color: Colors.green.shade200),
                             child: Text(
                               gameDetail.tags![index],
                               style: const TextStyle(
