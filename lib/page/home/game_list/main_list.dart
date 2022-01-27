@@ -6,6 +6,7 @@ import 'package:halisaha/base_widget.dart';
 import 'package:halisaha/widget/filter_drawer.dart';
 import 'package:halisaha/widget/search_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/model/matches_model.dart';
 
@@ -22,8 +23,11 @@ class _MainListState extends State<MainList> {
   late DateTime _selectedDate, afterMonth;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final HomeController _homeController = HomeController();
+  final AccountController _accountController = AccountController();
   Map<String, String> map = {};
   final f = DateFormat('dd.MM.yyyy');
+  List<Match> matchList = [];
+  String filter = "";
 
   @override
   void initState() {
@@ -43,7 +47,16 @@ class _MainListState extends State<MainList> {
     return BaseWidget(
       child: Scaffold(
         key: _scaffoldKey,
-        endDrawer: const Drawer(child: FilterDrawer()),
+        endDrawer: Drawer(
+            child: FilterDrawer(
+          selectItem: filter,
+          callBack: (val) {
+            setState(() {
+              Navigator.pop(context);
+              filter = val;
+            });
+          },
+        )),
         body: BaseWidget(
           child: LayoutBuilder(builder: (context, constraints) {
             return SafeArea(
@@ -99,7 +112,7 @@ class _MainListState extends State<MainList> {
                     dayColor: Colors.black,
                     dayNameColor: const Color(0xFF333A47),
                     activeDayColor: Colors.white,
-                    activeBackgroundDayColor: Colors.green,
+                    activeBackgroundDayColor: Colors.redAccent,
                     dotsColor: const Color(0xFF333A47),
                     locale: 'tr',
                   ),
@@ -126,15 +139,15 @@ class _MainListState extends State<MainList> {
                               )),
                             );
                           }
-
-                          var matches = snapshot.data;
+                          List<Match> list = filterFunc(snapshot.data);
+                          var matches = list;
                           return ListView.builder(
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, index) {
                                 EasyLoading.isShow
                                     ? EasyLoading.dismiss()
                                     : null;
-                                return HomeListItem(matches![index]);
+                                return HomeListItem(matches[index]);
                               });
                         }),
                   )
@@ -143,13 +156,45 @@ class _MainListState extends State<MainList> {
             );
           }),
         ),
-        floatingActionButton: FloatingActionButton.small(
-          onPressed: () {
-            Navigator.pushNamed(context, "/createGame");
-          },
-          child: Icon(Icons.add),
-        ),
+        floatingActionButton: FutureBuilder<String>(
+            future: _accountController.getMyRole(),
+            builder: (context, snapshot) {
+              if (snapshot.data == null || snapshot.data != "Organizator") {
+                return SizedBox();
+              }
+              return FloatingActionButton.small(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/createGame");
+                },
+                child: const Icon(Icons.add),
+              );
+            }),
       ),
     );
+  }
+
+  List<Match> filterFunc(List<Match>? list) {
+    switch (filter) {
+      case "EN DÜŞÜK ÜCRET":
+        list!.sort((a, b) => a.gamePrice!.compareTo(b.gamePrice!));
+        return list;
+      case "EN YÜKSEK ÜCRET":
+        list!.sort((a, b) => b.gamePrice!.compareTo(a.gamePrice!));
+        return list;
+      case "EN ERKEN SAAT":
+        list!.sort((a, b) => a.date!.compareTo(b.date!));
+        return list;
+      case "EN GEÇ SAAT":
+        list!.sort((a, b) => b.date!.compareTo(a.date!));
+        return list;
+      case "EN BOŞ MAÇ":
+        list!.sort((a, b) => a.joinedGamers!.compareTo(b.joinedGamers!));
+        return list;
+      case "EN DOLU MAÇ":
+        list!.sort((a, b) => b.joinedGamers!.compareTo(a.joinedGamers!));
+        return list;
+      default:
+        return list!;
+    }
   }
 }

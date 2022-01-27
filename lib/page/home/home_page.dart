@@ -1,10 +1,17 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha/help/location_mixin.dart';
 import 'package:halisaha/page/account/account_page.dart';
 import 'package:halisaha/page/home/game_list/main_list.dart';
 import 'package:halisaha/page/message/message_page.dart';
 import 'package:halisaha/page/venues/venues_page.dart';
+import 'package:repository_eyup/constant.dart';
+import 'package:repository_eyup/controller/firebase_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,14 +20,57 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with LocationMixin {
   int _selectedIndex = 0;
   late Widget body;
   var constraints;
+  final FirebaseController _firebaseController = FirebaseController();
 
   @override
   void initState() {
     super.initState();
+    _notification();
+    getLocation().then((value) {
+      if (value == null) {
+        exit(0);
+      } else {
+        _firebaseController.sendLocation(value.latitude!, value.longitude!);
+      }
+    });
+  }
+
+  _notification() {
+    FirebaseMessaging.instance.getToken().then((value) => sendGuid(value!));
+    FirebaseMessaging.instance.getInitialMessage().then((value) {
+      print("");
+      // if (value != null) {
+      //   showToast(value.toString());
+      // }
+    });
+    // FirebaseMessaging.instance.subscribeToTopic('all');
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      // showToast(message.data["video_id"]);
+      _navigateToItemDetail(message);
+    });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      _showItemDialog(message);
+      // if (message.notification != null) {
+      //   showToast('${message.notification!.body}');
+      // }
+    });
+  }
+  _navigateToItemDetail(message){
+    if (message.data.isNotEmpty && message.data["page"] != "Home") {
+      Navigator.pushNamed(context, '/${message.data["page"]}',
+          arguments: int.parse(message.data["id"]));
+    }
+  }
+  void _showItemDialog(RemoteMessage message) {
+    // Navigator.pop(context);
+    showDialog<bool>(
+      context: context,
+      builder: (_) => _buildDialog(context, message),
+    );
   }
 
   @override
@@ -43,26 +93,36 @@ class _HomePageState extends State<HomePage> {
         items: [
           FlashyTabBarItem(
             icon: const Icon(Icons.home_outlined),
-            activeColor: Colors.green,
+            activeColor: Colors.redAccent,
             title: const Text('Anasayfa'),
           ),
           FlashyTabBarItem(
               icon: const Icon(Icons.location_on_sharp),
-              activeColor: Colors.green,
+              activeColor: Colors.redAccent,
               title: const Text('Mekanlar')),
           FlashyTabBarItem(
             icon: const Icon(Icons.message_outlined),
-            activeColor: Colors.green,
+            activeColor: Colors.redAccent,
             title: const Text('Mesajlar'),
           ),
           FlashyTabBarItem(
             icon: const Icon(Icons.person),
             title: const Text('Hesabım'),
-            activeColor: Colors.green,
+            activeColor: Colors.redAccent,
           )
         ],
       ),
     );
+  }
+
+  sendGuid(String guid) {
+    if (guid.isNotEmpty && Constant.accessToken.isNotEmpty) {
+      _firebaseController.sendGuid(guid).then((value) {
+        print(value);
+      }).catchError((onError) {
+        print(onError);
+      });
+    }
   }
 
   Widget changeBottomItem(int index) {
@@ -81,5 +141,60 @@ class _HomePageState extends State<HomePage> {
         break;
     }
     return body;
+  }
+  Widget _buildDialog(BuildContext context, RemoteMessage message) {
+    return AlertDialog(
+      backgroundColor: Colors.white,
+      title: Stack(
+        children: [
+          Container(width: 40, height: 40, child: Image.asset("assets/images/logo_black.png")),
+          Container(
+            margin: const EdgeInsets.only(left: 45),
+            child: Text(
+              '${message.notification!.title}',
+              maxLines: 3,
+            ),
+          ),
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "${message.notification!.body}",
+            style: const TextStyle(fontSize: 13, color: Colors.black87),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          // CachedNetworkImage(
+          //   imageUrl: Platform.isIOS
+          //       ? (message.notification!.apple!.imageUrl ?? "-")
+          //       : (message.notification!.android!.imageUrl ?? "-"),
+          //   fit: BoxFit.fill,
+          //   errorWidget: (context, url, error) => const Icon(Icons.error),
+          // ),
+        ],
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text(
+            'Kapat',
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        FlatButton(
+          child: const Text(
+            'Göster',
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            _navigateToItemDetail(message);
+          },
+        ),
+      ],
+    );
   }
 }

@@ -54,20 +54,11 @@ class MessagePage extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
                                       child: Image.network(
-                                        "${item.imagre}",
+                                        "${item.image}",
                                         fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
-                                  // trailing: SizedBox(
-                                  //   width: 50,
-                                  //   child: Text(
-                                  //     "}",
-                                  //     style: TextStyle(
-                                  //         fontSize: 12,
-                                  //         color: Colors.grey.shade400),
-                                  //   ),
-                                  // ),
                                   subtitle: RichText(
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,

@@ -2,8 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 
+typedef TextCallBack = void Function(String);
+
 class FilterDrawer extends StatefulWidget {
-  const FilterDrawer({Key? key}) : super(key: key);
+  TextCallBack callBack;
+  String selectItem;
+
+  FilterDrawer({Key? key, required this.callBack, required this.selectItem})
+      : super(key: key);
 
   @override
   State<FilterDrawer> createState() => _FilterDrawerState();
@@ -11,25 +17,24 @@ class FilterDrawer extends StatefulWidget {
 
 class _FilterDrawerState extends State<FilterDrawer> {
   final List<String> _status = [
-    "ÜCRETLİ",
+    // "ÜCRETLİ",
     "EN DÜŞÜK ÜCRET",
     "EN YÜKSEK ÜCRET",
-    "EN YAKIN MESAFE",
+    // "EN YAKIN MESAFE",
     "EN ERKEN SAAT",
     "EN GEÇ SAAT",
     "EN DOLU MAÇ",
     "EN BOŞ MAÇ"
   ];
-  String _verticalGroupValue = "Pending";
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         RadioGroup<String>.builder(
-          groupValue: _verticalGroupValue,
+          groupValue: widget.selectItem,
           onChanged: (value) => setState(() {
-            _verticalGroupValue = value!;
+            widget.selectItem = value!;
           }),
           items: _status,
           topMargin: 18,
@@ -45,11 +50,17 @@ class _FilterDrawerState extends State<FilterDrawer> {
             Expanded(
               flex: 1,
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: Container(
+                    alignment: Alignment.center,
                     padding: const EdgeInsets.only(
-                        top: 4, bottom: 4, right: 20, left: 20),
-                    color: Colors.blue,
+                        top: 8, bottom: 8, right: 5, left: 5),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      color: Colors.blue,
+                    ),
                     child: const Text(
                       "İptal",
                       style: TextStyle(color: Colors.white),
@@ -59,11 +70,17 @@ class _FilterDrawerState extends State<FilterDrawer> {
             Expanded(
               flex: 1,
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.callBack(widget.selectItem);
+                  },
                   child: Container(
+                    alignment: Alignment.center,
                     padding: const EdgeInsets.only(
-                        top: 4, bottom: 4, right: 20, left: 20),
-                    color: Colors.blue,
+                        top: 8, bottom: 8, right: 18, left: 18),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      color: Colors.blue,
+                    ),
                     child: const Text(
                       "Uygula",
                       style: TextStyle(color: Colors.white),

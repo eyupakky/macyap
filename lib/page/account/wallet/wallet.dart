@@ -53,7 +53,9 @@ class WalletPage extends StatelessWidget {
                   primary: Colors.red, // background
                   onPrimary: Colors.white, // foreground
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, "/tcCheck");
+                },
                 child: const Text(
                   'Bakiye Yükle',
                   style: TextStyle(fontSize: 20),

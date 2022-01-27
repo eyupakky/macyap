@@ -133,7 +133,7 @@ class GameDetailInfoTab extends StatelessWidget {
                             padding: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4.0),
-                                color: Colors.green.shade200),
+                                color: Colors.red.shade200),
                             child: Text(
                               gameDetail.tags![index],
                               style: const TextStyle(

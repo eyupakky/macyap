@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "864529782982",
-    "project_id": "oceanic-spider-338322",
-    "storage_bucket": "oceanic-spider-338322.appspot.com"
+    "project_number": "440983326247",
+    "project_id": "macyap-6ab0f",
+    "storage_bucket": "macyap-6ab0f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:864529782982:android:cf3c95bbd0c75d8eb39fc7",
+        "mobilesdk_app_id": "1:440983326247:android:dba4aeae71f384d08ec802",
         "android_client_info": {
           "package_name": "com.eyupakky.halisaha"
         }
       },
       "oauth_client": [
         {
-          "client_id": "864529782982-e9mmfdhtfgjoosookb3cbfsqkoql13bb.apps.googleusercontent.com",
+          "client_id": "440983326247-dq6b2hnn27vhd7hfd0a0oqipiop91t8f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBRWQvnBsCjx1fSc6OE0YYjGd86pA-_mIA"
+          "current_key": "AIzaSyBuM6r-FUISH_59u7e6Cj2oMxmFn61RtMI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "864529782982-e9mmfdhtfgjoosookb3cbfsqkoql13bb.apps.googleusercontent.com",
+              "client_id": "440983326247-dq6b2hnn27vhd7hfd0a0oqipiop91t8f.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

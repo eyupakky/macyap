@@ -9,10 +9,13 @@ import 'package:repository_eyup/repository/ivenues_repository.dart';
 
 class VenuesController {
   IVenuesRepository iVenuesRepository = VenuesRepository(Dio());
-  late VenusModel venuesList;
-
+  late VenusModel venuesList=VenusModel();
+  String lastSearch = "";
   Future<VenusModel> getLazyVenues(String? name) async {
-    venuesList = await iVenuesRepository.getLazyVenues(name!);
+    if(venuesList.success==null || name!.isNotEmpty || lastSearch.isNotEmpty) {
+      venuesList = await iVenuesRepository.getLazyVenues(name!);
+    }
+    lastSearch = name;
     return venuesList;
   }
 

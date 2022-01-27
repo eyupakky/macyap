@@ -40,14 +40,14 @@ class VenuesInfoTab extends StatelessWidget {
                 (int index) {
                   return Container(
                     margin: const EdgeInsets.all(2),
-                    padding: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.0),
-                        color: Colors.green.shade200),
+                        color: Colors.redAccent.shade200),
                     child: Text(
                       venues!.tags![index],
                       style: const TextStyle(
-                        fontSize: 10,
+                        fontSize: 10,color: Colors.white,
                         fontStyle: FontStyle.normal,
                       ),
                     ),

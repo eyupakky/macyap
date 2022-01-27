@@ -132,11 +132,11 @@ class _UpdateEmailPageState extends State<UpdateEmailPage> {
                     child: const Align(
                       child: Text(
                         'E-Mail Güncelle',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                     decoration: const BoxDecoration(
-                        color: Colors.deepOrange,
+                        color: Colors.green,
                         borderRadius: BorderRadius.all(
                           Radius.circular(12),
                         )),

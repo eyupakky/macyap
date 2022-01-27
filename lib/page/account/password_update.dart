@@ -39,7 +39,7 @@ class _PasswordUpdatePageState extends State<PasswordUpdatePage> {
           children: <Widget>[
             ListTile(
               title: const Text(
-                "Password",
+                "Şifre",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               leading: IconButton(
@@ -116,11 +116,11 @@ class _PasswordUpdatePageState extends State<PasswordUpdatePage> {
                     child: const Align(
                       child: Text(
                         'KAYDET',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                     decoration: const BoxDecoration(
-                        color: Colors.deepOrange,
+                        color: Colors.green,
                         borderRadius: BorderRadius.all(
                           Radius.circular(12),
                         )),

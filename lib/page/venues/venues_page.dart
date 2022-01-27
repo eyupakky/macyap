@@ -45,11 +45,12 @@ class _PlacesPageState extends State<PlacesPage> {
                           },
                         ),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            _scaffoldKey.currentState!.openEndDrawer();
-                          },
-                          icon: const Icon(Icons.filter_alt_rounded)),
+                      // TODO filtre eklenecek
+                      // IconButton(
+                      //     onPressed: () {
+                      //       _scaffoldKey.currentState!.openEndDrawer();
+                      //     },
+                      //     icon: const Icon(Icons.filter_alt_rounded)),
                     ],
                   ),
                 ),
@@ -72,7 +73,7 @@ class _PlacesPageState extends State<PlacesPage> {
                           return ListTile(
                             onTap: () {
                               Navigator.pushNamed(context, "/venuesDetail",
-                                  arguments: venues);
+                                  arguments: venues.id);
                             },
                             title: Text(
                               '${venues.name}',
@@ -95,26 +96,6 @@ class _PlacesPageState extends State<PlacesPage> {
                                 ),
                               ),
                             ),
-                            // trailing: SizedBox(
-                            //   width: 50,
-                            //   child: Wrap(
-                            //     alignment: WrapAlignment.center,
-                            //     children: [
-                            //       const RotationTransition(
-                            //           turns: AlwaysStoppedAnimation(45 / 360),
-                            //           child: Icon(
-                            //             Icons.navigation,
-                            //             size: 24,
-                            //           )),
-                            //       Text(
-                            //         "4.6 km",
-                            //         style: TextStyle(
-                            //             fontSize: 12,
-                            //             color: Colors.grey.shade400),
-                            //       )
-                            //     ],
-                            //   ),
-                            // ),
                             subtitle: Text(
                               '${venues.address}',
                               style: TextStyle(
@@ -125,7 +106,7 @@ class _PlacesPageState extends State<PlacesPage> {
                         separatorBuilder: (BuildContext context, int index) {
                           return Divider(
                             thickness: 1,
-                            color: Colors.grey.withAlpha(50),
+                            color: Colors.red.withAlpha(100),
                           );
                         },
                       );

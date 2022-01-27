@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/model/account_model.dart';
 import 'package:repository_eyup/model/base_response.dart';
@@ -59,5 +61,21 @@ class AccountController {
   Future<BaseResponse> updatePassword(String? oldPass,String? newPass,String? newPassValid) async {
     var users = await iAccountRepository.updatePassword(oldPass,newPass,newPassValid);
     return users;
+  }
+  Future<BaseResponse> updateSetting(String? userName, String? name,String? lastName) async {
+    var users = await iAccountRepository.updateSetting(userName,name,lastName);
+    return users;
+  }
+  Future<BaseResponse> updateImage(String image) async {
+    var users = await iAccountRepository.uploadImage(image);
+    return users;
+  }
+  Future<bool> checkFollow(int? userId) async {
+    var res = await iAccountRepository.checkFollow(userId);
+    return res;
+  }
+  Future<String> getMyRole() async {
+    var res = await iAccountRepository.getMyRole();
+    return res;
   }
 }

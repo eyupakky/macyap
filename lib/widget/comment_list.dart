@@ -9,8 +9,8 @@ class CommentList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      separatorBuilder: (context, index) => const Divider(
-        color: Colors.black38,thickness: 1,
+      separatorBuilder: (context, index) =>  Divider(
+        color: Colors.red.shade100,thickness: 1,
       ),
       itemCount: comment!.comments!.length,
       itemBuilder: (context, index) => ListTile(
@@ -30,7 +30,7 @@ class CommentList extends StatelessWidget {
             ),
           ),
         ),
-        title: Text('@${comment!.comments![index].username}',style: const TextStyle(fontSize: 12),),
+        title: Text('@${comment!.comments![index].username}',style: const TextStyle(fontSize: 12,color: Colors.red),),
         subtitle:
         Text('${comment!.comments![index].comment}',style: const TextStyle(fontSize: 10)),
       ),

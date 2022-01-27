@@ -1,13 +1,19 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/page/account/email/update_email.dart';
 import 'package:halisaha/page/account/followers/followers.dart';
 import 'package:halisaha/page/account/password_update.dart';
 import 'package:halisaha/page/account/profile/profile.dart';
 import 'package:halisaha/page/account/settings/settings.dart';
+import 'package:halisaha/page/account/wallet/tc_check.dart';
+import 'package:halisaha/page/account/wallet/upload_money.dart';
 import 'package:halisaha/page/account/wallet/wallet.dart';
+import 'package:halisaha/page/account/wallet/webview_page.dart';
 import 'package:halisaha/page/create/create_game.dart';
 import 'package:halisaha/page/home/game_list/game_detail.dart';
 import 'package:halisaha/page/home/home_page.dart';
@@ -21,6 +27,7 @@ import 'package:halisaha/page/message/message_details.dart';
 import 'package:halisaha/page/splash_page.dart';
 import 'package:halisaha/page/venues/venues_detail.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rxdart/rxdart.dart';
 import 'cubit/cubit_abstract.dart';
 import 'help/app_context.dart';
 import 'help/default_firebase_config.dart';
@@ -32,38 +39,90 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
 }
 
-/// Create a [AndroidNotificationChannel] for heads up notifications
-late AndroidNotificationChannel channel;
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 
-/// Initialize the [FlutterLocalNotificationsPlugin] package.
-late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+/// Streams are created so that app can respond to notification-related events
+/// since the plugin is initialised in the `main` function
+final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
+BehaviorSubject<ReceivedNotification>();
 
+final BehaviorSubject<String?> selectNotificationSubject =
+BehaviorSubject<String?>();
+
+const MethodChannel channel =
+MethodChannel('dexterx.dev/flutter_local_notifications_example');
+
+class ReceivedNotification {
+  ReceivedNotification({
+    required this.id,
+    required this.title,
+    required this.body,
+    required this.payload,
+  });
+
+  final int id;
+  final String? title;
+  final String? body;
+  final String? payload;
+}
+late String selectedNotificationPayload;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  if (!kIsWeb) {
-    channel = const AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title
-      'This channel is used for important notifications.', // description
-      importance: Importance.high,
-    );
+  final NotificationAppLaunchDetails? notificationAppLaunchDetails =
+  await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+  String initialRoute = "/splash";
+  if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+    selectedNotificationPayload = notificationAppLaunchDetails!.payload!;
+    initialRoute = "//";
+  }
 
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
+  const AndroidInitializationSettings initializationSettingsAndroid =
+  AndroidInitializationSettings('logo');
 
+  /// Note: permissions aren't requested here just to demonstrate that can be
+  /// done later
+  final IOSInitializationSettings initializationSettingsIOS =
+  IOSInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      onDidReceiveLocalNotification: (
+          int id,
+          String? title,
+          String? body,
+          String? payload,
+          ) async {
+        didReceiveLocalNotificationSubject.add(
+          ReceivedNotification(
+            id: id,
+            title: title,
+            body: body,
+            payload: payload,
+          ),
+        );
+      });
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS
+  );
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (String? payload) async {
+        if (payload != null) {
+          debugPrint('notification payload: $payload');
+        }
+        selectedNotificationPayload = payload!;
+        selectNotificationSubject.add(payload);
+      });
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
     );
-  }
   AppContext appContext = AppContext();
   // }
   BlocOverrides.runZoned(
@@ -95,6 +154,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  var routes = {
+  };
   @override
   void initState() {
     super.initState();
@@ -131,7 +192,10 @@ class _MyAppState extends State<MyApp> {
           "/register": (context) => const RegisterPage(),
           "/gameDetail": (context) => GameDetail(),
           "/venuesDetail": (context) => VenuesDetail(),
-          "/createGame": (context) => CreateGame(),
+          "/createGame": (context) => CreateGamePage(),
+          "/uploadMoney": (context) => UploadMoney(),
+          "/tcCheck": (context) => const TcCheckController(),
+          "/webview": (context) => const WebviewPage(),
         },
         theme: ThemeData(
           tabBarTheme: const TabBarTheme(
@@ -139,14 +203,17 @@ class _MyAppState extends State<MyApp> {
               labelStyle: TextStyle(color: Colors.pink), // color for text
               indicator: UnderlineTabIndicator(
                   // color for indicator (underline)
-                  borderSide: BorderSide(color: Colors.green))),
+                  borderSide: BorderSide(color: Colors.redAccent))),
           primaryColor: Colors.pink[800],
-          indicatorColor: Colors.green,
+          indicatorColor: Colors.redAccent,
           backgroundColor: Colors.white,
           fontFamily: "Montserrat-bold",
-          // deprecated,
-          primarySwatch: Colors.green,
+          primarySwatch: Colors.red
         ),
+        localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+        supportedLocales: const [
+          Locale('tr', "TR"),
+        ],
         debugShowCheckedModeBanner: false,
       ),
     );

@@ -33,6 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController surnameController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  AutovalidateMode validate = AutovalidateMode.disabled;
   PhoneNumber number = PhoneNumber(isoCode: 'TR');
   String phoneNumber = "";
   int? selectedCity = 0;
@@ -57,14 +58,10 @@ class _RegisterPageState extends State<RegisterPage> {
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 28),
-              child: Image.asset(
-                UIGuide.pirpleLogo,
-                height: SizeConfig.blockSizeVertical * 9.5,
-                width: SizeConfig.blockSizeHorizontal * 19,
-                fit: BoxFit.fill,
-              ),
+            Image.asset(
+              UIGuide.pirpleLogo,
+              height: SizeConfig.blockSizeVertical * 18,
+              fit: BoxFit.fill,
             ),
             _emailFiled(),
           ],
@@ -75,7 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _emailFiled() {
     return Container(
-      margin: const EdgeInsets.all(40),
+      margin: const EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -130,10 +127,13 @@ class _RegisterPageState extends State<RegisterPage> {
           InternationalPhoneNumberInput(
             onInputChanged: (PhoneNumber number) {
               phoneNumber = number.phoneNumber!;
+              setState(() {
+                validate = AutovalidateMode.always;
+              });
             },
             selectorConfig: const SelectorConfig(
                 selectorType: PhoneInputSelectorType.DIALOG),
-            autoValidateMode: AutovalidateMode.always,
+            autoValidateMode: validate,
             initialValue: number,
             errorMessage: "Telefon numarası hatalı",
             inputDecoration: InputDecoration(
@@ -323,14 +323,14 @@ class _RegisterPageState extends State<RegisterPage> {
     registerController.register(body).then((value) {
       EasyLoading.dismiss();
       if (value.success!) {
-        showToast(value.description ?? "",color: Colors.green);
+        showToast(value.description ?? "", color: Colors.green);
         Navigator.pop(context);
       } else {
-        showToast(value.description ?? "",color: Colors.red);
+        showToast(value.description ?? "", color: Colors.red);
       }
     }).catchError((onError) {
       EasyLoading.dismiss();
-      showToast(onError, color :Colors.red);
+      showToast(onError, color: Colors.red);
     });
   }
 }

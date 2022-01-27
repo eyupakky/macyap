@@ -38,37 +38,37 @@ class _VenuesDetailState extends State<VenuesDetail>
 
   @override
   Widget build(BuildContext context) {
-    Venues venues = ModalRoute.of(context)!.settings.arguments as Venues;
+    int id = ModalRoute.of(context)!.settings.arguments as int;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Text(
-          '${venues.name}',
-          style: const TextStyle(color: Colors.black,fontSize: 12),
-        ),
-      ),
-      body: FutureBuilder<VenusDetailModel>(
-          future: _venuesController.getVenuesDetail(venues.id),
-          builder: (context, snapshot) {
-            if (snapshot.data == null) {
-              return const Center(child: Text("Sonuç bekleniyor..."));
-            }
-            EasyLoading.dismiss();
-            VenusDetailModel? venueDetail = snapshot.data;
-            context
-                .read<ChangeFavorite>()
-                .changeFavorite(venueDetail!.follow ?? false);
-            return Column(
+    return FutureBuilder<VenusDetailModel>(
+        future: _venuesController.getVenuesDetail(id),
+        builder: (context, snapshot) {
+          if (snapshot.data == null) {
+            return const Center(child: Text("Sonuç bekleniyor..."));
+          }
+          EasyLoading.dismiss();
+          VenusDetailModel? venueDetail = snapshot.data;
+          context
+              .read<ChangeFavorite>()
+              .changeFavorite(venueDetail!.follow ?? false);
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              title: Text(
+                '${venueDetail.name}',
+                style: const TextStyle(color: Colors.black, fontSize: 12),
+              ),
+            ),
+            body: Column(
               children: [
                 CachedNetworkImage(
                   height: 200,
                   width: MediaQuery.of(context).size.width,
-                  imageUrl: "${venues.image}",
+                  imageUrl: "${venueDetail.image}",
                   fit: BoxFit.fill,
                   placeholder: (context, url) =>
                       const Center(child: CircularProgressIndicator()),
@@ -130,11 +130,11 @@ class _VenuesDetailState extends State<VenuesDetail>
                           child: !venueDetail.follow!
                               ? const Icon(
                                   Icons.favorite_border,
-                                  color: Colors.green,
+                                  color: Colors.redAccent,
                                 )
                               : const Icon(
                                   Icons.favorite,
-                                  color: Colors.green,
+                                  color: Colors.redAccent,
                                 ),
                         ),
                       );
@@ -163,7 +163,7 @@ class _VenuesDetailState extends State<VenuesDetail>
                     children: [
                       VenuesInfoTab(
                           venues: venueDetail,
-                          controller:_venuesController,
+                          controller: _venuesController,
                           callback: () {
                             _tabController.animateTo(1);
                           }),
@@ -182,8 +182,8 @@ class _VenuesDetailState extends State<VenuesDetail>
                   ),
                 ),
               ],
-            );
-          }),
-    );
+            ),
+          );
+        });
   }
 }

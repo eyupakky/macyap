@@ -8,19 +8,28 @@ import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/model/game_users.dart';
 
-class LineUp extends StatelessWidget {
+class LineUp extends StatefulWidget {
   int id;
   HomeController homeController;
 
   LineUp({Key? key, required this.id, required this.homeController})
       : super(key: key);
+
+  @override
+  State<LineUp> createState() => _LineUpState();
+}
+
+class _LineUpState extends State<LineUp> {
   bool katil = true;
+
+  late BuildContext _context;
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     return Scaffold(
       body: FutureBuilder<GameUsers>(
-          future: homeController.getGameUsers(id),
+          future: widget.homeController.getGameUsers(widget.id),
           builder: (cnx, snapshot) {
             if (snapshot.data != null) {
               var myListFiltered = snapshot.data!.allTeam!
@@ -60,7 +69,7 @@ class LineUp extends StatelessWidget {
         builder: (context, count) => FlatButton(
             padding: const EdgeInsets.all(8),
             onPressed: () {
-              joinMatch(count, context);
+              joinMatch(count);
             },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -130,18 +139,18 @@ class LineUp extends StatelessWidget {
     });
   }
 
-  void joinMatch(count, context) {
+  void joinMatch(count) {
     count
-        ? homeController.joinGame(id).then((value) {
+        ? widget.homeController.joinGame(widget.id).then((value) {
             if (value.success!) {
-              context.read<ChangeBottomCubit>().changeFlushBar(false);
+              setState(() {});
             } else {
               showToast('${value.description}');
             }
           })
-        : homeController.quitGame(id).then((value) {
+        : widget.homeController.quitGame(widget.id).then((value) {
             if (value.success!) {
-              context.read<ChangeBottomCubit>().changeFlushBar(true);
+              setState(() {});
             } else {
               showToast('${value.description}');
             }

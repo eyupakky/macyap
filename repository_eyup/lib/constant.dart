@@ -16,6 +16,7 @@ class Constant{
 
   //Games
   static String getGamesNoFilter = "Games/GetGames";
+  static String createGame = "Games/CreateGame";
   static String getGameDetail = "Games/GetGameDetail";
   static String getGameUsers = "Games/GetGameUsers";
   static String getGameComments = "Games/GetGameComments";
@@ -33,7 +34,11 @@ class Constant{
   static String getUsersPlayedMatchs = "Account/GetUsersPlayedMatchs";
   static String getMyFollowers = "Account/GetMyFollowers";
   static String getFollowingUsers = "Account/GetFollowingUsers";
+  static String settings = "Account/Settings";
+  static String updateImage = "Account/UploadImage";
   static String follow = "Account/Follow";
+  static String checkFollow = "Account/CheckFollow";
+  static String getMyRole = "Account/GetMyRole";
   // Venue
   static String getVenues = "Venue/GetVenues";
   static String getVenueDetail = "Venue/GetVenueDetail";
@@ -45,11 +50,18 @@ class Constant{
   static String addVenueComment = "Venue/AddVenueComment";
   //Wallet
   static String getUserBalance = "Payment/GetUserBalance";
+  static String checkTCKNO = "Payment/CheckTCKNO";
+  static String setTc = "Payment/TCKNO";
+  static String payment = "MobilPayment/Payment";
   static String getPaymentLogs = "Payment/GetPaymentLogs";
 
   //Message
   static String getMyChatList = "Chat/GetMyChatList";
   static String getMyChat = "Chat/GetMyChat";
   static String sendMessage = "Chat/SendMessage";
+
+  //firebase
+  static String sendGuid = "FireBase/SendGuid";
+  static String sendLocation = "FireBase/SendLocation";
 
 }

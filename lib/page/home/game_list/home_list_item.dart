@@ -80,7 +80,7 @@ class HomeListItem extends StatelessWidget {
                   ],
                 ),
                 Divider(
-                  color: Colors.grey.shade300,
+                  color: Colors.red.withAlpha(100),
                   thickness: 1,
                 ),
                 Row(
@@ -96,7 +96,7 @@ class HomeListItem extends StatelessWidget {
                               padding: const EdgeInsets.all(2),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4.0),
-                                  color: Colors.green.shade200),
+                                  color: Colors.red.shade200),
                               child: Text(
                                 match.tagler![index],
                                 style: const TextStyle(

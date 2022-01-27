@@ -18,7 +18,8 @@ class _GameDetailState extends State<GameDetail>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final HomeController _homeController = HomeController();
-
+  late Match match;
+  late int id=0;
   @override
   void initState() {
     super.initState();
@@ -27,7 +28,11 @@ class _GameDetailState extends State<GameDetail>
 
   @override
   Widget build(BuildContext context) {
-    Match match = ModalRoute.of(context)!.settings.arguments as Match;
+    if(ModalRoute.of(context)!.settings.arguments is Match) {
+       match = ModalRoute.of(context)!.settings.arguments as Match;
+    }else{
+      id = ModalRoute.of(context)!.settings.arguments as int;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +57,7 @@ class _GameDetailState extends State<GameDetail>
           ],
         ),
         title: Text(
-          '${match.name}',
+          id!=0?'Maç detayı':'${match.name}',
           style: const TextStyle(color: Colors.black, fontSize: 14),
         ),
       ),
@@ -61,18 +66,18 @@ class _GameDetailState extends State<GameDetail>
           controller: _tabController,
           children: [
             GameDetailInfoTab(
-                id: match.gameId,
+                id:id!=0?id:match.gameId,
                 homeController: _homeController,
                 callback: () {
                   _tabController.animateTo(1);
                 }),
             LineUp(
               homeController: _homeController,
-              id: match.gameId ?? 0,
+              id: id!=0?id:match.gameId ?? 0,
             ),
             CommentTab(
               homeController: _homeController,
-              id: match.gameId ?? 0,
+              id: id!=0?id:match.gameId ?? 0,
             ),
           ],
         ),

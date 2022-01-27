@@ -5,6 +5,7 @@ import 'package:dio/src/dio.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/comment.dart';
+import 'package:repository_eyup/model/create_game.dart';
 import 'package:repository_eyup/model/game_detail.dart';
 import 'package:repository_eyup/model/game_users.dart';
 import 'package:repository_eyup/model/matches_model.dart';
@@ -23,6 +24,8 @@ abstract class IMatchesRepository {
   Future<BaseResponse> joinGame(int? id);
 
   Future<BaseResponse> quitGame(int? id);
+
+  Future<BaseResponse> createGame(CreateGame game);
 }
 
 class MatchesRepository extends IMatchesRepository {
@@ -36,7 +39,7 @@ class MatchesRepository extends IMatchesRepository {
     var response = await _dio
         .post(Constant.baseUrl + Constant.getGamesNoFilter, data: search)
         .catchError((err) {
-      Future.error(err);
+      return Future.error(err);
     });
     MatchesModel model = MatchesModel.fromJson(response.data);
     return Future.value(model.match);
@@ -109,6 +112,17 @@ class MatchesRepository extends IMatchesRepository {
       "game_id": id,
     }).catchError((err) {
       print(err);
+    });
+    return Future.value(BaseResponse.fromJson(response.data));
+  }
+
+  @override
+  Future<BaseResponse> createGame(CreateGame game) async {
+    game.accessToken = Constant.accessToken;
+    var response = await _dio
+        .post(Constant.baseUrl + Constant.createGame, data: game.toJson())
+        .catchError((err) {
+      return Future.error(err);
     });
     return Future.value(BaseResponse.fromJson(response.data));
   }

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:dio/src/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:repository_eyup/model/account_model.dart';
@@ -28,6 +31,15 @@ abstract class IAccountRepository {
 
   Future<BaseResponse> updateEmail(String? newEmail, String? password);
 
+  Future<BaseResponse> updateSetting(
+      String? userName, String? name, String? lastName);
+
+  Future<BaseResponse> uploadImage(String image);
+
+  Future<bool> checkFollow(int? userId);
+
+  Future<String> getMyRole();
+
   Future<BaseResponse> updatePassword(
       String? oldPass, String? newPass, String? newPassValid);
 }
@@ -46,7 +58,7 @@ class AccountRepository extends IAccountRepository {
     List<AccountModel> list = [];
     list.add(AccountModel(
         route: "/profile",
-        item: "Profile",
+        item: "Profil",
         icon: Icons.account_circle_outlined));
     list.add(AccountModel(
         route: "/followers", item: "Takipçi", icon: Icons.supervisor_account));
@@ -57,11 +69,11 @@ class AccountRepository extends IAccountRepository {
     list.add(
         AccountModel(route: "/setting", item: "Ayarlar", icon: Icons.settings));
     list.add(AccountModel(
-        route: "/email", item: "Email güncelle", icon: Icons.email));
+        route: "/email", item: "Email güncelleme", icon: Icons.email));
     list.add(AccountModel(
         route: "/password", item: "Şifre güncelleme", icon: Icons.password));
     list.add(AccountModel(
-        route: "/exit", item: "Sign out", icon: Icons.exit_to_app));
+        route: "/exit", item: "Çıkış Yap", icon: Icons.exit_to_app));
     return list;
   }
 
@@ -159,6 +171,22 @@ class AccountRepository extends IAccountRepository {
   }
 
   @override
+  Future<BaseResponse> updateSetting(
+      String? userName, String? name, String? lastName) async {
+    var res = await _dio.post(Constant.baseUrl + Constant.settings, data: {
+      "access_token": Constant.accessToken,
+      "username": userName,
+      "firstname": name,
+      "lastname": lastName
+    });
+    BaseResponse _baseResponse = BaseResponse.fromJson(res.data);
+    if (res.statusCode == 200 && res.data["success"]) {
+      return Future.value(_baseResponse);
+    }
+    return Future.value(_baseResponse);
+  }
+
+  @override
   Future<BaseResponse> updatePassword(
       String? oldPass, String? newPass, String? newPassValid) async {
     var res =
@@ -174,5 +202,43 @@ class AccountRepository extends IAccountRepository {
       return Future.value(BaseResponse.fromJson(res.data));
     }
     return Future.error(res.data["success"]);
+  }
+
+  @override
+  Future<bool> checkFollow(int? userID) async {
+    var res = await _dio.post(Constant.baseUrl + Constant.checkFollow, data: {
+      "access_token": Constant.accessToken,
+      "user_id": userID,
+    });
+    return Future.value(res.data);
+  }
+
+  @override
+  Future<BaseResponse> uploadImage(String image) async {
+    var res = await _dio
+        .post(Constant.baseUrl + Constant.updateImage, data:{"access_token": Constant.accessToken,
+      "image": image})
+        .catchError((onError) {
+      return Future.error(onError);
+    });
+    BaseResponse _baseResponse = BaseResponse.fromJson(res.data);
+    if (res.statusCode == 200 && res.data["success"]) {
+      return Future.value(_baseResponse);
+    }
+    return Future.error(_baseResponse);
+  }
+
+  @override
+  Future<String> getMyRole() async {
+    var res = await _dio.post(Constant.baseUrl + Constant.getMyRole, data: {
+      "access_token": Constant.accessToken,
+    }).catchError((onError) {
+      return Future.error(onError);
+    });
+    if (res.data["success"]) {
+      return Future.value(res.data["durum"]);
+    } else {
+      return Future.error(res.data["durum"]);
+    }
   }
 }

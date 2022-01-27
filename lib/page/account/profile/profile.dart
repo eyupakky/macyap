@@ -17,17 +17,20 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
         body: SafeArea(
       child: BaseWidget(
-        child: FutureBuilder<User>(
-            future: _accountController.getUserProfile(id),
-            builder: (context, snapshot) {
-              if (snapshot.data == null) {
-                return const Center(
-                  child: Text("Profil yükleniyor..."),
-                );
-              }
-              User? myUser = snapshot.data;
-              return ProfileWidget(myUser: myUser,controller:_accountController);
-            }),
+        child: SingleChildScrollView(
+          child: FutureBuilder<User>(
+              future: _accountController.getUserProfile(id),
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return const Center(
+                    child: Text("Profil yükleniyor..."),
+                  );
+                }
+                User myUser = snapshot.data!;
+                return ProfileWidget(
+                    myUser: myUser, controller: _accountController);
+              }),
+        ),
       ),
     ));
   }

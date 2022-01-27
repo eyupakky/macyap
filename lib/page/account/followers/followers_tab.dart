@@ -41,16 +41,16 @@ class _FollowersTabState extends State<FollowersTab>
               child: TabBar(
                 controller: _tabController,
                 labelColor: Colors.black,
-                indicatorColor: Colors.green,
+                indicatorColor: Colors.redAccent,
                 unselectedLabelColor: Colors.black,
                 unselectedLabelStyle: const TextStyle(fontSize: 14),
                 labelStyle: const TextStyle(fontSize: 16),
                 tabs: const [
                   Tab(
-                    text: 'Followers',
+                    text: 'Takipçiler',
                   ),
                   Tab(
-                    text: 'Following',
+                    text: 'Takip Ettiklerim',
                   ),
                   // Tab(
                   //   text: 'Blocked',

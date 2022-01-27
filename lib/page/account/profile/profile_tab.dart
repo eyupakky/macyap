@@ -5,7 +5,7 @@ import 'package:halisaha/page/account/profile/played_tab_page.dart';
 import 'package:repository_eyup/model/user.dart';
 
 class ProfileTab extends StatefulWidget {
-  User? user;
+  User user;
   ProfileTab({Key? key,required this.user}) : super(key: key);
 
   @override
@@ -42,7 +42,7 @@ class _ProfileTabState extends State<ProfileTab>
               child: TabBar(
                 controller: _tabController,
                 labelColor: Colors.black,
-                indicatorColor: Colors.green,
+                indicatorColor: Colors.redAccent,
                 unselectedLabelColor: Colors.black,
                 unselectedLabelStyle: const TextStyle(fontSize: 14),
                 labelStyle: const TextStyle(fontSize: 16),
@@ -61,8 +61,8 @@ class _ProfileTabState extends State<ProfileTab>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  AttendedPage(user:widget.user!),
-                  PlayedTabPage(user:widget.user!)
+                  AttendedPage(user:widget.user),
+                  PlayedTabPage(user:widget.user)
                 ],
               ),
             ),

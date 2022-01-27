@@ -1,8 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.eyupakky.halisaha">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="MaçYap"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/logo">
 
        <meta-data
            android:name="com.facebook.sdk.ApplicationId"

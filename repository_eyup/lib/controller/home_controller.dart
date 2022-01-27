@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/comment.dart';
+import 'package:repository_eyup/model/create_game.dart';
 import 'package:repository_eyup/model/game_detail.dart';
 import 'package:repository_eyup/model/game_users.dart';
 import 'package:repository_eyup/model/matches_model.dart';
@@ -17,15 +18,11 @@ class HomeController {
   Future<List<Match>> getLazyMatches(Map<String, String> map) async {
     // String? tarih = map["tarih"];
     /* && matchesList[tarih]==null */
-    if (temp) {
-      temp = false;
       var response = await iMatchesRepository.getLazyMatches(map).catchError((err){
         temp = true;
       });
       matches = response;
-      temp = true;
-    }
-    return Future.value(matches);
+      return Future.value(matches);
   }
 
   Future<GameDetail> getGameDetail(int id) async {
@@ -93,5 +90,9 @@ class HomeController {
     } else {
       return Future.value(null);
     }
+  }
+  Future<BaseResponse>createGame(CreateGame game)async{
+    var response = await iMatchesRepository.createGame(game);
+    return Future.value(response);
   }
 }

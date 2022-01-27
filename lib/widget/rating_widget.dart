@@ -38,7 +38,7 @@ class Rating extends StatelessWidget {
             ),
             onRatingUpdate: (rating) {
               controller.rateVenue(id, rating.ceil()).then((value) =>
-                  showToast('${value.description}', color: Colors.green));
+                  showToast('${value.description}', color: Colors.redAccent));
             },
           );
         });

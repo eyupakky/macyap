@@ -3,61 +3,54 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:repository_eyup/constant.dart';
+import 'package:repository_eyup/controller/firebase_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
 
   @override
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      getAccessToken(context);
+      // _notification();
+    });
+
+  }
+
+  @override
   Widget build(BuildContext context) {
-    getAccessToken(context);
-    _notification();
-    return SafeArea(
-      child: Container(
-        color: Colors.red,
-        child: const Center(
-            child: Text(
-          "MAÇ YAP",
-          style: TextStyle(fontSize: 26),
-        )),
-      ),
+    return Container(
+      color: Colors.red,
+      child: Center(child: Image.asset("assets/images/test.png")),
     );
   }
-  _notification() async {
-    FirebaseMessaging.instance.getToken().then((value) => print(value));
-    FirebaseMessaging.instance.getInitialMessage().then((value) {
-      if (value != null) {
-        showToast(value.toString());
+
+  void getAccessToken(BuildContext context) {
+    SharedPreferences.getInstance().then((value) {
+      String? token = value.getString("accessToken");
+      String? userName = value.getString("username");
+      String? userId = value.getString("user_id");
+      String? name = value.getString("firstname");
+      String? surname = value.getString("lastname");
+      String? image = value.getString("image");
+      if (token != null && token != "") {
+        Constant.accessToken = token;
+        Constant.userName = userName!;
+        Constant.name = name!;
+        Constant.surname = surname!;
+        Constant.image = image!;
+        Constant.userId = int.parse('$userId');
+        Navigator.pushReplacementNamed(context, "/");
+      } else {
+        Navigator.pushReplacementNamed(context, "/login");
       }
     });
-    await FirebaseMessaging.instance.subscribeToTopic('all');
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      showToast(message.data["video_id"]);
-    });
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      if (message.notification != null) {
-        showToast('${message.notification!.body}');
-      }
-    });
-  }
-  void getAccessToken(BuildContext context) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? token = preferences.getString("accessToken");
-    String? userName = preferences.getString("username");
-    String? userId = preferences.getString("user_id");
-    String? name = preferences.getString("firstname");
-    String? surname = preferences.getString("lastname");
-    String? image = preferences.getString("image");
-    if (token != null && token != "") {
-      Constant.accessToken = token;
-      Constant.userName = userName!;
-      Constant.name = name!;
-      Constant.surname = surname!;
-      Constant.image = image!;
-      Constant.userId = int.parse('$userId');
-      Navigator.pushReplacementNamed(context, "/");
-    } else {
-      Navigator.pushReplacementNamed(context, "/login");
-    }
   }
 }

@@ -19,15 +19,15 @@ class MessageModel {
 class MessageItem {
   int? userId;
   String? username;
-  String? imagre;
+  String? image;
   String? message;
 
-  MessageItem({this.userId, this.username, this.imagre});
+  MessageItem({this.userId, this.username, this.image});
 
   MessageItem.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
     username = json['username'];
-    imagre = json['imagre'];
+    image = json['image'];
     message = json['message'];
   }
 }

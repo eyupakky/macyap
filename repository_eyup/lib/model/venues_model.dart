@@ -1,6 +1,6 @@
 class VenusModel {
   bool? success;
-  List<Venues>? venues;
+  List<Venues>? venues=[];
 
   VenusModel({this.success, this.venues});
 

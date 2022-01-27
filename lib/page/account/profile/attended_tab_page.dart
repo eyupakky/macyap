@@ -12,7 +12,7 @@ class AttendedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<MatchesModel>(
-        future: _accountController.getUsersPlayedMatchs(user.userId),
+        future: _accountController.getUsersAttendingMatchs(user.userId),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
             return const Center(

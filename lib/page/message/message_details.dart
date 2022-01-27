@@ -76,7 +76,7 @@ class _MessageDetailsState extends State<MessageDetails> {
                     MessageDetailItem item =
                         snapshot.data!.messageDetailItem![index];
                     return ListTile(
-                      tileColor: Colors.green,
+                      tileColor: Colors.redAccent,
                       trailing: item.userId == Constant.userId
                           ? getImageWidget(item.image)
                           : const SizedBox(),
@@ -123,6 +123,7 @@ class _MessageDetailsState extends State<MessageDetails> {
             Expanded(
               flex: 1,
               child: FloatingActionButton.small(
+                backgroundColor: Colors.redAccent,
                 onPressed: () {
                   _messageController
                       .sendMessage(id, _controller.text)

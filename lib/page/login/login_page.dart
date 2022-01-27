@@ -11,6 +11,7 @@ import 'package:halisaha/help/app_context.dart';
 import 'package:halisaha/help/ui_guide.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/controller/login_controller.dart';
 import "package:http/http.dart" as http;
@@ -119,18 +120,11 @@ class _LoginState extends State<LoginPage> {
           physics: const NeverScrollableScrollPhysics(),
           child: Stack(
             children: [
-              Positioned(
-                top: SizeConfig.blockSizeVertical * 2,
-                left: SizeConfig.blockSizeHorizontal * 4,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 40, horizontal: 28),
-                  child: Image.asset(
-                    UIGuide.pirpleLogo,
-                    height: SizeConfig.blockSizeVertical * 9.5,
-                    width: SizeConfig.blockSizeHorizontal * 19,
-                    fit: BoxFit.fill,
-                  ),
+              Center(
+                child: Image.asset(
+                  UIGuide.pirpleLogo,
+                  height: SizeConfig.blockSizeVertical * 18,
+                  fit: BoxFit.fill,
                 ),
               ),
               Positioned(
@@ -307,7 +301,8 @@ class _LoginState extends State<LoginPage> {
           //   ],
           // ),
           const SizedBox(height: 40),
-          _forgotPass()
+          //TODO şifremi unuttum
+          //_forgotPass()
         ],
       ),
     );
@@ -341,8 +336,13 @@ class _LoginState extends State<LoginPage> {
         .then((value) {
       appContext.setAccessToken(value);
       _accountController.getMyUser().then((value){
+        Constant.image = value.image!;
+        Constant.userId = value.userId!;
+        Constant.userName = value.username!;
+        Constant.name = value.firstname!;
+        Constant.surname = value.lastname!;
         appContext.setMyUser(value);
-        Navigator.pushNamed(context, "/");
+        Navigator.pushReplacementNamed(context, "/");
       });
     }).catchError((err) {
       EasyLoading.dismiss();
