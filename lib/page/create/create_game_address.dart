@@ -19,7 +19,7 @@ class CreateGameAddress extends StatefulWidget {
 }
 
 class _CreateGameAddressState extends State<CreateGameAddress> {
-  bool kendiSaham = false, listedeVar = false;
+  bool kendiSaham = false, listedeVar = false,ozelOyun=false;
   int selectIndex = 1;
   final _formKey = GlobalKey<FormState>();
   late AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
@@ -54,6 +54,15 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
               autovalidateMode: _autovalidateMode,
               child: Column(
                 children: [
+                  CheckBoxButton(
+                    select: ozelOyun,
+                    text1: "ÖZEL (Yalnızca davet edilen oyuncular girebilir.)",
+                    callback: () {
+                      setState(() {
+                        ozelOyun = !ozelOyun;
+                      });
+                    },
+                  ),
                   CheckBoxButton(
                     select: kendiSaham,
                     text1: "Kendi Saham Var",
@@ -260,7 +269,7 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
     CreateGame game = widget.gameModel;
     game.ksha = kendiSaham ? 1 : 0;
     game.ksha1 = listedeVar ? 0 : 1;
-    game.ozelOyun=0;
+    game.ozelOyun=ozelOyun?1:0;
     if (kendiSaham && !listedeVar) {
       game.ozelSahaAdress = addressController.text;
       game.ozelSahaIsim = nameController.text;

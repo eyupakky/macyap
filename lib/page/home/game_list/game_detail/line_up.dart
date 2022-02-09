@@ -122,8 +122,10 @@ class _LineUpState extends State<LineUp> {
     return List.generate(myTeam!.length, (index) {
       return InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/profile',
+          if(myTeam[index].userId!=-1) {
+            Navigator.pushNamed(context, '/profile',
               arguments: myTeam[index].userId);
+          }
         },
         child: Column(
           children: [
@@ -176,6 +178,10 @@ class _LineUpState extends State<LineUp> {
               setState(() {});
             } else {
               showToast('${value.description}');
+              if(value.description!.contains("bakiyeniz eksik")){
+                Navigator.pushNamed(context, "/wallet",arguments: Constant.userId);
+
+              }
             }
           })
         : widget.homeController.quitGame(widget.id).then((value) {

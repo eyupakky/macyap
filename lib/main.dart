@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,9 @@ class ReceivedNotification {
   final String? body;
   final String? payload;
 }
+
 late String selectedNotificationPayload;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -90,12 +93,10 @@ Future<void> main() async {
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
-      onDidReceiveLocalNotification: (
-          int id,
+      onDidReceiveLocalNotification: (int id,
           String? title,
           String? body,
-          String? payload,
-          ) async {
+          String? payload,) async {
         didReceiveLocalNotificationSubject.add(
           ReceivedNotification(
             id: id,
@@ -106,8 +107,8 @@ Future<void> main() async {
         );
       });
   final InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-    iOS: initializationSettingsIOS
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS
   );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String? payload) async {
@@ -117,17 +118,21 @@ Future<void> main() async {
         selectedNotificationPayload = payload!;
         selectNotificationSubject.add(payload);
       });
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+  await FirebaseMessaging.instance
+      .setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
   AppContext appContext = AppContext();
   // }
+
   BlocOverrides.runZoned(
-    () => runApp(ContextProvider(
-        current: appContext, key: UniqueKey(), child: const MyApp())),
+        () =>
+        runZonedGuarded(() {
+          runApp(ContextProvider(
+              current: appContext, key: UniqueKey(), child: const MyApp()));
+        }, FirebaseCrashlytics.instance.recordError),
     blocObserver: AppBlocObserver(),
   );
 }
@@ -156,6 +161,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var routes = {
   };
+
   @override
   void initState() {
     super.initState();
@@ -198,17 +204,17 @@ class _MyAppState extends State<MyApp> {
           "/webview": (context) => const WebviewPage(),
         },
         theme: ThemeData(
-          tabBarTheme: const TabBarTheme(
-              labelColor: Colors.pink,
-              labelStyle: TextStyle(color: Colors.pink), // color for text
-              indicator: UnderlineTabIndicator(
+            tabBarTheme: const TabBarTheme(
+                labelColor: Colors.pink,
+                labelStyle: TextStyle(color: Colors.pink), // color for text
+                indicator: UnderlineTabIndicator(
                   // color for indicator (underline)
-                  borderSide: BorderSide(color: Colors.redAccent))),
-          primaryColor: Colors.pink[800],
-          indicatorColor: Colors.redAccent,
-          backgroundColor: Colors.white,
-          fontFamily: "Montserrat-bold",
-          primarySwatch: Colors.red
+                    borderSide: BorderSide(color: Colors.redAccent))),
+            primaryColor: Colors.pink[800],
+            indicatorColor: Colors.redAccent,
+            backgroundColor: Colors.white,
+            fontFamily: "Montserrat-bold",
+            primarySwatch: Colors.red
         ),
         localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
         supportedLocales: const [
