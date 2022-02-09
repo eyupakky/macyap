@@ -6,13 +6,14 @@ import 'package:halisaha/cubit/cubit_abstract.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
+import 'package:repository_eyup/model/game_detail.dart';
 import 'package:repository_eyup/model/game_users.dart';
 
 class LineUp extends StatefulWidget {
-  int id;
   HomeController homeController;
+  int id;
 
-  LineUp({Key? key, required this.id, required this.homeController})
+  LineUp({Key? key, required this.homeController, required this.id})
       : super(key: key);
 
   @override
@@ -23,6 +24,7 @@ class _LineUpState extends State<LineUp> {
   bool katil = true;
 
   late BuildContext _context;
+  late GameUsers users = GameUsers();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class _LineUpState extends State<LineUp> {
           future: widget.homeController.getGameUsers(widget.id),
           builder: (cnx, snapshot) {
             if (snapshot.data != null) {
+              users = snapshot.data!;
               var myListFiltered = snapshot.data!.allTeam!
                   .where((e) => e.userId == Constant.userId);
               if (myListFiltered.isEmpty) {
@@ -69,20 +72,35 @@ class _LineUpState extends State<LineUp> {
         builder: (context, count) => FlatButton(
             padding: const EdgeInsets.all(8),
             onPressed: () {
-              joinMatch(count);
+              AppConfig.gameDetail.locked!
+                  ? joinGameRequest()
+                  : users.totalPlayers !=
+                          (users.rivalTeamSize! + users.myTeamSize!)
+                      ? joinMatch(count)
+                      : null;
             },
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(1)),
             child: Text(
-              count ? "Maça Katıl" : "Maçtan çık",
+              AppConfig.gameDetail.locked!
+                  ? "Maça katılma isteği gönder"
+                  : users.totalPlayers ==
+                          (users.rivalTeamSize! + users.myTeamSize!)
+                      ? "Maç Dolu"
+                      : count
+                          ? "Maça Katıl"
+                          : "Maçtan çık",
               style: GoogleFonts.montserrat(
                   fontSize: 16,
                   color: Colors.white,
                   fontWeight: FontWeight.w500),
             ),
-            color: count
-                ? Colors.green.withOpacity(0.9)
-                : Colors.red.withOpacity(0.9)),
+            color:
+                users.totalPlayers == (users.rivalTeamSize! + users.myTeamSize!)
+                    ? Colors.grey
+                    : count
+                        ? Colors.green.withOpacity(0.9)
+                        : Colors.red.withOpacity(0.9)),
       ),
     );
   }
@@ -136,6 +154,18 @@ class _LineUpState extends State<LineUp> {
           ],
         ),
       );
+    });
+  }
+
+  void joinGameRequest() {
+    widget.homeController.joinGameRequest(widget.id).then((value) {
+      if (value.success!) {
+        setState(() {});
+      } else {
+        showToast('${value.description}');
+      }
+    }).catchError((onError) {
+      showToast('$onError');
     });
   }
 

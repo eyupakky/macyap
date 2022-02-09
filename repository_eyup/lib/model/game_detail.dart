@@ -31,6 +31,9 @@ class GameDetail {
   String? locationX;
   String? locationY;
   List<String>? tags=[];
+  bool? locked=false;
+  bool? amIAnOrganizer=false;
+  bool? haveIBeenInvited=false;
   GameDetail();
 
   GameDetail.fromJson(Map<String, dynamic> json) {
@@ -65,6 +68,9 @@ class GameDetail {
     locationX = json['location_x'];
     locationY = json['location_y'];
     description = json['description'];
+    locked = json['locked']==0?false:true;
+    amIAnOrganizer = json["am_i_an_organizer"];
+    haveIBeenInvited = json["have_i_been_invited"];
     if(acikSaha==1)tags!.add("Açık saha");
     if(kapaliSaha==1)tags!.add("Kapalı saha");
     if(cafeteria==1)tags!.add("Cafeteria");

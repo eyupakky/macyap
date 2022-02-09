@@ -190,7 +190,7 @@ class _MyAppState extends State<MyApp> {
           "/password": (context) => PasswordUpdatePage(),
           "/login": (context) => LoginPage(),
           "/register": (context) => const RegisterPage(),
-          "/gameDetail": (context) => GameDetail(),
+          "/gameDetail": (context) => GameDetailPage(),
           "/venuesDetail": (context) => VenuesDetail(),
           "/createGame": (context) => CreateGamePage(),
           "/uploadMoney": (context) => UploadMoney(),

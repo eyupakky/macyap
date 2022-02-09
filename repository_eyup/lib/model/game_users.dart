@@ -5,6 +5,8 @@ class GameUsers {
   List<Users>? rivalTeam;
   int? myTeamSize = 0;
   int? rivalTeamSize = 0;
+  int? totalPlayers = 14;
+  int? totalCheckPlayers = 0;
 
   GameUsers();
 
@@ -44,6 +46,8 @@ class GameUsers {
               username: "Açık"));
         }
       }
+      totalCheckPlayers = rivalTeamSize! + myTeamSize!;
+      totalPlayers=myTeam!.length + rivalTeam!.length;
     }
   }
 }

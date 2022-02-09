@@ -22,6 +22,7 @@ abstract class IMatchesRepository {
   Future<BaseResponse> writeGameComment(String comment, int? id);
 
   Future<BaseResponse> joinGame(int? id);
+  Future<BaseResponse> joinGameRequest(int? id);
 
   Future<BaseResponse> quitGame(int? id);
 
@@ -52,7 +53,7 @@ class MatchesRepository extends IMatchesRepository {
           "access_token": Constant.accessToken,
           "game_id": id
         }).catchError((err) {
-      print(err);
+     return Future.error(err);
     });
     return Future.value(GameDetail.fromJson(response.data));
   }
@@ -123,6 +124,17 @@ class MatchesRepository extends IMatchesRepository {
         .post(Constant.baseUrl + Constant.createGame, data: game.toJson())
         .catchError((err) {
       return Future.error(err);
+    });
+    return Future.value(BaseResponse.fromJson(response.data));
+  }
+
+  @override
+  Future<BaseResponse> joinGameRequest(int? id)async {
+    var response = await _dio.post(Constant.baseUrl + Constant.joinGameRequest, data: {
+      "access_token": Constant.accessToken,
+      "game_id": id,
+    }).catchError((err) {
+      print(err);
     });
     return Future.value(BaseResponse.fromJson(response.data));
   }

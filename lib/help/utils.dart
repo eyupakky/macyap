@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:repository_eyup/model/game_detail.dart';
 
 // app configurations
 class AppConfig {
   static const appName = "Flutter Login Templates";
+  static GameDetail gameDetail=GameDetail();
 }
 
 //Class to get Screen Size

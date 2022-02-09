@@ -5,16 +5,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/model/game_detail.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+typedef FunctionGameDetail = Function(GameDetail gameDetail);
 class GameDetailInfoTab extends StatelessWidget {
   int? id;
-  VoidCallback callback;
+  FunctionGameDetail callback;
   HomeController homeController;
 
   GameDetailInfoTab(
       {Key? key, this.id, required this.homeController, required this.callback})
       : super(key: key);
-
+  late GameDetail gameDetail;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +22,9 @@ class GameDetailInfoTab extends StatelessWidget {
           minWidth: MediaQuery.of(context).size.width * 0.95,
           padding: const EdgeInsets.all(8),
           onPressed: () {
-            callback();
+            callback(gameDetail);
           },
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(1)),
           child: Text(
             "Maç Kadrosunu Gör",
             style: GoogleFonts.montserrat(
@@ -35,14 +35,14 @@ class GameDetailInfoTab extends StatelessWidget {
           future: homeController.getGameDetail(id!),
           builder: (context, snapshot) {
             if (snapshot.data != null) {
-              GameDetail? gameDetail = snapshot.data;
+              gameDetail = snapshot.data!;
               return SingleChildScrollView(
                 child: Column(
                   children: [
                     CachedNetworkImage(
                       height: 200,
                       width: MediaQuery.of(context).size.width,
-                      imageUrl: "${gameDetail!.imageVenue}",
+                      imageUrl: "${gameDetail.imageVenue}",
                       fit: BoxFit.fill,
                       placeholder: (context, url) =>
                       const Center(child: CircularProgressIndicator()),

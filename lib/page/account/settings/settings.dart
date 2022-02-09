@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,7 @@ import 'package:halisaha/widget/edittext_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
+import 'package:repository_eyup/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -31,13 +33,11 @@ class _SettingsPageState extends State<SettingsPage> {
   final ImagePicker _picker = ImagePicker();
 
   File image = File("");
+  late Uint8List decoded;
 
   @override
   void initState() {
     super.initState();
-    _nameController.text = Constant.name;
-    _surnameController.text = Constant.surname;
-    _usernameController.text = Constant.userName;
   }
 
   @override
@@ -65,50 +65,67 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    height: 100,
-                    width: 100,
-                    margin: const EdgeInsets.only(right: 8),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(18.0),
-                      child: image.path.isNotEmpty
-                          ? Image.file(image)
-                          : CachedNetworkImage(
-                              height: 100,
-                              width: MediaQuery.of(context).size.width,
-                              imageUrl: Constant.image,
-                              fit: BoxFit.fill,
-                              placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator()),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
+              child: FutureBuilder<User>(
+                  future: _accountController.getMyUser(),
+                  builder: (context, snapshot) {
+                    if (snapshot.data == null) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      User user = snapshot.data!;
+
+                      _nameController.text = user.firstname!;
+                      _surnameController.text = user.lastname!;
+                      _usernameController.text = user.username!;
+                      return Stack(
+                        children: <Widget>[
+                          Container(
+                            height: 100,
+                            width: 100,
+                            margin: const EdgeInsets.only(right: 8),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(18.0),
+                              child: image.path.isNotEmpty
+                                  ? Image.memory(decoded)
+                                  : CachedNetworkImage(
+                                      height: 100,
+                                      width: MediaQuery.of(context).size.width,
+                                      imageUrl: user.image!,
+                                      fit: BoxFit.fill,
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    ),
                             ),
-                    ),
-                  ),
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: InkWell(
-                        onTap: () {
-                          selectImage();
-                        },
-                        child: Container(
-                          height: 35,
-                          width: 35,
-                          child: const Icon(
-                            Icons.add_a_photo,
-                            color: Colors.white,
                           ),
-                          decoration: const BoxDecoration(
-                              color: Colors.green,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                        ),
-                      ))
-                ],
-              ),
+                          Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: InkWell(
+                                onTap: () {
+                                  selectImage();
+                                },
+                                child: Container(
+                                  height: 35,
+                                  width: 35,
+                                  child: const Icon(
+                                    Icons.add_a_photo,
+                                    color: Colors.white,
+                                  ),
+                                  decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                ),
+                              ))
+                        ],
+                      );
+                    }
+                  }),
             ),
             Expanded(
                 child: Container(
@@ -203,21 +220,23 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   selectImage() async {
-    var imagePicker = await _picker.pickImage(source: ImageSource.gallery,imageQuality: 100,
-        maxHeight: 200.0,
-        maxWidth: 200.0);
+    var imagePicker = await _picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 10,
+    maxHeight: 100);
     if (imagePicker != null) {
       setState(() {
         image = File(imagePicker.path);
+        String base64Image = base64Encode(image.readAsBytesSync());
+        decoded = base64Decode(base64Image);
       });
     }
   }
 
   updateImage() {
     String base64Image = base64Encode(image.readAsBytesSync());
-    _accountController
-        .updateImage(base64Image)
-        .then((value) {
+    decoded = base64Decode(base64Image);
+    _accountController.updateImage(base64Image).then((value) {
       showToast(value.description!);
       utils();
     }).catchError((err) {

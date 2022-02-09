@@ -24,6 +24,7 @@ class Constant{
 
   // oyuna gir - çık
   static String joinGame = "Games/JoinGame";
+  static String joinGameRequest = "Games/JoinGameRequest";
   static String quitGame = "Games/QuitGame";
   // Account
   static String getMyUser = "Account/GetMyUserProfile";

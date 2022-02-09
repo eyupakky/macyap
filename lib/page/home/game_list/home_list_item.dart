@@ -7,9 +7,17 @@ class HomeListItem extends StatelessWidget {
   Match match;
 
   HomeListItem(this.match, {Key? key}) : super(key: key);
-
+  late Color textColor;
+  late Color tagColor;
   @override
   Widget build(BuildContext context) {
+    if(match.gameType=='voleybol'){
+      textColor = Colors.deepPurple;
+      tagColor = Colors.deepPurple.shade300;
+    }else{
+      textColor =Colors.black;
+      tagColor =Colors.redAccent.shade200;
+    }
     return Card(
       child: InkWell(
         onTap: () {
@@ -25,8 +33,8 @@ class HomeListItem extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     '${match.date} ${match.name}',
-                    style: const TextStyle(
-                        color: Colors.black,
+                    style: TextStyle(
+                        color: textColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 12),
                   ),
@@ -96,11 +104,12 @@ class HomeListItem extends StatelessWidget {
                               padding: const EdgeInsets.all(2),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4.0),
-                                  color: Colors.red.shade200),
+                                  color:tagColor),
                               child: Text(
                                 match.tagler![index],
                                 style: const TextStyle(
                                   fontSize: 10,
+                                  color: Colors.white,
                                   fontStyle: FontStyle.normal,
                                 ),
                               ),

@@ -18,6 +18,7 @@ class HomeController {
   Future<List<Match>> getLazyMatches(Map<String, String> map) async {
     // String? tarih = map["tarih"];
     /* && matchesList[tarih]==null */
+    return iMatchesRepository.getLazyMatches(map);
       var response = await iMatchesRepository.getLazyMatches(map).catchError((err){
         temp = true;
       });
@@ -80,6 +81,9 @@ class HomeController {
     } else {
       return Future.value(null);
     }
+  }
+  Future<BaseResponse> joinGameRequest(int? gameId){
+    return  iMatchesRepository.joinGameRequest(gameId);
   }
   Future<BaseResponse> quitGame(int? gameId)async{
     if (temp) {
