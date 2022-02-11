@@ -41,18 +41,18 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 /// Streams are created so that app can respond to notification-related events
 /// since the plugin is initialised in the `main` function
 final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
-BehaviorSubject<ReceivedNotification>();
+    BehaviorSubject<ReceivedNotification>();
 
 final BehaviorSubject<String?> selectNotificationSubject =
-BehaviorSubject<String?>();
+    BehaviorSubject<String?>();
 
 const MethodChannel channel =
-MethodChannel('dexterx.dev/flutter_local_notifications_example');
+    MethodChannel('dexterx.dev/flutter_local_notifications_example');
 
 class ReceivedNotification {
   ReceivedNotification({
@@ -76,7 +76,7 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   final NotificationAppLaunchDetails? notificationAppLaunchDetails =
-  await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
   String initialRoute = "/splash";
   if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
     selectedNotificationPayload = notificationAppLaunchDetails!.payload!;
@@ -84,42 +84,41 @@ Future<void> main() async {
   }
 
   const AndroidInitializationSettings initializationSettingsAndroid =
-  AndroidInitializationSettings('logo');
+      AndroidInitializationSettings('logo');
 
   /// Note: permissions aren't requested here just to demonstrate that can be
   /// done later
   final IOSInitializationSettings initializationSettingsIOS =
-  IOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-      onDidReceiveLocalNotification: (int id,
-          String? title,
-          String? body,
-          String? payload,) async {
-        didReceiveLocalNotificationSubject.add(
-          ReceivedNotification(
-            id: id,
-            title: title,
-            body: body,
-            payload: payload,
-          ),
-        );
-      });
+      IOSInitializationSettings(
+          requestAlertPermission: false,
+          requestBadgePermission: false,
+          requestSoundPermission: false,
+          onDidReceiveLocalNotification: (
+            int id,
+            String? title,
+            String? body,
+            String? payload,
+          ) async {
+            didReceiveLocalNotificationSubject.add(
+              ReceivedNotification(
+                id: id,
+                title: title,
+                body: body,
+                payload: payload,
+              ),
+            );
+          });
   final InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS
-  );
+      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String? payload) async {
-        if (payload != null) {
-          debugPrint('notification payload: $payload');
-        }
-        selectedNotificationPayload = payload!;
-        selectNotificationSubject.add(payload);
-      });
-  await FirebaseMessaging.instance
-      .setForegroundNotificationPresentationOptions(
+    if (payload != null) {
+      debugPrint('notification payload: $payload');
+    }
+    selectedNotificationPayload = payload!;
+    selectNotificationSubject.add(payload);
+  });
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
     sound: true,
@@ -128,11 +127,10 @@ Future<void> main() async {
   // }
 
   BlocOverrides.runZoned(
-        () =>
-        runZonedGuarded(() {
-          runApp(ContextProvider(
-              current: appContext, key: UniqueKey(), child: const MyApp()));
-        }, FirebaseCrashlytics.instance.recordError),
+    () => runZonedGuarded(() {
+      runApp(ContextProvider(
+          current: appContext, key: UniqueKey(), child: const MyApp()));
+    }, FirebaseCrashlytics.instance.recordError),
     blocObserver: AppBlocObserver(),
   );
 }
@@ -159,8 +157,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var routes = {
-  };
+  var routes = {};
 
   @override
   void initState() {
@@ -179,6 +176,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider<NewVenuesComment>(
           create: (BuildContext context) => NewVenuesComment(0),
+        ),
+        BlocProvider<GameFavorite>(
+          create: (BuildContext context) => GameFavorite(false),
         ),
       ],
       child: MaterialApp(
@@ -208,14 +208,13 @@ class _MyAppState extends State<MyApp> {
                 labelColor: Colors.pink,
                 labelStyle: TextStyle(color: Colors.pink), // color for text
                 indicator: UnderlineTabIndicator(
-                  // color for indicator (underline)
+                    // color for indicator (underline)
                     borderSide: BorderSide(color: Colors.redAccent))),
             primaryColor: Colors.pink[800],
             indicatorColor: Colors.redAccent,
             backgroundColor: Colors.white,
             fontFamily: "Montserrat-bold",
-            primarySwatch: Colors.red
-        ),
+            primarySwatch: Colors.red),
         localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
         supportedLocales: const [
           Locale('tr', "TR"),
@@ -224,5 +223,4 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
 }

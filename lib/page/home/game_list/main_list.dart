@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/base_widget.dart';
+import 'package:halisaha/cubit/cubit_abstract.dart';
 import 'package:halisaha/widget/filter_drawer.dart';
 import 'package:halisaha/widget/search_widget.dart';
 import 'package:intl/intl.dart';
@@ -119,37 +121,41 @@ class _MainListState extends State<MainList> {
                   Container(
                     height: constraints.maxHeight - 165,
                     color: Colors.black.withAlpha(20),
-                    child: FutureBuilder<List<Match>>(
-                        future: _homeController.getLazyMatches(map),
-                        builder: (context, snapshot) {
-                          if (snapshot.data == null || snapshot.data!.isEmpty) {
-                            EasyLoading.isShow ? EasyLoading.dismiss() : null;
-                            return SizedBox(
-                              height: 200,
-                              child: Center(
-                                  child: Column(
-                                children: [
-                                  snapshot.data == null
-                                      ? const CircularProgressIndicator()
-                                      : const SizedBox(),
-                                  Text(snapshot.data == null
-                                      ? "Maç aranıyor..."
-                                      : "Maç bulunmuyor..."),
-                                ],
-                              )),
-                            );
-                          }
-                          List<Match> list = filterFunc(snapshot.data);
-                          var matches = list;
-                          return ListView.builder(
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                EasyLoading.isShow
-                                    ? EasyLoading.dismiss()
-                                    : null;
-                                return HomeListItem(matches[index]);
-                              });
-                        }),
+                    child: BlocBuilder<GameFavorite, bool>(
+                        builder: (context, count) {
+                      return FutureBuilder<List<Match>>(
+                          future: _homeController.getLazyMatches(map),
+                          builder: (context, snapshot) {
+                            if (snapshot.data == null ||
+                                snapshot.data!.isEmpty) {
+                              EasyLoading.isShow ? EasyLoading.dismiss() : null;
+                              return SizedBox(
+                                height: 200,
+                                child: Center(
+                                    child: Column(
+                                  children: [
+                                    snapshot.data == null
+                                        ? const CircularProgressIndicator()
+                                        : const SizedBox(),
+                                    Text(snapshot.data == null
+                                        ? "Maç aranıyor..."
+                                        : "Maç bulunmuyor..."),
+                                  ],
+                                )),
+                              );
+                            }
+                            List<Match> list = filterFunc(snapshot.data);
+                            var matches = list;
+                            return ListView.builder(
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  EasyLoading.isShow
+                                      ? EasyLoading.dismiss()
+                                      : null;
+                                  return HomeListItem(matches[index]);
+                                });
+                          });
+                    }),
                   )
                 ],
               ),

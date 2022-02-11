@@ -122,9 +122,9 @@ class _LineUpState extends State<LineUp> {
     return List.generate(myTeam!.length, (index) {
       return InkWell(
         onTap: () {
-          if(myTeam[index].userId!=-1) {
+          if (myTeam[index].userId != -1) {
             Navigator.pushNamed(context, '/profile',
-              arguments: myTeam[index].userId);
+                arguments: myTeam[index].userId);
           }
         },
         child: Column(
@@ -175,17 +175,19 @@ class _LineUpState extends State<LineUp> {
     count
         ? widget.homeController.joinGame(widget.id).then((value) {
             if (value.success!) {
+              context.read<GameFavorite>().changeFavorite(true);
               setState(() {});
             } else {
               showToast('${value.description}');
-              if(value.description!.contains("bakiyeniz eksik")){
-                Navigator.pushNamed(context, "/wallet",arguments: Constant.userId);
-
+              if (value.description!.contains("bakiyeniz eksik")) {
+                Navigator.pushNamed(context, "/wallet",
+                    arguments: Constant.userId);
               }
             }
           })
         : widget.homeController.quitGame(widget.id).then((value) {
             if (value.success!) {
+              context.read<GameFavorite>().changeFavorite(false);
               setState(() {});
             } else {
               showToast('${value.description}');

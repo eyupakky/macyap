@@ -15,6 +15,7 @@ import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/controller/login_controller.dart';
 import "package:http/http.dart" as http;
+
 GoogleSignIn _googleSignIn = GoogleSignIn(
   // Optional clientId
   // clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
@@ -41,6 +42,8 @@ class _LoginState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   int _selectedIndex = 0;
+  bool passwordVisible = true;
+
   // late GoogleSignIn _googleSignIn;
   GoogleSignInAccount? _currentUser;
   String _contactText = '';
@@ -58,6 +61,7 @@ class _LoginState extends State<LoginPage> {
     });
     _googleSignIn.signInSilently();
   }
+
   Future<void> _handleGetContact(GoogleSignInAccount user) async {
     setState(() {
       _contactText = "Loading contact info...";
@@ -85,15 +89,16 @@ class _LoginState extends State<LoginPage> {
       }
     });
   }
+
   String? _pickFirstNamedContact(Map<String, dynamic> data) {
     final List<dynamic>? connections = data['connections'];
     final Map<String, dynamic>? contact = connections?.firstWhere(
-          (dynamic contact) => contact['names'] != null,
+      (dynamic contact) => contact['names'] != null,
       orElse: () => null,
     );
     if (contact != null) {
       final Map<String, dynamic>? name = contact['names'].firstWhere(
-            (dynamic name) => name['displayName'] != null,
+        (dynamic name) => name['displayName'] != null,
         orElse: () => null,
       );
       if (name != null) {
@@ -167,7 +172,7 @@ class _LoginState extends State<LoginPage> {
             ),
           ),
         ],
-        labelColor: Colors.blue,
+        labelColor: Colors.redAccent,
         unselectedLabelColor: Colors.grey,
       ),
     );
@@ -197,9 +202,16 @@ class _LoginState extends State<LoginPage> {
             controller: passwordController,
             style: const TextStyle(color: Colors.black),
             decoration: InputDecoration(
-                suffixIcon: const Icon(
-                  Icons.remove_red_eye,
-                  color: Colors.grey,
+                suffixIcon: InkWell(
+                  onTap: () {
+                    setState(() {
+                      passwordVisible =!passwordVisible;
+                    });
+                  },
+                  child: const Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.grey,
+                  ),
                 ),
                 hintText: "Şifre girin",
                 fillColor: Colors.black,
@@ -208,31 +220,25 @@ class _LoginState extends State<LoginPage> {
                     fontWeight: FontWeight.w300, color: Colors.black),
                 enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey))),
-            obscureText: true,
+            obscureText: passwordVisible,
           ),
           const SizedBox(height: 30),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // ignore: deprecated_member_use
-              FlatButton(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 18, horizontal: 130),
-                  onPressed: () {
-                    login();
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Text(
-                    "GİRİŞ YAP",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  color: Colors.blueGrey.withOpacity(0.9))
-            ],
-          ),
+          FlatButton(
+              height: 40,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 60),
+              onPressed: () {
+                login();
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              child: Text(
+                "GİRİŞ YAP",
+                style: GoogleFonts.montserrat(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
+              ),
+              color: Colors.redAccent.withOpacity(0.9)),
           // const SizedBox(height: 50),
           // Text(
           //   "Şununla giriş yap",
@@ -307,6 +313,7 @@ class _LoginState extends State<LoginPage> {
       ),
     );
   }
+
   Widget _forgotPass() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,28 +321,31 @@ class _LoginState extends State<LoginPage> {
         Text(
           "Şifremi unuttum",
           style: GoogleFonts.roboto(
-              fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
+              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
         ),
       ],
     );
   }
+
   Future<UserCredential> signInWithFacebook() async {
     // Trigger the sign-in flow
     final LoginResult loginResult = await FacebookAuth.instance.login();
 
     // Create a credential from the access token
-    final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
     // Once signed in, return the UserCredential
-    return  FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
+
   void login() async {
     EasyLoading.show(status: 'loading...');
     _loginController
         .login(emailController.text, passwordController.text)
         .then((value) {
       appContext.setAccessToken(value);
-      _accountController.getMyUser().then((value){
+      _accountController.getMyUser().then((value) {
         Constant.image = value.image!;
         Constant.userId = value.userId!;
         Constant.userName = value.username!;
@@ -346,7 +356,7 @@ class _LoginState extends State<LoginPage> {
       });
     }).catchError((err) {
       EasyLoading.dismiss();
-      showToast(err,color:Colors.redAccent);
+      showToast(err, color: Colors.redAccent);
     });
   }
 }

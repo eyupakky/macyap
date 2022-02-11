@@ -28,6 +28,12 @@ class ChangeFavorite extends Cubit<bool> {
     emit(change);
   }
 }
+class GameFavorite extends Cubit<bool> {
+  GameFavorite(bool initialState) : super(initialState);
+  void changeFavorite(bool change) {
+    emit(change);
+  }
+}
 class NewVenuesComment extends Cubit<int> {
   NewVenuesComment(int initialState) : super(initialState);
   void changeVenuesComment(int change) {
