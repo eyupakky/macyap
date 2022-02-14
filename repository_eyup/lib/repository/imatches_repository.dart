@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:dio/src/dio.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/comment.dart';
@@ -27,6 +26,9 @@ abstract class IMatchesRepository {
   Future<BaseResponse> quitGame(int? id);
 
   Future<BaseResponse> createGame(CreateGame game);
+
+  Future<bool> lostMyPassword(String usernameEmail);
+  Future<bool> resetMyPassword(String passsword,String code);
 }
 
 class MatchesRepository extends IMatchesRepository {
@@ -137,5 +139,32 @@ class MatchesRepository extends IMatchesRepository {
       print(err);
     });
     return Future.value(BaseResponse.fromJson(response.data));
+  }
+
+  @override
+  Future<bool> lostMyPassword(String usernameEmail) async{
+    var response = await _dio.post(Constant.baseUrl + Constant.lostMyPassword, data: {
+      "username_email": usernameEmail,
+    }).catchError((err) {
+      return Future.error(err);
+    });
+    if(response.statusCode==200){
+      return Future.value(response.data);
+    }
+    return Future.error("Hata oluştu");
+  }
+
+  @override
+  Future<bool> resetMyPassword(String passsword, String code)async {
+    var response = await _dio.post(Constant.baseUrl + Constant.resetMyPassword, data: {
+      "password": passsword,
+      "code":code,
+    }).catchError((err) {
+      return Future.error(err);
+    });
+    if(response.statusCode==200){
+      return Future.value(response.data);
+    }
+    return Future.error("Hata oluştu");
   }
 }

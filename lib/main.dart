@@ -22,7 +22,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:halisaha/page/login/forgat_my_password.dart';
 import 'package:halisaha/page/login/login_page.dart';
+import 'package:halisaha/page/login/new_password.dart';
 import 'package:halisaha/page/login/register_page.dart';
 import 'package:halisaha/page/message/message_details.dart';
 import 'package:halisaha/page/splash_page.dart';
@@ -202,6 +204,8 @@ class _MyAppState extends State<MyApp> {
           "/uploadMoney": (context) => UploadMoney(),
           "/tcCheck": (context) => const TcCheckController(),
           "/webview": (context) => const WebviewPage(),
+          "/forgatMyPassword": (context) => const ForgatMyPassword(),
+          "/newPassword": (context) => const NewPassword(),
         },
         theme: ThemeData(
             tabBarTheme: const TabBarTheme(

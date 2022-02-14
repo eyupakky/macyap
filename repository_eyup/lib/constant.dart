@@ -26,6 +26,10 @@ class Constant{
   static String joinGame = "Games/JoinGame";
   static String joinGameRequest = "Games/JoinGameRequest";
   static String quitGame = "Games/QuitGame";
+
+  // şifremi unuttum
+  static String lostMyPassword ="Home/LostMyPassword";
+  static String resetMyPassword ="Home/ResetMyPassword";
   // Account
   static String getMyUser = "Account/GetMyUserProfile";
   static String getUserProfile = "Account/GetUserProfile";

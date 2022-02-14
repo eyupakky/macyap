@@ -308,7 +308,9 @@ class _LoginState extends State<LoginPage> {
           // ),
           const SizedBox(height: 40),
           //TODO şifremi unuttum
-          //_forgotPass()
+          InkWell(onTap: (){
+            Navigator.pushNamed(context, "/forgatMyPassword");
+          },child: _forgotPass())
         ],
       ),
     );

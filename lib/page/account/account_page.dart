@@ -44,7 +44,7 @@ class AccountPage extends StatelessWidget {
                                   Navigator.pushNamed(context, data[index].route,arguments: Constant.userId);
                                 }
                                 else if(data[index].route!="/exit") {
-                                  Navigator.pushNamed(context, data[index].route);
+                                  Navigator.pushReplacementNamed(context, data[index].route);
                                 }else{
                                   exitApp(context);
                                 }

@@ -8,7 +8,7 @@ import 'package:repository_eyup/model/matches_model.dart';
 import 'package:repository_eyup/repository/imatches_repository.dart';
 
 class HomeController {
-  IMatchesRepository iMatchesRepository = MatchesRepository(Dio());
+  IMatchesRepository _iMatchesRepository = MatchesRepository(Dio());
 
   // Map<String, List<Match>> matchesList = {};
   late bool temp = true;
@@ -18,8 +18,8 @@ class HomeController {
   Future<List<Match>> getLazyMatches(Map<String, String> map) async {
     // String? tarih = map["tarih"];
     /* && matchesList[tarih]==null */
-    return iMatchesRepository.getLazyMatches(map);
-      var response = await iMatchesRepository.getLazyMatches(map).catchError((err){
+    return _iMatchesRepository.getLazyMatches(map);
+      var response = await _iMatchesRepository.getLazyMatches(map).catchError((err){
         temp = true;
       });
       matches = response;
@@ -31,7 +31,7 @@ class HomeController {
     if (temp) {
       temp = false;
       if (gameMap[id] == null) {
-        response = await iMatchesRepository.getMatchDetails(id);
+        response = await _iMatchesRepository.getMatchDetails(id);
         gameMap[id]=response;
       } else {
         response = gameMap[id];
@@ -45,7 +45,7 @@ class HomeController {
   Future<GameUsers> getGameUsers(int id) async {
     if (temp) {
       temp = false;
-      var response = await iMatchesRepository.getGameUsers(id,gameMap[id]!.limit);
+      var response = await _iMatchesRepository.getGameUsers(id,gameMap[id]!.limit);
       temp = true;
       return Future.value(response);
     } else {
@@ -55,7 +55,7 @@ class HomeController {
   Future<Comment> getGameComment(int id) async {
     if (temp) {
       temp = false;
-      var response = await iMatchesRepository.getGameComment(id);
+      var response = await _iMatchesRepository.getGameComment(id);
       temp = true;
       return Future.value(response);
     } else {
@@ -65,7 +65,7 @@ class HomeController {
   Future<BaseResponse> sendComment(String comment,int? gameId)async{
     if (temp) {
       temp = false;
-      var response = await iMatchesRepository.writeGameComment(comment,gameId);
+      var response = await _iMatchesRepository.writeGameComment(comment,gameId);
       temp = true;
       return Future.value(response);
     } else {
@@ -75,7 +75,7 @@ class HomeController {
   Future<BaseResponse> joinGame(int? gameId)async{
     if (temp) {
       temp = false;
-      var response = await iMatchesRepository.joinGame(gameId);
+      var response = await _iMatchesRepository.joinGame(gameId);
       temp = true;
       return Future.value(response);
     } else {
@@ -83,12 +83,12 @@ class HomeController {
     }
   }
   Future<BaseResponse> joinGameRequest(int? gameId){
-    return  iMatchesRepository.joinGameRequest(gameId);
+    return  _iMatchesRepository.joinGameRequest(gameId);
   }
   Future<BaseResponse> quitGame(int? gameId)async{
     if (temp) {
       temp = false;
-      var response = await iMatchesRepository.quitGame(gameId);
+      var response = await _iMatchesRepository.quitGame(gameId);
       temp = true;
       return Future.value(response);
     } else {
@@ -96,7 +96,15 @@ class HomeController {
     }
   }
   Future<BaseResponse>createGame(CreateGame game)async{
-    var response = await iMatchesRepository.createGame(game);
+    var response = await _iMatchesRepository.createGame(game);
+    return Future.value(response);
+  }
+  Future<bool>resetMyPassword(String usernameEmail,String code)async{
+    var response = await _iMatchesRepository.resetMyPassword(usernameEmail,code);
+    return Future.value(response);
+  }
+  Future<bool>lostMyPassword(String usernameEmail)async{
+    var response = await _iMatchesRepository.lostMyPassword(usernameEmail);
     return Future.value(response);
   }
 }
