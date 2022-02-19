@@ -19,8 +19,9 @@ class LoginRepository implements ILoginRepository {
   @override
   Future<String> login(String email, String password) async {
     Map<String, String> body = {"username_email": email, "password": password};
-
-    var res = await _dio.post(Constant.baseUrl + Constant.login, data: body);
+    var res = await _dio.post(Constant.baseUrl + Constant.login, data: body).catchError((onError){
+      return Future.error(onError);
+    });
     if (res.statusCode == 200 && res.data["success"]) {
       Constant.accessToken = res.data["access_token"];
       return Future.value(res.data["access_token"]);

@@ -1,15 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:halisaha/base_widget.dart';
+import 'package:halisaha/help/hex_color.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/message_controller.dart';
 import 'package:repository_eyup/model/message_detail.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class MessageDetails extends StatefulWidget {
   MessageDetails({Key? key}) : super(key: key);
@@ -100,7 +98,7 @@ class _MessageDetailsState extends State<MessageDetails> {
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(8),
-        color: HexColor("#EDEDED"),
+        color: HexColor.fromHex("#EDEDED"),
         child: Row(
           children: [
             Expanded(

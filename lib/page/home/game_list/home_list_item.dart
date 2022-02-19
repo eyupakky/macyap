@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:halisaha/help/hex_color.dart';
 import 'package:repository_eyup/model/matches_model.dart';
 
 class HomeListItem extends StatelessWidget {
@@ -77,7 +77,7 @@ class HomeListItem extends StatelessWidget {
                             ? (match.limit! != match.joinedGamers!
                                 ? Colors.blue
                                 : Colors.grey)
-                            : HexColor('#FFCE45'),
+                            : HexColor.fromHex('#FFCE45'),
                         onPressed: () {},
                         child: Text(
                           '${match.joinedGamers}/${match.limit}',
