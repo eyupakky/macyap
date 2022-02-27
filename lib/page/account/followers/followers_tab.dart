@@ -29,6 +29,17 @@ class _FollowersTabState extends State<FollowersTab>
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            ListTile(
+              title:  Text(
+                Constant.userName,
+                style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+              ),
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back)),
+            ),
             // give the tab bar a height [can change hheight to preferred height]
             Container(
               height: 45,

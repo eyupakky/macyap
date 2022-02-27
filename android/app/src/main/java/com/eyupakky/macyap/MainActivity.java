@@ -1,4 +1,4 @@
-package com.eyupakky.halisaha;
+package com.eyupakky.macyap;
 
 import io.flutter.embedding.android.FlutterActivity;
 

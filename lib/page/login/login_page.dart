@@ -8,9 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:halisaha/base_widget.dart';
 import 'package:halisaha/help/app_context.dart';
+import 'package:halisaha/help/hex_color.dart';
 import 'package:halisaha/help/ui_guide.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:halisaha/widget/custom_button.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/controller/login_controller.dart';
@@ -120,212 +122,160 @@ class _LoginState extends State<LoginPage> {
   Widget build(BuildContext context) {
     sizeConfig.init(context);
     return Scaffold(
-      body: BaseWidget(
-        child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: Stack(
-            children: [
-              Center(
-                child: Image.asset(
-                  UIGuide.pirpleLogo,
-                  height: SizeConfig.blockSizeVertical * 18,
-                  fit: BoxFit.fill,
-                ),
+        body: Container(
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: Image.asset("assets/images/giris_ng.jpg").image,
+              fit: BoxFit.fill)),
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Stack(
+          children: [
+            Center(
+              child: Image.asset(
+                UIGuide.pirpleLogo,
+                height: SizeConfig.blockSizeVertical * 24,
+                fit: BoxFit.fill,
               ),
-              Positioned(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 200, 150, 100),
-                  child: tabs(),
-                ),
-              ),
-              _emailFiled(),
-            ],
-          ),
+            ),
+            _emailFiled(),
+          ],
         ),
       ),
-    );
-  }
-
-  Widget tabs() {
-    return DefaultTabController(
-      length: 2,
-      initialIndex: _selectedIndex,
-      child: TabBar(
-        onTap: (index) {
-          if (index == 1) {
-            Navigator.pushNamed(context, "/register");
-          }
-        },
-        tabs: [
-          Tab(
-            child: Text(
-              "Üye Girişi",
-              style: GoogleFonts.montserrat(fontSize: 16),
-            ),
-          ),
-          Tab(
-            child: Text(
-              "Üye Ol",
-              style: GoogleFonts.montserrat(
-                fontSize: 16,
-              ),
-            ),
-          ),
-        ],
-        labelColor: Colors.redAccent,
-        unselectedLabelColor: Colors.grey,
-      ),
-    );
+    ));
   }
 
   Widget _emailFiled() {
     return Container(
-      margin: const EdgeInsets.all(40),
-      padding: const EdgeInsets.only(top: 235, left: 5, right: 5),
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(top: 160, left: 5, right: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Text("Üye girişi",
+              style:
+                  TextStyle(color: HexColor.fromHex("#f0243a"), fontSize: 25)),
+          const SizedBox(
+            height: 30,
+          ),
           TextField(
             controller: emailController,
-            style: const TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
                 focusColor: Colors.black,
                 hintText: "Email adresi",
                 hintStyle: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w300, color: Colors.black),
-                enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey))),
+                    fontWeight: FontWeight.w400, color: Colors.white),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Theme.of(context).primaryColor))),
             keyboardType: TextInputType.emailAddress,
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
           TextField(
             controller: passwordController,
-            style: const TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
                 suffixIcon: InkWell(
                   onTap: () {
                     setState(() {
-                      passwordVisible =!passwordVisible;
+                      passwordVisible = !passwordVisible;
                     });
                   },
-                  child: const Icon(
+                  child: Icon(
                     Icons.remove_red_eye,
-                    color: Colors.grey,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 hintText: "Şifre girin",
                 fillColor: Colors.black,
-                labelStyle: const TextStyle(color: Colors.black),
+                labelStyle: const TextStyle(color: Colors.white),
                 hintStyle: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w300, color: Colors.black),
-                enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey))),
+                    fontWeight: FontWeight.w400, color: Colors.white),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Theme.of(context).primaryColor))),
             obscureText: passwordVisible,
           ),
           const SizedBox(height: 30),
-          FlatButton(
-              height: 40,
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 60),
-              onPressed: () {
-                login();
+          InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, "/forgatMyPassword");
               },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              child: Text(
-                "GİRİŞ YAP",
-                style: GoogleFonts.montserrat(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500),
-              ),
-              color: Colors.redAccent.withOpacity(0.9)),
-          // const SizedBox(height: 50),
-          // Text(
-          //   "Şununla giriş yap",
-          //   style: GoogleFonts.roboto(
-          //       fontSize: 16,
-          //       color: Colors.black,
-          //       fontWeight: FontWeight.w500),
-          // ),
-          // const SizedBox(height: 30),
-          // Row(
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     SizedBox(
-          //         width: 50,
-          //         height: 50,
-          //         // ignore: deprecated_member_use
-          //         child: FlatButton(
-          //           onPressed: () {
-          //             signInWithFacebook().then((value){
-          //               print(value.toString());
-          //             });
-          //           },
-          //           shape: RoundedRectangleBorder(
-          //             borderRadius: BorderRadius.circular(10.0),
-          //           ),
-          //           child: const FaIcon(
-          //             FontAwesomeIcons.facebookF,
-          //             color: Colors.black,
-          //           ),
-          //           color: Colors.blueGrey.withOpacity(0.9),
-          //         )),
-          //     const SizedBox(width: 10),
-          //     SizedBox(
-          //         width: 50,
-          //         height: 50,
-          //         // ignore: deprecated_member_use
-          //         child: FlatButton(
-          //           onPressed: () {},
-          //           shape: RoundedRectangleBorder(
-          //             borderRadius: BorderRadius.circular(10.0),
-          //           ),
-          //           child: const FaIcon(
-          //             FontAwesomeIcons.twitter,
-          //             color: Colors.black,
-          //           ),
-          //           color: Colors.blueGrey.withOpacity(0.9),
-          //         )),
-          //     const SizedBox(width: 10),
-          //     SizedBox(
-          //         width: 50,
-          //         height: 50,
-          //         // ignore: deprecated_member_use
-          //         child: FlatButton(
-          //           onPressed: () {
-          //             _handleSignIn();
-          //           },
-          //           shape: RoundedRectangleBorder(
-          //             borderRadius: BorderRadius.circular(10.0),
-          //           ),
-          //           child: const FaIcon(
-          //             FontAwesomeIcons.googlePlusG,
-          //             color: Colors.black,
-          //           ),
-          //           color: Colors.blueGrey.withOpacity(0.9),
-          //         )),
-          //   ],
-          // ),
+              child: _forgotPass()),
           const SizedBox(height: 40),
-          //TODO şifremi unuttum
-          InkWell(onTap: (){
-            Navigator.pushNamed(context, "/forgatMyPassword");
-          },child: _forgotPass())
+          CustomButton(
+            height: 75,
+            text: "GİRİŞ YAP",
+            text2: "GİRİŞ YAP",
+            textChange: false,
+            assetName: "assets/images/giris_button.png",
+            onClick: () {
+              login();
+            },
+            key: UniqueKey(),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "Üyeliğiniz yok mu?",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.roboto(
+                fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400),
+          ),
+          const SizedBox(height: 20),
+          InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, "/register");
+              },
+              child: createUser()),
         ],
+      ),
+    );
+  }
+
+  Widget createUser() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: SizedBox(
+        width: 120,
+        child: Row(
+          children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: SizedBox(
+                width: 90,
+                child: Text(
+                  "ÜYE OL!",
+                  textAlign: TextAlign.right,
+                  style: GoogleFonts.roboto(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            Icon(
+              Icons.navigate_next,
+              size: 24,
+              color: HexColor.fromHex("#f0243a"),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _forgotPass() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Şifremi unuttum",
-          style: GoogleFonts.roboto(
-              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
-        ),
-      ],
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Text(
+        "Şifremi unuttum",
+        style: GoogleFonts.roboto(
+            fontSize: 14,
+            color: HexColor.fromHex("#a06687"),
+            fontWeight: FontWeight.w500),
+      ),
     );
   }
 

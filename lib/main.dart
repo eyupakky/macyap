@@ -34,6 +34,7 @@ import 'package:rxdart/rxdart.dart';
 import 'cubit/cubit_abstract.dart';
 import 'help/app_context.dart';
 import 'help/default_firebase_config.dart';
+import 'help/hex_color.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -208,14 +209,27 @@ class _MyAppState extends State<MyApp> {
           "/newPassword": (context) => const NewPassword(),
         },
         theme: ThemeData(
-            tabBarTheme: const TabBarTheme(
+            tabBarTheme: TabBarTheme(
                 labelColor: Colors.pink,
-                labelStyle: TextStyle(color: Colors.pink), // color for text
+                labelStyle: const TextStyle(color: Colors.pink),
+                // color for text
                 indicator: UnderlineTabIndicator(
                     // color for indicator (underline)
-                    borderSide: BorderSide(color: Colors.redAccent))),
-            primaryColor: Colors.pink[800],
-            indicatorColor: Colors.redAccent,
+                    borderSide:
+                        BorderSide(color: HexColor.fromHex("#f0243a")))),
+            primaryColor: HexColor.fromHex("#f0243a"),
+            indicatorColor: HexColor.fromHex("#f0243a"),
+            primaryColorLight: Colors.white60,
+            textTheme: const TextTheme(
+              subtitle2: TextStyle(
+                  color: Colors.white60,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
+              subtitle1: TextStyle(
+                  color: Colors.red,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
+            ),
             backgroundColor: Colors.white,
             fontFamily: "Montserrat-bold",
             primarySwatch: Colors.red),

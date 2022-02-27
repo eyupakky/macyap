@@ -31,9 +31,7 @@ class _HomePageState extends State<HomePage> with LocationMixin {
     super.initState();
     _notification();
     getLocation().then((value) {
-      if (value == null) {
-        exit(0);
-      } else {
+      if (value != null) {
         _firebaseController.sendLocation(value.latitude!, value.longitude!);
       }
     });
@@ -59,12 +57,14 @@ class _HomePageState extends State<HomePage> with LocationMixin {
       // }
     });
   }
-  _navigateToItemDetail(message){
+
+  _navigateToItemDetail(message) {
     if (message.data.isNotEmpty && message.data["page"] != "Home") {
       Navigator.pushNamed(context, '/${message.data["page"]}',
           arguments: int.parse(message.data["id"]));
     }
   }
+
   void _showItemDialog(RemoteMessage message) {
     // Navigator.pop(context);
     showDialog<bool>(
@@ -142,12 +142,16 @@ class _HomePageState extends State<HomePage> with LocationMixin {
     }
     return body;
   }
+
   Widget _buildDialog(BuildContext context, RemoteMessage message) {
     return AlertDialog(
       backgroundColor: Colors.white,
       title: Stack(
         children: [
-          Container(width: 40, height: 40, child: Image.asset("assets/images/logo_black.png")),
+          Container(
+              width: 40,
+              height: 40,
+              child: Image.asset("assets/images/logo_black.png")),
           Container(
             margin: const EdgeInsets.only(left: 45),
             child: Text(

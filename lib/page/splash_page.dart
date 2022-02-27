@@ -27,7 +27,11 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: Image.asset("assets/images/giris_ng.jpg").image,
+              fit: BoxFit.fill)),
       child: Center(child: Image.asset("assets/images/test.png")),
     );
   }
