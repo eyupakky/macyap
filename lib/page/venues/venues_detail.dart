@@ -79,6 +79,20 @@ class _VenuesDetailState extends State<VenuesDetail>
                     Expanded(
                       flex: 8,
                       child: ListTile(
+                        leading:SizedBox(
+                          height: 100,
+                          width: 40,
+                          child: Transform.rotate(
+                            angle:  0.75,
+                            child:  IconButton(
+                              icon: Icon(
+                                Icons.navigation_sharp,
+                                color: Theme.of(context).primaryColor.withAlpha(150),
+                              ),
+                              onPressed: null,
+                            ),
+                          ),
+                        ),
                         onTap: () {
                           if (Platform.isAndroid) {
                             url =
@@ -101,7 +115,7 @@ class _VenuesDetailState extends State<VenuesDetail>
                                   fontSize: 10, color: Colors.grey),
                               children: const [
                                 TextSpan(
-                                    text: "  Open Map",
+                                    text: "Sahaya Git",
                                     style: TextStyle(
                                         fontSize: 11, color: Colors.black))
                               ]),
@@ -128,13 +142,13 @@ class _VenuesDetailState extends State<VenuesDetail>
                         child: Container(
                           color: Colors.grey.withAlpha(10),
                           child: !venueDetail.follow!
-                              ? const Icon(
+                              ? Icon(
                                   Icons.favorite_border,
-                                  color: Colors.redAccent,
+                                  color: Theme.of(context).primaryColor,
                                 )
-                              : const Icon(
+                              : Icon(
                                   Icons.favorite,
-                                  color: Colors.redAccent,
+                                  color: Theme.of(context).primaryColor,
                                 ),
                         ),
                       );
@@ -148,7 +162,7 @@ class _VenuesDetailState extends State<VenuesDetail>
                       fontFamily: "Montserrat-normal", fontSize: 12),
                   labelStyle: const TextStyle(
                       fontFamily: "Montserrat-bold", fontSize: 12),
-                  labelColor: Colors.red,
+                  labelColor: Theme.of(context).primaryColor,
                   unselectedLabelColor: Colors.grey,
                   tabs: const [
                     Tab(text: "Bilgi"),

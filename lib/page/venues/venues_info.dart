@@ -43,7 +43,7 @@ class VenuesInfoTab extends StatelessWidget {
                     padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.0),
-                        color: Colors.redAccent.shade200),
+                        color:Theme.of(context).primaryColor),
                     child: Text(
                       venues!.tags![index],
                       style: const TextStyle(

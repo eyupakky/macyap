@@ -56,90 +56,105 @@ class _MessageDetailsState extends State<MessageDetails> {
     int id = ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
       body: BaseWidget(
-        child: FutureBuilder<MessageDetail>(
-            future: _messageController.getMessageDetail(id),
-            builder: (context, snapshot) {
-              if (snapshot.data == null) {
-                return const Center(
-                  child: Text("Mesajlar yükleniyor..."),
-                );
-              }
-              snapshot.data!.messageDetailItem =
-                  snapshot.data!.messageDetailItem!.reversed.toList();
-              return ListView.separated(
-                  itemCount: snapshot.data!.messageDetailItem!.length,
-                  controller: _scrollController,
-                  reverse: true,
-                  itemBuilder: (context, index) {
-                    MessageDetailItem item =
-                        snapshot.data!.messageDetailItem![index];
-                    return ListTile(
-                      tileColor: Colors.redAccent,
-                      trailing: item.userId == Constant.userId
-                          ? getImageWidget(item.image)
-                          : const SizedBox(),
-                      leading: item.userId != Constant.userId
-                          ? getImageWidget(item.image)
-                          : const SizedBox(),
-                      title: Text(
-                        '${item.message}',
-                        textAlign: item.userId == Constant.userId
-                            ? TextAlign.right
-                            : TextAlign.left,
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      color: Colors.white,
-                    );
-                  });
-            }),
-      ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(8),
-        color: HexColor.fromHex("#EDEDED"),
-        child: Row(
+        child: Stack(
           children: [
-            Expanded(
-              flex: 7,
-              child: TextField(
-                maxLines: 1,
-                textInputAction: TextInputAction.search,
-                onChanged: (String val) {
-                  // comment = val;
-                },
-                controller: _controller,
-                decoration: InputDecoration(
-                  hintText: "Yorum yaz...",
-                  labelStyle: const TextStyle(fontSize: 11),
-                  hintStyle: TextStyle(
-                      fontSize: 12, color: Colors.grey.withAlpha(150)),
-                ),
+            SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: FutureBuilder<MessageDetail>(
+                    future: _messageController.getMessageDetail(id),
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const Center(
+                          child: Text("Mesajlar yükleniyor..."),
+                        );
+                      }
+                      snapshot.data!.messageDetailItem =
+                          snapshot.data!.messageDetailItem!.reversed.toList();
+                      return ListView.separated(
+                          itemCount: snapshot.data!.messageDetailItem!.length,
+                          controller: _scrollController,
+                          reverse: true,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            MessageDetailItem item =
+                                snapshot.data!.messageDetailItem![index];
+                            return ListTile(
+                              tileColor: Colors.redAccent,
+                              trailing: item.userId == Constant.userId
+                                  ? getImageWidget(item.image)
+                                  : const SizedBox(),
+                              leading: item.userId != Constant.userId
+                                  ? getImageWidget(item.image)
+                                  : const SizedBox(),
+                              title: Text(
+                                '${item.message}',
+                                textAlign: item.userId == Constant.userId
+                                    ? TextAlign.right
+                                    : TextAlign.left,
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const Divider(
+                              color: Colors.white,
+                            );
+                          });
+                    }),
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: FloatingActionButton.small(
-                backgroundColor: Colors.redAccent,
-                onPressed: () {
-                  _messageController
-                      .sendMessage(id, _controller.text)
-                      .then((value) {
-                    if (value) {
-                      _controller.text = "";
-                      setState(() {});
-                    } else {
-                      showToast("Hata Oluştu.");
-                    }
-                  });
-                },
-                child: const Icon(Icons.send),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                color: HexColor.fromHex("#EDEDED"),
+                height: 75,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 7,
+                      child: TextField(
+                        maxLines: 1,
+                        textInputAction: TextInputAction.search,
+                        onChanged: (String val) {
+                          // comment = val;
+                        },
+                        controller: _controller,
+                        decoration: InputDecoration(
+                          hintText: "Yorum yaz...",
+                          labelStyle: const TextStyle(fontSize: 11),
+                          hintStyle: TextStyle(
+                              fontSize: 12, color: Colors.grey.withAlpha(150)),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: FloatingActionButton.small(
+                        backgroundColor: Colors.redAccent,
+                        onPressed: () {
+                          _messageController
+                              .sendMessage(id, _controller.text)
+                              .then((value) {
+                            if (value) {
+                              _controller.text = "";
+                              setState(() {});
+                            } else {
+                              showToast("Hata Oluştu.");
+                            }
+                          });
+                        },
+                        child: const Icon(Icons.send),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
+
     );
   }
 
