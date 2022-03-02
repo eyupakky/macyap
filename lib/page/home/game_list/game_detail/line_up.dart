@@ -149,7 +149,7 @@ class _LineUpState extends State<LineUp> {
             Text("@${myTeam[index].username}",
                 style: const TextStyle(color: Colors.black87, fontSize: 12)),
             Text(
-              "${myTeam[index].favoritePosition == "" ? myTeam[index].favoritePosition : "Ayarlanmadı"}",
+              "${myTeam[index].favoritePosition == "" ? myTeam[index].favoritePosition : ""}",
               style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
             Divider(),

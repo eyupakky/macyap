@@ -54,6 +54,31 @@ class _MessageDetailsState extends State<MessageDetails> {
   @override
   Widget build(BuildContext context) {
     int id = ModalRoute.of(context)!.settings.arguments as int;
+    return  Scaffold(
+      body: MessageDetailsTemp(id: id,),
+    );
+  }
+
+
+}
+class MessageDetailsTemp extends StatefulWidget {
+  final int id;
+  const MessageDetailsTemp({Key? key,  required this.id}) : super(key: key);
+
+  @override
+  _MessageDetailsTempState createState() => _MessageDetailsTempState();
+}
+
+class _MessageDetailsTempState extends State<MessageDetailsTemp> {
+  int i = 0;
+  final MessageController _messageController = MessageController();
+  final TextEditingController _controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  late Timer _timer;
+  int _start = 10;
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: BaseWidget(
         child: Stack(
@@ -62,7 +87,7 @@ class _MessageDetailsState extends State<MessageDetails> {
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.8,
                 child: FutureBuilder<MessageDetail>(
-                    future: _messageController.getMessageDetail(id),
+                    future: _messageController.getMessageDetail(widget.id),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
                         return const Center(
@@ -78,7 +103,7 @@ class _MessageDetailsState extends State<MessageDetails> {
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             MessageDetailItem item =
-                                snapshot.data!.messageDetailItem![index];
+                            snapshot.data!.messageDetailItem![index];
                             return ListTile(
                               tileColor: Colors.redAccent,
                               trailing: item.userId == Constant.userId
@@ -134,7 +159,7 @@ class _MessageDetailsState extends State<MessageDetails> {
                         backgroundColor: Colors.redAccent,
                         onPressed: () {
                           _messageController
-                              .sendMessage(id, _controller.text)
+                              .sendMessage(widget.id, _controller.text)
                               .then((value) {
                             if (value) {
                               _controller.text = "";
@@ -157,7 +182,6 @@ class _MessageDetailsState extends State<MessageDetails> {
 
     );
   }
-
   Widget getImageWidget(String? url) {
     return Container(
       height: 35,

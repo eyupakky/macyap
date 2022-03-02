@@ -32,7 +32,7 @@ class HomeListItem extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '${match.date} ${match.name}',
+                    '${match.date!.split(":")[0]}:${match.date!.split(":")[1]} ${match.name}',
                     style: TextStyle(
                         color: textColor,
                         fontWeight: FontWeight.bold,
