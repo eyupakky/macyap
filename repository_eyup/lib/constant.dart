@@ -6,7 +6,7 @@ class Constant{
   static String surname="";
   static String image="";
   static int userId =0;
-  static String baseUrl = "http://78.111.98.76:5241/";
+  static String baseUrl = "http://80.93.213.244:5241/";
 
   // Register
   static String login = "Home/Login";

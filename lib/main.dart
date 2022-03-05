@@ -30,6 +30,7 @@ import 'package:halisaha/page/message/message_details.dart';
 import 'package:halisaha/page/splash_page.dart';
 import 'package:halisaha/page/venues/venues_detail.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:halisaha/remote_config.dart';
 import 'package:rxdart/rxdart.dart';
 import 'cubit/cubit_abstract.dart';
 import 'help/app_context.dart';
@@ -185,11 +186,12 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: MaterialApp(
-        initialRoute: "/splash",
+        initialRoute: "/remote",
         builder: EasyLoading.init(),
         routes: {
           "/": (context) => const HomePage(),
           "/splash": (context) => const SplashPage(),
+          "/remote": (context) => RemoteConfigPage(),
           "/messageDetails": (context) => MessageDetails(),
           "/profile": (context) => ProfilePage(),
           "/followers": (context) => FollowersPage(),
