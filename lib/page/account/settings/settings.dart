@@ -222,7 +222,7 @@ class _SettingsPageState extends State<SettingsPage> {
   selectImage() async {
     var imagePicker = await _picker.pickImage(
         source: ImageSource.gallery,
-        imageQuality: 10,
+        imageQuality: 50,
     maxHeight: 100);
     if (imagePicker != null) {
       setState(() {

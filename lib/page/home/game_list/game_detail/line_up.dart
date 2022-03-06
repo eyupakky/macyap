@@ -146,8 +146,14 @@ class _LineUpState extends State<LineUp> {
                       ),
               ),
             ),
-            Text("@${myTeam[index].username}",
-                style: const TextStyle(color: Colors.black87, fontSize: 12)),
+            SizedBox(
+              width: 125,
+              child: Center(
+                child: Text("@${myTeam[index].username}",
+                    maxLines: 1,
+                    style: const TextStyle(color: Colors.black87, fontSize: 12)),
+              ),
+            ),
             Text(
               "${myTeam[index].favoritePosition == "" ? myTeam[index].favoritePosition : ""}",
               style: const TextStyle(color: Colors.grey, fontSize: 12),

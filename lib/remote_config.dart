@@ -40,7 +40,7 @@ class _RemoteConfigPageState extends State<RemoteConfigPage> {
         if (snapshot.hasData) {
           Constant.baseUrl = snapshot.requireData.getString("api_path");
           if (snapshot.requireData.getString("api_path") == "") {
-            Constant.baseUrl = "http://80.93.213.244:5241/";
+            Constant.baseUrl = "http://78.111.98.76:5241/";
           }
         }
         return snapshot.hasData

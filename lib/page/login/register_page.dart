@@ -14,6 +14,7 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:repository_eyup/controller/register_controller.dart';
 import 'package:repository_eyup/model/city_model.dart';
 import 'package:repository_eyup/model/count_model.dart';
+import 'package:repository_eyup/model/gender.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -37,11 +38,12 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordController = TextEditingController();
   AutovalidateMode validate = AutovalidateMode.disabled;
   final _formKey = GlobalKey<FormState>();
-
+  List<Gender> gender=[];
   PhoneNumber number = PhoneNumber(isoCode: 'TR');
   String phoneNumber = "";
   int? selectedCity = 0;
   int? selectedCountry = 0;
+  int? selectedGender = 0;
   List<Cities>? cityList = [];
   List<Counties>? countiesList = [
     // Counties(id: 0, ilce: "İlçe seçiniz", ilId: 0)
@@ -51,6 +53,9 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     super.initState();
     registerController = RegisterController();
+    gender.add(Gender(0,'Erkek'));
+    gender.add(Gender(1,'Kadın'));
+    gender.add(Gender(2,'Belirtmek istemiyorum'));
   }
 
   @override
@@ -197,11 +202,41 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderSide:
                           BorderSide(color: HexColor.fromHex("#f0243a")))),
             ),
+            DropdownSearch<Gender>(
+                mode: Mode.MENU,
+                itemAsString: (u) => u!.text,
+                onChanged: (d) {
+                  setState(() {
+                    selectedGender = d!.id;
+                  });
+                },
+                compareFn: (item, selectedItem) =>
+                item?.id == selectedItem?.id,
+                showSearchBox: false,
+                showSelectedItems: true,
+                showAsSuffixIcons: true,
+                dropDownButton: const Icon(
+                  Icons.arrow_drop_down,
+                  size: 24,
+                  color: Colors.white60,
+                ),
+                items: gender,
+                dropdownSearchDecoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: HexColor.fromHex("#f0243a")),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: HexColor.fromHex("#f0243a")),
+                  ),
+                ),
+                selectedItem: gender[0]),
             FutureBuilder<List<Cities>>(
               future: registerController.getCities(),
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
-                  EasyLoading.show(status: 'Şehirler yükleniyor...');
+                  //EasyLoading.show(status: 'Şehirler yükleniyor...');
                   return const SizedBox();
                 } else {
                   var list = snapshot.data;
@@ -317,7 +352,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                     color: HexColor.fromHex("#f0243a")),
                               ),
                             ),
-                            onChanged: (d) => print(d.toString()),
+                            onChanged: (d) {
+                              selectedCountry = d!.id;
+                              print(d.toString());
+                            },
                             selectedItem: countiesList![0]),
                       ),
                     ],
@@ -415,7 +453,7 @@ class _RegisterPageState extends State<RegisterPage> {
     body.putIfAbsent("county", () => selectedCountry);
     body.putIfAbsent("username", () => userNameController.text);
     // body.putIfAbsent("date", () => f.format(DateTime.now()));
-    body.putIfAbsent("gender", () => 0);
+    body.putIfAbsent("gender", () => selectedGender);
     registerController.register(body).then((value) {
       EasyLoading.dismiss();
       if (value.success!) {

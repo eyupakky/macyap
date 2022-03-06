@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/page/home/game_list/home_list_item.dart';
 import 'package:repository_eyup/controller/venues_controller.dart';
-import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/matches_model.dart';
-import 'package:repository_eyup/model/venues_model.dart';
 
 class VenuesUpcoming extends StatelessWidget {
   VoidCallback callback;

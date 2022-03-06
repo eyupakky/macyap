@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "440983326247",
-    "project_id": "macyap-6ab0f",
-    "storage_bucket": "macyap-6ab0f.appspot.com"
+    "project_number": "45316533176",
+    "project_id": "macyap-a07f4",
+    "storage_bucket": "macyap-a07f4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:440983326247:android:dba4aeae71f384d08ec802",
+        "mobilesdk_app_id": "1:45316533176:android:a87ac6c0c93d7dad14bd4d",
         "android_client_info": {
           "package_name": "com.eyupakky.macyap"
         }
       },
       "oauth_client": [
         {
-          "client_id": "440983326247-dq6b2hnn27vhd7hfd0a0oqipiop91t8f.apps.googleusercontent.com",
+          "client_id": "45316533176-cepgpdp16h0ckaf7ugjki25sinmqdefm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBuM6r-FUISH_59u7e6Cj2oMxmFn61RtMI"
+          "current_key": "AIzaSyDiYy6VctZF4zh6GfGIsfdbmozS7vJfu1o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "440983326247-dq6b2hnn27vhd7hfd0a0oqipiop91t8f.apps.googleusercontent.com",
+              "client_id": "45316533176-cepgpdp16h0ckaf7ugjki25sinmqdefm.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "45316533176-av4dbdpccrvec5mtjitmuqdhmdmev5ak.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.eyupakky.halisaha",
+                "app_store_id": "1610855183"
+              }
             }
           ]
         }

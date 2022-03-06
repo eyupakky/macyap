@@ -21,7 +21,9 @@ class RegisterRepository extends IRegisterRepository {
 
   @override
   Future<List<Cities>> getCities() async {
-    var res = await _dio.get(Constant.baseUrl + Constant.getCities);
+    var res = await _dio.get(Constant.baseUrl + Constant.getCities).catchError((err){
+      return Future.error("Şehir listesi yüklenemedi.");
+    });
     if (res.statusCode == 200 && res.data["success"]) {
       return Future.value(CityModel.fromJson(res.data).cities);
     } else {

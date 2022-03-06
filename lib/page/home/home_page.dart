@@ -41,23 +41,14 @@ class _HomePageState extends State<HomePage> with LocationMixin {
     FirebaseMessaging.instance.getToken().then((value) => sendGuid(value!));
     FirebaseMessaging.instance.getInitialMessage().then((value) {
       print("");
-      // if (value != null) {
-      //   showToast(value.toString());
-      // }
     });
-    // FirebaseMessaging.instance.subscribeToTopic('all');
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      // showToast(message.data["video_id"]);
       _navigateToItemDetail(message);
     });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       _showItemDialog(message);
-      // if (message.notification != null) {
-      //   showToast('${message.notification!.body}');
-      // }
     });
   }
-
   _navigateToItemDetail(message) {
     if (message.data.isNotEmpty && message.data["page"] != "Home") {
       Navigator.pushNamed(context, '/${message.data["page"]}',
