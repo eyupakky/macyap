@@ -89,7 +89,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 onInputChanged: (PhoneNumber number) {
                   phoneNumber = number.phoneNumber!;
                 },
-                autoValidateMode: AutovalidateMode.disabled,
                 selectorConfig: const SelectorConfig(
                     selectorType: PhoneInputSelectorType.DIALOG),
                 initialValue: number,
@@ -444,11 +443,9 @@ class _RegisterPageState extends State<RegisterPage> {
     body.putIfAbsent("lastname", () => surnameController.text);
     body.putIfAbsent("password", () => passwordController.text);
     body.putIfAbsent("email", () => emailController.text);
-    body.putIfAbsent(
-        "tel",
-        () => phoneNumber.isNotEmpty
+    body.putIfAbsent("tel",() => phoneNumber.isNotEmpty
             ? phoneNumber.substring(2, phoneNumber.length)
-            : "");
+            : "5417374117");
     body.putIfAbsent("city", () => selectedCity);
     body.putIfAbsent("county", () => selectedCountry);
     body.putIfAbsent("username", () => userNameController.text);
