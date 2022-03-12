@@ -43,10 +43,13 @@ class _HomePageState extends State<HomePage> with LocationMixin {
       print("");
     });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print(message);
       _navigateToItemDetail(message);
     });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print(message);
       _showItemDialog(message);
+
     });
   }
   _navigateToItemDetail(message) {
@@ -107,6 +110,8 @@ class _HomePageState extends State<HomePage> with LocationMixin {
   }
 
   sendGuid(String guid) {
+    print("############################");
+    print(guid);
     if (guid.isNotEmpty && Constant.accessToken.isNotEmpty) {
       _firebaseController.sendGuid(guid).then((value) {
         print(value);
