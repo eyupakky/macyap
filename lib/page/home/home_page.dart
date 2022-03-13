@@ -110,8 +110,8 @@ class _HomePageState extends State<HomePage> with LocationMixin {
   }
 
   sendGuid(String guid) {
-    print("############################");
-    print(guid);
+    // print("############################");
+    // print(guid);
     if (guid.isNotEmpty && Constant.accessToken.isNotEmpty) {
       _firebaseController.sendGuid(guid).then((value) {
         print(value);

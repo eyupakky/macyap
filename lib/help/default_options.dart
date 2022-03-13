@@ -28,7 +28,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCOCKCvUlP9kT3-t_ivo-WwQeeEQYZMW8k',
-    appId: '1:45316533176:ios:b8a2be940f27787714bd4d',
+    appId: '1:45316533176:ios:1afab8192d4fba4814bd4d',
     messagingSenderId: '45316533176',
     projectId: 'macyap-a07f4',
     databaseURL: 'https://macyap-a07f4-default-rtdb.firebaseio.com',
