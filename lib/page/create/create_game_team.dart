@@ -56,7 +56,7 @@ class _CreateGameTeamState extends State<CreateGameTeam> {
                     controller: playerCountController, // add this line.
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                        hintText: 'Takımlardaki oyuncu sayısı (5-11 arası)',
+                        hintText: 'Takımlardaki oyuncu sayısı (5-14 arası)',
                         labelStyle: const TextStyle(fontSize: 11),
                         hintStyle: TextStyle(
                             fontSize: 12, color: Colors.grey.withAlpha(150)),
@@ -67,9 +67,9 @@ class _CreateGameTeamState extends State<CreateGameTeam> {
                     validator: (value) {
                       return value!.isEmpty
                           ? "Bu alan gereklidir.."
-                          : (int.parse(value) > 4 && int.parse(value) < 12
+                          : (int.parse(value) > 4 && int.parse(value) < 15
                               ? null
-                              : "Takımlar en az 5, en çok 11 kişi olabilir.");
+                              : "Takımlar en az 5, en çok 14 kişi olabilir.");
                     },
                   ),
                   const SizedBox(
@@ -249,6 +249,8 @@ class _CreateGameTeamState extends State<CreateGameTeam> {
     _homeController.createGame(gameMode).then((value) {
       EasyLoading.dismiss();
       showToast(value.description!);
+      Navigator.pushNamedAndRemoveUntil(
+          context, "/", ModalRoute.withName('/createGame'));
     }).catchError((onError) {
       EasyLoading.dismiss();
       showToast(onError);
