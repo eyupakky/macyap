@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:halisaha/help/location_mixin.dart';
 import 'package:halisaha/page/account/account_page.dart';
 import 'package:halisaha/page/home/game_list/main_list.dart';
@@ -12,6 +13,8 @@ import 'package:halisaha/page/message/message_page.dart';
 import 'package:halisaha/page/venues/venues_page.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/firebase_controller.dart';
+
+import '../../main.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -37,8 +40,9 @@ class _HomePageState extends State<HomePage> with LocationMixin {
     });
   }
 
-  _notification() {
+  _notification()async {
     FirebaseMessaging.instance.getToken().then((value) => sendGuid(value!));
+    await FirebaseMessaging.instance.subscribeToTopic('all');
     FirebaseMessaging.instance.getInitialMessage().then((value) {
       print("");
     });
@@ -47,8 +51,30 @@ class _HomePageState extends State<HomePage> with LocationMixin {
       _navigateToItemDetail(message);
     });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print(message);
-      _showItemDialog(message);
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification!.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channel.description,
+            // TODO add a proper drawable resource to android, for now using
+            //      one that already exists in example app.
+            icon: 'launch_background',
+          ),iOS: const IOSNotificationDetails(
+            presentAlert:true,
+          presentSound: true,
+          presentBadge: true,
+          subtitle: "asdasdasd"
+
+        )
+        ),
+      );
+      // _showItemDialog(message);
 
     });
   }
@@ -110,8 +136,8 @@ class _HomePageState extends State<HomePage> with LocationMixin {
   }
 
   sendGuid(String guid) {
-    // print("############################");
-    // print(guid);
+     print("############################");
+     print(guid);
     if (guid.isNotEmpty && Constant.accessToken.isNotEmpty) {
       _firebaseController.sendGuid(guid).then((value) {
         print(value);

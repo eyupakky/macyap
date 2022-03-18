@@ -29,27 +29,22 @@ import 'package:halisaha/page/login/register_page.dart';
 import 'package:halisaha/page/message/message_details.dart';
 import 'package:halisaha/page/splash_page.dart';
 import 'package:halisaha/page/venues/venues_detail.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:halisaha/remote_config.dart';
-import 'package:rxdart/rxdart.dart';
 import 'cubit/cubit_abstract.dart';
 import 'help/app_context.dart';
 import 'help/default_options.dart';
 import 'help/hex_color.dart';
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print(message);
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print('Handling a background message ${message.messageId}');
-}
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 /// Create a [AndroidNotificationChannel] for heads up notifications
 late AndroidNotificationChannel channel;
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
-late String selectedNotificationPayload;
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  print('Handling a background message ${message.messageId}');
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,35 +56,31 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   if (!kIsWeb) {
-    channel = const AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title, // description
+    channel =   const AndroidNotificationChannel(
+      'high_importance_channel',
+      'High Importance Notifications',
+      'This channel is used for important notifications.',
       importance: Importance.high,
+        enableLights:true,
     );
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-    /// Create an Android Notification Channel.
-    ///
-    /// We use this channel in the `AndroidManifest.xml` file to override the
-    /// default FCM channel to enable heads up notifications.
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-     await messaging.requestPermission(
+    /// Update the iOS foreground notification presentation options to allow
+    /// heads up notifications.
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true,
-      announcement: true,
       badge: true,
-      carPlay: true,
-      criticalAlert: true,
-      provisional: true,
       sound: true,
     );
   }
+
   AppContext appContext = AppContext();
   // }
 
@@ -125,12 +116,32 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var routes = {};
-
+  bool _requested = false;
+  bool _fetching = false;
+  late NotificationSettings _settings;
   @override
   void initState() {
     super.initState();
+    requestPermissions();
   }
+  Future<void> requestPermissions() async {
+    setState(() {
+      _fetching = true;
+    });
 
+    NotificationSettings settings =
+    await FirebaseMessaging.instance.requestPermission(
+      announcement: true,
+      carPlay: true,
+      criticalAlert: true,
+    );
+
+    setState(() {
+      _requested = true;
+      _fetching = false;
+      _settings = settings;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
