@@ -55,6 +55,9 @@ class _MessageDetailsState extends State<MessageDetails> {
   Widget build(BuildContext context) {
     int id = ModalRoute.of(context)!.settings.arguments as int;
     return  Scaffold(
+      appBar: AppBar(
+        title: const Text("Mesaj"),
+      ),
       body: MessageDetailsTemp(id: id,),
     );
   }
