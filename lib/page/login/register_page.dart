@@ -34,16 +34,19 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController userNameController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController surnameController = TextEditingController();
+  TextEditingController mahalleController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   AutovalidateMode validate = AutovalidateMode.disabled;
   final _formKey = GlobalKey<FormState>();
   List<Gender> gender=[];
+  List<Gender> alan=[];
   PhoneNumber number = PhoneNumber(isoCode: 'TR');
   String phoneNumber = "";
   int? selectedCity = 0;
   int? selectedCountry = 0;
   int? selectedGender = 0;
+  String? seciliAlan="Futbol";
   List<Cities>? cityList = [];
   List<Counties>? countiesList = [
     // Counties(id: 0, ilce: "İlçe seçiniz", ilId: 0)
@@ -53,9 +56,12 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     super.initState();
     registerController = RegisterController();
-    gender.add(Gender(0,'Erkek'));
-    gender.add(Gender(1,'Kadın'));
+    gender.add(Gender(0,'Kadın'));
+    gender.add(Gender(1,'Erkek'));
     gender.add(Gender(2,'Belirtmek istemiyorum'));
+
+    alan.add(Gender(0,'Futbol'));
+    alan.add(Gender(1,'Voleybol'));
   }
 
   @override
@@ -231,6 +237,36 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 selectedItem: gender[0]),
+            DropdownSearch<Gender>(
+                mode: Mode.MENU,
+                itemAsString: (u) => u!.text,
+                onChanged: (d) {
+                  setState(() {
+                    seciliAlan = d!.text;
+                  });
+                },
+                compareFn: (item, selectedItem) =>
+                item?.id == selectedItem?.id,
+                showSearchBox: false,
+                showSelectedItems: true,
+                showAsSuffixIcons: true,
+                dropDownButton: const Icon(
+                  Icons.arrow_drop_down,
+                  size: 24,
+                  color: Colors.white60,
+                ),
+                items: alan,
+                dropdownSearchDecoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: HexColor.fromHex("#f0243a")),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: HexColor.fromHex("#f0243a")),
+                  ),
+                ),
+                selectedItem: alan[0]),
             FutureBuilder<List<Cities>>(
               future: registerController.getCities(),
               builder: (context, snapshot) {
@@ -360,6 +396,20 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   );
                 }),
+            TextFormField(
+              controller: mahalleController,
+              style: const TextStyle(color: Colors.white),
+              autovalidateMode: validate,
+              decoration: InputDecoration(
+                  focusColor: Colors.black,
+                  hintText: "Mahalle",
+                  hintStyle: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w400, color: Colors.white60),
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide:
+                      BorderSide(color: HexColor.fromHex("#f0243a")))),
+              keyboardType: TextInputType.emailAddress,
+            ),
             const SizedBox(height: 10,),
             CustomButton(
               height: 75,
@@ -451,6 +501,8 @@ class _RegisterPageState extends State<RegisterPage> {
     body.putIfAbsent("username", () => userNameController.text);
     // body.putIfAbsent("date", () => f.format(DateTime.now()));
     body.putIfAbsent("gender", () => selectedGender);
+    body.putIfAbsent("alan", () => '$seciliAlan');
+    body.putIfAbsent("neighborhood", () => mahalleController.text);
     registerController.register(body).then((value) {
       EasyLoading.dismiss();
       if (value.success!) {
