@@ -66,6 +66,9 @@ class Match {
       tagler!.add(json["cinsiyet"]);
     }
     gamePrice = json['game_price'];
+    if(gamePrice==0){
+      tagler!.add("#ÜCRETSİZ");
+    }
     limit = json['limit'];
     date = json['date'];
     name = json['name'];

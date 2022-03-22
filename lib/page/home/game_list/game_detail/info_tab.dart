@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/model/game_detail.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../help/utils.dart';
 typedef FunctionGameDetail = Function(GameDetail gameDetail);
 class GameDetailInfoTab extends StatelessWidget {
   int? id;
@@ -36,6 +38,7 @@ class GameDetailInfoTab extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.data != null) {
               gameDetail = snapshot.data!;
+              AppConfig.gameDetail = gameDetail;
               return SingleChildScrollView(
                 child: Column(
                   children: [

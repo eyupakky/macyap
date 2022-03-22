@@ -58,7 +58,6 @@ class _RegisterPageState extends State<RegisterPage> {
     registerController = RegisterController();
     gender.add(Gender(0,'Kadın'));
     gender.add(Gender(1,'Erkek'));
-    gender.add(Gender(2,'Belirtmek istemiyorum'));
 
     alan.add(Gender(0,'Futbol'));
     alan.add(Gender(1,'Voleybol'));

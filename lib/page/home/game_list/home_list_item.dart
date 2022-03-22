@@ -9,14 +9,15 @@ class HomeListItem extends StatelessWidget {
   HomeListItem(this.match, {Key? key}) : super(key: key);
   late Color textColor;
   late Color tagColor;
+
   @override
   Widget build(BuildContext context) {
-    if(match.gameType=='voleybol'){
+    if (match.gameType == 'voleybol') {
       textColor = Colors.deepPurple;
       tagColor = Colors.deepPurple.shade300;
-    }else{
-      textColor =Colors.black;
-      tagColor =Colors.redAccent.shade200;
+    } else {
+      textColor = Colors.black;
+      tagColor = Colors.redAccent.shade200;
     }
     return Card(
       child: InkWell(
@@ -81,7 +82,8 @@ class HomeListItem extends StatelessWidget {
                         onPressed: () {},
                         child: Text(
                           '${match.joinedGamers}/${match.limit}',
-                          style: const TextStyle(fontSize: 10,color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 10, color: Colors.white),
                         ),
                       ),
                     )
@@ -100,11 +102,13 @@ class HomeListItem extends StatelessWidget {
                           match.tagler != null ? match.tagler!.length : 0,
                           (int index) {
                             return Container(
-                              margin: const EdgeInsets.only(right: 4,top: 4),
+                              margin: const EdgeInsets.only(right: 4, top: 4),
                               padding: const EdgeInsets.all(2),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4.0),
-                                  color:tagColor),
+                                  color: match.tagler![index] == "#ÜCRETSİZ"
+                                      ? Colors.green
+                                      : tagColor),
                               child: Text(
                                 match.tagler![index],
                                 style: const TextStyle(
