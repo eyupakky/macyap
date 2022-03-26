@@ -16,6 +16,8 @@ import 'package:repository_eyup/model/city_model.dart';
 import 'package:repository_eyup/model/count_model.dart';
 import 'package:repository_eyup/model/gender.dart';
 
+import '../../widget/check_hizmet_sozlesmesi.dart';
+
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
@@ -37,17 +39,19 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController mahalleController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  AutovalidateMode validate = AutovalidateMode.disabled;
+  AutovalidateMode validate = AutovalidateMode.always;
   final _formKey = GlobalKey<FormState>();
-  List<Gender> gender=[];
-  List<Gender> alan=[];
+  List<Gender> gender = [];
+  List<Gender> alan = [];
   PhoneNumber number = PhoneNumber(isoCode: 'TR');
   String phoneNumber = "";
   int? selectedCity = 0;
   int? selectedCountry = 0;
   int? selectedGender = 0;
-  String? seciliAlan="Futbol";
+  String? seciliAlan = "Futbol";
   List<Cities>? cityList = [];
+  bool sartlarVeKosullar = false;
+  bool gizlilikPolitikasi = false;
   List<Counties>? countiesList = [
     // Counties(id: 0, ilce: "İlçe seçiniz", ilId: 0)
   ];
@@ -56,11 +60,11 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     super.initState();
     registerController = RegisterController();
-    gender.add(Gender(0,'Kadın'));
-    gender.add(Gender(1,'Erkek'));
+    gender.add(Gender(0, 'Kadın'));
+    gender.add(Gender(1, 'Erkek'));
 
-    alan.add(Gender(0,'Futbol'));
-    alan.add(Gender(1,'Voleybol'));
+    alan.add(Gender(0, 'Futbol'));
+    alan.add(Gender(1, 'Voleybol'));
   }
 
   @override
@@ -150,122 +154,157 @@ class _RegisterPageState extends State<RegisterPage> {
                           BorderSide(color: HexColor.fromHex("#f0243a")))),
               keyboardType: TextInputType.emailAddress,
             ),
-            TextFormField(
-              controller: nameController,
-              style: const TextStyle(color: Colors.white),
-              autovalidateMode: validate,
-              decoration: InputDecoration(
-                  focusColor: Colors.black,
-                  hintText: "Adınız",
-                  hintStyle: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400, color: Colors.white60),
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: HexColor.fromHex("#f0243a")))),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            TextFormField(
-              controller: surnameController,
-              style: const TextStyle(color: Colors.white),
-              autovalidateMode: validate,
-              decoration: InputDecoration(
-                  focusColor: Colors.black,
-                  hintText: "Soyadınız",
-                  hintStyle: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400, color: Colors.white60),
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: HexColor.fromHex("#f0243a")))),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            TextFormField(
-              controller: emailController,
-              autovalidateMode: validate,
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                  focusColor: Colors.black,
-                  hintText: "Email adresi",
-                  hintStyle: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400, color: Colors.white60),
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: HexColor.fromHex("#f0243a")))),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            TextFormField(
-              controller: passwordController,
-              style: const TextStyle(color: Colors.white),
-              autovalidateMode: validate,
-              decoration: InputDecoration(
-                  hintText: "Şifre girin",
-                  fillColor: Colors.black,
-                  labelStyle: const TextStyle(color: Colors.white),
-                  hintStyle: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400, color: Colors.white60),
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: HexColor.fromHex("#f0243a")))),
-            ),
-            DropdownSearch<Gender>(
-                mode: Mode.MENU,
-                itemAsString: (u) => u!.text,
-                onChanged: (d) {
-                  setState(() {
-                    selectedGender = d!.id;
-                  });
-                },
-                compareFn: (item, selectedItem) =>
-                item?.id == selectedItem?.id,
-                showSearchBox: false,
-                showSelectedItems: true,
-                showAsSuffixIcons: true,
-                dropDownButton: const Icon(
-                  Icons.arrow_drop_down,
-                  size: 24,
-                  color: Colors.white60,
-                ),
-                items: gender,
-                dropdownSearchDecoration: InputDecoration(
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: HexColor.fromHex("#f0243a")),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: HexColor.fromHex("#f0243a")),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: TextFormField(
+                      controller: nameController,
+                      style: const TextStyle(color: Colors.white),
+                      autovalidateMode: validate,
+                      decoration: InputDecoration(
+                          focusColor: Colors.black,
+                          hintText: "Adınız",
+                          hintStyle: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white60),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: HexColor.fromHex("#f0243a")))),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
                   ),
                 ),
-                selectedItem: gender[0]),
-            DropdownSearch<Gender>(
-                mode: Mode.MENU,
-                itemAsString: (u) => u!.text,
-                onChanged: (d) {
-                  setState(() {
-                    seciliAlan = d!.text;
-                  });
-                },
-                compareFn: (item, selectedItem) =>
-                item?.id == selectedItem?.id,
-                showSearchBox: false,
-                showSelectedItems: true,
-                showAsSuffixIcons: true,
-                dropDownButton: const Icon(
-                  Icons.arrow_drop_down,
-                  size: 24,
-                  color: Colors.white60,
-                ),
-                items: alan,
-                dropdownSearchDecoration: InputDecoration(
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: HexColor.fromHex("#f0243a")),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: HexColor.fromHex("#f0243a")),
+                Expanded(
+                  child: TextFormField(
+                    controller: surnameController,
+                    style: const TextStyle(color: Colors.white),
+                    autovalidateMode: validate,
+                    decoration: InputDecoration(
+                        focusColor: Colors.black,
+                        hintText: "Soyadınız",
+                        hintStyle: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w400, color: Colors.white60),
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: HexColor.fromHex("#f0243a")))),
+                    keyboardType: TextInputType.emailAddress,
                   ),
                 ),
-                selectedItem: alan[0]),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: TextFormField(
+                      controller: emailController,
+                      autovalidateMode: validate,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                          focusColor: Colors.black,
+                          hintText: "Email adresi",
+                          hintStyle: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white60),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: HexColor.fromHex("#f0243a")))),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: TextFormField(
+                    controller: passwordController,
+                    style: const TextStyle(color: Colors.white),
+                    autovalidateMode: validate,
+                    decoration: InputDecoration(
+                        hintText: "Şifre girin",
+                        fillColor: Colors.black,
+                        labelStyle: const TextStyle(color: Colors.white),
+                        hintStyle: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w400, color: Colors.white60),
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: HexColor.fromHex("#f0243a")))),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: DropdownSearch<Gender>(
+                        mode: Mode.MENU,
+                        itemAsString: (u) => u!.text,
+                        onChanged: (d) {
+                          setState(() {
+                            selectedGender = d!.id;
+                          });
+                        },
+                        compareFn: (item, selectedItem) =>
+                            item?.id == selectedItem?.id,
+                        showSearchBox: false,
+                        showSelectedItems: true,
+                        showAsSuffixIcons: true,
+                        dropDownButton: const Icon(
+                          Icons.arrow_drop_down,
+                          size: 24,
+                          color: Colors.white60,
+                        ),
+                        items: gender,
+                        dropdownSearchDecoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: HexColor.fromHex("#f0243a")),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: HexColor.fromHex("#f0243a")),
+                          ),
+                        ),
+                        selectedItem: gender[0]),
+                  ),
+                ),
+                Expanded(
+                  child: DropdownSearch<Gender>(
+                      mode: Mode.MENU,
+                      itemAsString: (u) => u!.text,
+                      onChanged: (d) {
+                        setState(() {
+                          seciliAlan = d!.text;
+                        });
+                      },
+                      compareFn: (item, selectedItem) =>
+                          item?.id == selectedItem?.id,
+                      showSearchBox: false,
+                      showSelectedItems: true,
+                      showAsSuffixIcons: true,
+                      dropDownButton: const Icon(
+                        Icons.arrow_drop_down,
+                        size: 24,
+                        color: Colors.white60,
+                      ),
+                      items: alan,
+                      dropdownSearchDecoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(color: HexColor.fromHex("#f0243a")),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(color: HexColor.fromHex("#f0243a")),
+                        ),
+                      ),
+                      selectedItem: alan[0]),
+                ),
+              ],
+            ),
             FutureBuilder<List<Cities>>(
               future: registerController.getCities(),
               builder: (context, snapshot) {
@@ -406,10 +445,33 @@ class _RegisterPageState extends State<RegisterPage> {
                       fontWeight: FontWeight.w400, color: Colors.white60),
                   enabledBorder: UnderlineInputBorder(
                       borderSide:
-                      BorderSide(color: HexColor.fromHex("#f0243a")))),
+                          BorderSide(color: HexColor.fromHex("#f0243a")))),
               keyboardType: TextInputType.emailAddress,
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
+           /* CheckBoxHizmetButton(
+              callback: () {
+                gizlilikPolitikasi = !gizlilikPolitikasi;
+              },
+              key: UniqueKey(),
+              text1: "Gizlilik Sözleşmesi",
+              text2: "",
+              url: "https://macyap.com.tr/Views/home/NonuserAbout",
+            ),*/
+            CheckBoxHizmetButton(
+              callback: () {
+                sartlarVeKosullar = !sartlarVeKosullar;
+              },
+              key: UniqueKey(),
+              text1: "Şartlar ve Koşullar",
+              text2: "",
+              url: "https://macyap.com.tr/Views/home/NonuserTerms",
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             CustomButton(
               height: 75,
               text: "Kayıt ol",
@@ -418,14 +480,24 @@ class _RegisterPageState extends State<RegisterPage> {
               assetName: "assets/images/giris_button.png",
               onClick: () {
                 if (_formKey.currentState!.validate()) {
-                  register();
+                  if (!sartlarVeKosullar) {
+                    showToast(
+                        "Şartları kabul etmeden kayıt işlemi yapılamaz...");
+                  }/*else if(!gizlilikPolitikasi){
+                    showToast(
+                        "Gizlilik Sözleşmesini kabul etmeden kayıt işlemi yapılamaz...");
+                  }*/ else {
+                    register();
+                  }
+                } else {
+                  showToast("Tüm alanları doldurunuz...");
                 }
               },
               key: UniqueKey(),
             ),
             Row(
               children: [
-                const Expanded(flex: 1,child: Text("")),
+                const Expanded(flex: 1, child: Text("")),
                 Expanded(
                   flex: 4,
                   child: Text(
@@ -438,7 +510,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 Expanded(
-                  flex:5,
+                  flex: 5,
                   child: InkWell(
                       onTap: () {
                         Navigator.pushNamed(context, "/login");
@@ -492,7 +564,9 @@ class _RegisterPageState extends State<RegisterPage> {
     body.putIfAbsent("lastname", () => surnameController.text);
     body.putIfAbsent("password", () => passwordController.text);
     body.putIfAbsent("email", () => emailController.text);
-    body.putIfAbsent("tel",() => phoneNumber.isNotEmpty
+    body.putIfAbsent(
+        "tel",
+        () => phoneNumber.isNotEmpty
             ? phoneNumber.substring(2, phoneNumber.length)
             : "5555555555");
     body.putIfAbsent("city", () => selectedCity);
