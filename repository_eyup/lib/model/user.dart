@@ -9,6 +9,7 @@ class User {
   int? following;
   int? manofthematch;
   String? image;
+  bool? blocked;
 
   User(
       {this.success,
@@ -20,7 +21,7 @@ class User {
         this.followers,
         this.following,
         this.manofthematch,
-        this.image});
+        this.image,this.blocked});
 
   User.fromJson(Map<String, dynamic> json) {
     success = json['success'];
@@ -33,6 +34,7 @@ class User {
     following = json['following'];
     manofthematch = json['manofthematch'];
     image = json['image'];
+    blocked = json['blocked'];
   }
 
 }

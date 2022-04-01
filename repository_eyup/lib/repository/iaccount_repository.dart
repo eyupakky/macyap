@@ -29,6 +29,10 @@ abstract class IAccountRepository {
 
   Future<BaseResponse> follow(int? id);
 
+  Future<BaseResponse> blockUser(int? id);
+
+  Future<BaseResponse> removeBlockUser(int? id);
+
   Future<BaseResponse> updateEmail(String? newEmail, String? password);
 
   Future<BaseResponse> updateSetting(
@@ -232,13 +236,35 @@ class AccountRepository extends IAccountRepository {
   Future<String> getMyRole() async {
     var res = await _dio.post(Constant.baseUrl + Constant.getMyRole, data: {
       "access_token": Constant.accessToken,
-    }).catchError((onError) {
-      return Future.error(onError);
-    });
+    }).catchError((onError) {});
     if (res.data["success"]) {
       return Future.value(res.data["durum"]);
     } else {
       return Future.error(res.data["durum"]);
+    }
+  }
+
+  @override
+  Future<BaseResponse> blockUser(int? id) async{
+    var res = await _dio.post(Constant.baseUrl + Constant.blockUser, data: {
+      "access_token": Constant.accessToken,"blocked_user_id":id
+    }).catchError((onError) {});
+    if (res.data["success"]) {
+      return Future.value(BaseResponse.fromJson(res.data));
+    } else {
+      return Future.error(BaseResponse.fromJson(res.data));
+    }
+  }
+
+  @override
+  Future<BaseResponse> removeBlockUser(int? id)async {
+    var res = await _dio.post(Constant.baseUrl + Constant.removeBlockUser, data: {
+      "access_token": Constant.accessToken,"blocked_user_id":id
+    }).catchError((onError) {});
+    if (res.data["success"]) {
+      return Future.value(BaseResponse.fromJson(res.data));
+    } else {
+      return Future.error(BaseResponse.fromJson(res.data));
     }
   }
 }

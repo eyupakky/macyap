@@ -44,6 +44,8 @@ class Constant{
   static String follow = "Account/Follow";
   static String checkFollow = "Account/CheckFollow";
   static String getMyRole = "Account/GetMyRole";
+  static String blockUser = "Account/BlockUser";
+  static String removeBlockUser = "Account/RemoveBlockUser";
   // Venue
   static String getVenues = "Venue/GetVenues";
   static String getVenueDetail = "Venue/GetVenueDetail";

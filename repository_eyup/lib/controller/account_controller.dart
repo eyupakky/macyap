@@ -54,6 +54,14 @@ class AccountController {
     var users = await iAccountRepository.follow(id);
     return users;
   }
+  Future<BaseResponse> blockUser(int? id) async {
+    var users = await iAccountRepository.blockUser(id);
+    return users;
+  }
+  Future<BaseResponse> removeBlockUser(int? id) async {
+    var users = await iAccountRepository.removeBlockUser(id);
+    return users;
+  }
   Future<BaseResponse> updateEmail(String? newEmail,String? password) async {
     var users = await iAccountRepository.updateEmail(newEmail,password);
     return users;
