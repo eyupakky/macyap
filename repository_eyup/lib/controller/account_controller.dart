@@ -86,4 +86,8 @@ class AccountController {
     var res = await iAccountRepository.getMyRole();
     return res;
   }
+  Future<BaseResponse> createOrganizer(String subject) async {
+    var users = await iAccountRepository.createOrganizer(subject);
+    return users;
+  }
 }

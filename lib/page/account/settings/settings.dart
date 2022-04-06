@@ -201,9 +201,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                   TextStyle(color: Colors.white, fontSize: 16),
                             ),
                           ),
-                          decoration: const BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.all(
+                          decoration:  BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius:const BorderRadius.all(
                                 Radius.circular(12),
                               )),
                         ),

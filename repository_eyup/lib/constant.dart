@@ -46,6 +46,7 @@ class Constant{
   static String getMyRole = "Account/GetMyRole";
   static String blockUser = "Account/BlockUser";
   static String removeBlockUser = "Account/RemoveBlockUser";
+  static String createOrganizer = "Account/OrganizerForm";
   // Venue
   static String getVenues = "Venue/GetVenues";
   static String getVenueDetail = "Venue/GetVenueDetail";

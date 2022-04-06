@@ -51,32 +51,33 @@ class _HomePageState extends State<HomePage> with LocationMixin {
       _navigateToItemDetail(message);
     });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification!.title,
-        notification.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            channel.description,
-            // TODO add a proper drawable resource to android, for now using
-            //      one that already exists in example app.
-            icon: 'launch_background',
-          ),iOS: const IOSNotificationDetails(
-            presentAlert:true,
-          presentSound: true,
-          presentBadge: true,
-          subtitle: "asdasdasd"
-
-        )
-        ),
-      );
+      _showNotificationCustomSound(message);
       // _showItemDialog(message);
-
     });
+  }
+  Future<void> _showNotificationCustomSound(RemoteMessage message) async {
+    RemoteNotification? notification = message.notification;
+
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails(
+      'notification_channel_id',
+      'notification_channel_id',
+       'notification_channel_id',
+      icon: 'launch_background',
+      sound: RawResourceAndroidNotificationSound('aa'),
+    );
+    const IOSNotificationDetails iOSPlatformChannelSpecifics =
+    IOSNotificationDetails(sound: 'aa.wav');
+    const NotificationDetails platformChannelSpecifics =  NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics,
+    );
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      notification!.title,
+      notification.body,
+      platformChannelSpecifics,
+    );
   }
   _navigateToItemDetail(message) {
     if (message.data.isNotEmpty && message.data["page"] != "Home") {

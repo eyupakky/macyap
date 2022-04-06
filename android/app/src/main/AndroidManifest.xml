@@ -54,6 +54,11 @@
         <!-- A custom Android Notification Channel to deliver FCM notifications on a non-default channel -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="high_importance_channel" />
+            android:value="notification_channel_id"/>
+        <service
+            android:name="com.dexterous.flutterlocalnotifications.ForegroundService"
+            android:exported="false"
+            android:stopWithTask="false"/>
     </application>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 </manifest>

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/page/account/email/update_email.dart';
 import 'package:halisaha/page/account/followers/followers.dart';
+import 'package:halisaha/page/account/organizator.dart';
 import 'package:halisaha/page/account/password_update.dart';
 import 'package:halisaha/page/account/profile/profile.dart';
 import 'package:halisaha/page/account/settings/settings.dart';
@@ -35,15 +35,42 @@ import 'help/app_context.dart';
 import 'help/default_options.dart';
 import 'help/hex_color.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rxdart/subjects.dart';
 
-/// Create a [AndroidNotificationChannel] for heads up notifications
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
+
+const MethodChannel platform =
+MethodChannel('dexterx.dev/flutter_local_notifications_example');
+final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
+BehaviorSubject<ReceivedNotification>();
+
+final BehaviorSubject<String?> selectNotificationSubject =
+BehaviorSubject<String?>();
+
+String? selectedNotificationPayload;
+
+
+class ReceivedNotification {
+  ReceivedNotification({
+    required this.id,
+    required this.title,
+    required this.body,
+    required this.payload,
+  });
+
+  final int id;
+  final String? title;
+  final String? body;
+  final String? payload;
+}
 late AndroidNotificationChannel channel;
 
-/// Initialize the [FlutterLocalNotificationsPlugin] package.
-late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print('Handling a background message ${message.messageId}');
+
 }
 
 Future<void> main() async {
@@ -51,38 +78,57 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  if (!kIsWeb) {
+    channel = const AndroidNotificationChannel(
+      'notification_channel_id', // id
+      'notification_channel_id', // title
+      'notification_channel_id', // description
+      importance: Importance.high,
+      sound: RawResourceAndroidNotificationSound('aa')
+    );
+  }
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+      AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+  const AndroidInitializationSettings initializationSettingsAndroid =
+  AndroidInitializationSettings('logo');
 
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  if (!kIsWeb) {
-    channel =   const AndroidNotificationChannel(
-      'high_importance_channel',
-      'High Importance Notifications',
-      'This channel is used for important notifications.',
-      importance: Importance.high,
-        enableLights:true,
-    );
-
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-
-    /// Update the iOS foreground notification presentation options to allow
-    /// heads up notifications.
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-  }
-
+  final IOSInitializationSettings initializationSettingsIOS =
+  IOSInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      onDidReceiveLocalNotification: (
+          int id,
+          String? title,
+          String? body,
+          String? payload,
+          ) async {
+        didReceiveLocalNotificationSubject.add(
+          ReceivedNotification(
+            id: id,
+            title: title,
+            body: body,
+            payload: payload,
+          ),
+        );
+      });
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS
+  );
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (String? payload) async {
+        if (payload != null) {
+          debugPrint('notification payload: $payload');
+        }
+        selectedNotificationPayload = payload;
+        selectNotificationSubject.add(payload);
+      });
   AppContext appContext = AppContext();
-  // }
 
   BlocOverrides.runZoned(
     () => runZonedGuarded(() {
@@ -183,6 +229,7 @@ class _MyAppState extends State<MyApp> {
           "/webview": (context) => const WebviewPage(),
           "/forgatMyPassword": (context) => const ForgatMyPassword(),
           "/newPassword": (context) => const NewPassword(),
+          "/organizator": (context) => const Organizator(),
         },
         theme: ThemeData(
             tabBarTheme: TabBarTheme(
