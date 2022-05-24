@@ -45,7 +45,12 @@ class MatchesRepository extends IMatchesRepository {
       return Future.error(err);
     });
     MatchesModel model = MatchesModel.fromJson(response.data);
-    return Future.value(model.match);
+    if(model.success!){
+      return Future.value(model.match);
+    }else{
+      return Future.error("Sonuc boş.");
+    }
+
   }
 
   @override

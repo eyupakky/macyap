@@ -12,7 +12,6 @@ import 'package:repository_eyup/model/game_users.dart';
 class LineUp extends StatefulWidget {
   HomeController homeController;
   int id;
-
   LineUp({Key? key, required this.homeController, required this.id})
       : super(key: key);
 
@@ -22,7 +21,7 @@ class LineUp extends StatefulWidget {
 
 class _LineUpState extends State<LineUp> {
   bool katil = true;
-
+  late String text="Maça Katıl";
   late BuildContext _context;
   late GameUsers users = GameUsers();
 
@@ -35,6 +34,18 @@ class _LineUpState extends State<LineUp> {
           builder: (cnx, snapshot) {
             if (snapshot.data != null) {
               users = snapshot.data!;
+              if(AppConfig.gameDetail.locked!){
+                text="Maça katılma isteği gönder";
+              }else{
+                if((users.totalPlayers ==
+                    (users.rivalTeamSize! + users.myTeamSize!))) {
+                  text = "Maç Dolu";
+                }else if(users.myCheck){
+                  text="Maçtan Çık";
+                }else{
+                  text="Maça Katıl";
+                }
+              }
               var myListFiltered = snapshot.data!.allTeam!
                   .where((e) => e.userId == Constant.userId);
               if (myListFiltered.isEmpty) {
@@ -72,24 +83,20 @@ class _LineUpState extends State<LineUp> {
         builder: (context, count) => FlatButton(
             padding: const EdgeInsets.all(8),
             onPressed: () {
-              AppConfig.gameDetail.locked!
-                  ? joinGameRequest()
-                  : users.totalPlayers !=
-                          (users.rivalTeamSize! + users.myTeamSize!)
-                      ? joinMatch(count)
-                      : null;
+              if(AppConfig.gameDetail.locked!){
+                joinGameRequest();
+              }else{
+                if(!users.myCheck){
+                  joinMatch();
+                }else{
+                  quitGame();
+                }
+              }
             },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(1)),
             child: Text(
-              AppConfig.gameDetail.locked!
-                  ? "Maça katılma isteği gönder"
-                  : users.totalPlayers ==
-                          (users.rivalTeamSize! + users.myTeamSize!)
-                      ? "Maç Dolu"
-                      : count
-                          ? "Maça Katıl"
-                          : "Maçtan çık",
+              text,
               style: GoogleFonts.montserrat(
                   fontSize: 16,
                   color: Colors.white,
@@ -98,7 +105,7 @@ class _LineUpState extends State<LineUp> {
             color:
                 users.totalPlayers == (users.rivalTeamSize! + users.myTeamSize!)
                     ? Colors.grey
-                    : count
+                    : !users.myCheck
                         ? Colors.green.withOpacity(0.9)
                         : Colors.red.withOpacity(0.9)),
       ),
@@ -177,10 +184,10 @@ class _LineUpState extends State<LineUp> {
     });
   }
 
-  void joinMatch(count) {
-    count
-        ? widget.homeController.joinGame(widget.id).then((value) {
+  void joinMatch() {
+     widget.homeController.joinGame(widget.id).then((value) {
             if (value.success!) {
+              users.myCheck=true;
               context.read<GameFavorite>().changeFavorite(true);
               setState(() {});
             } else {
@@ -190,14 +197,17 @@ class _LineUpState extends State<LineUp> {
                     arguments: Constant.userId);
               }
             }
-          })
-        : widget.homeController.quitGame(widget.id).then((value) {
-            if (value.success!) {
-              context.read<GameFavorite>().changeFavorite(false);
-              setState(() {});
-            } else {
-              showToast('${value.description}');
-            }
           });
+  }
+  void quitGame(){
+    widget.homeController.quitGame(widget.id).then((value) {
+      if (value.success!) {
+        users.myCheck=false;
+        context.read<GameFavorite>().changeFavorite(false);
+        setState(() {});
+      } else {
+        showToast('${value.description}');
+      }
+    });
   }
 }

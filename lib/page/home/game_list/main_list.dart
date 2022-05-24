@@ -9,9 +9,10 @@ import 'package:halisaha/widget/filter_drawer.dart';
 import 'package:halisaha/widget/search_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
+import 'package:repository_eyup/controller/firebase_controller.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/model/matches_model.dart';
-
+import 'package:halisaha/help/location_mixin.dart';
 import 'home_list_item.dart';
 
 class MainList extends StatefulWidget {
@@ -21,7 +22,7 @@ class MainList extends StatefulWidget {
   State<MainList> createState() => _MainListState();
 }
 
-class _MainListState extends State<MainList> {
+class _MainListState extends State<MainList> with LocationMixin {
   late DateTime _selectedDate, afterMonth;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final HomeController _homeController = HomeController();
@@ -30,11 +31,17 @@ class _MainListState extends State<MainList> {
   final f = DateFormat('dd.MM.yyyy');
   List<Match> matchList = [];
   String filter = "";
+  final FirebaseController _firebaseController = FirebaseController();
 
   @override
   void initState() {
     super.initState();
     _resetSelectedDate();
+    getLocation().then((value) {
+      if (value != null) {
+        _firebaseController.sendLocation(value.latitude!, value.longitude!);
+      }
+    });
   }
 
   void _resetSelectedDate() {
@@ -126,7 +133,15 @@ class _MainListState extends State<MainList> {
                       return FutureBuilder<List<Match>>(
                           future: _homeController.getLazyMatches(map),
                           builder: (context, snapshot) {
-                            if (snapshot.data == null ||
+                            if (snapshot.error == "Sonuc boş.") {
+                              return SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                child:const Center(
+                                  child: Text("Bir hata oluştu."),
+                                ),
+                              );
+                            } else if (snapshot.data == null ||
                                 snapshot.data!.isEmpty) {
                               EasyLoading.isShow ? EasyLoading.dismiss() : null;
                               return SizedBox(

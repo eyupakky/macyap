@@ -34,7 +34,7 @@ class User {
     following = json['following'];
     manofthematch = json['manofthematch'];
     image = json['image'];
-    blocked = json['blocked'];
+    blocked = json['blocked'] ?? false;
   }
 
 }

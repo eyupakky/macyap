@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import '../../help/ui_guide.dart';
@@ -61,10 +62,12 @@ class _OrganizatorState extends State<Organizator> {
           GestureDetector(
             onTap: () {
               if (controller.text != "" && controller.text.isNotEmpty) {
+                EasyLoading.show(status: 'loading...');
                 AccountController()
                     .createOrganizer(controller.text)
                     .then((value) {
                   if (value.success!) {
+                    EasyLoading.dismiss();
                     showToast("Organizatör isteğiniz gönderildi.",color: Colors.green);
                     Navigator.pop(context);
                   }

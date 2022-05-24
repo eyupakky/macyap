@@ -1,3 +1,5 @@
+import 'package:repository_eyup/constant.dart';
+
 class GameUsers {
   bool? success;
   List<Users>? allTeam;
@@ -7,7 +9,7 @@ class GameUsers {
   int? rivalTeamSize = 0;
   int? totalPlayers = 14;
   int? totalCheckPlayers = 0;
-
+  bool myCheck = false;
   GameUsers();
 
   GameUsers.fromJson(Map<String, dynamic> json, int? limit) {
@@ -19,6 +21,9 @@ class GameUsers {
       allTeam = <Users>[];
       json['users'].forEach((v) {
         Users users = Users.fromJson(v);
+        if(users.userId==Constant.userId) {
+          myCheck=true;
+        }
         allTeam!.add(users);
         if (users.team == "0") {
           rivalTeam!.add(users);

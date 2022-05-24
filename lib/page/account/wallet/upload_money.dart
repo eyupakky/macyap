@@ -85,7 +85,7 @@ class _UploadMoneyState extends State<UploadMoney> {
                     keyboardType: TextInputType.number,
                     validator: (val) {
                       return val!.isNotEmpty
-                          ? (double.parse(val) >= 20 ? null : Strings.minUpload)
+                          ? (double.parse(val) >= 0 ? null : Strings.minUpload)
                           : Strings.uploadMoneyError;
                     },
                     onChanged: (val) {},

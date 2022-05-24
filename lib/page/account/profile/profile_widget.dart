@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/page/account/profile/profile_tab.dart';
 import 'package:repository_eyup/constant.dart';
@@ -121,16 +122,19 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               onPressed: snapshot.data!
                                   ? null
                                   : () {
+                                EasyLoading.show();
                                 widget.myUser.blocked!
                                     ? widget.controller
                                     .removeBlockUser(widget.myUser.userId)
                                     .then((value) {
                                   setState(() {
                                     widget.myUser.blocked = false;
+                                    EasyLoading.dismiss();
                                     showToast(
                                         "Engelleme kaldırıldı...");
                                   });
                                 }).catchError((onError) {
+                                  EasyLoading.dismiss();
                                   showToast(onError);
                                 })
                                     : widget.controller
@@ -138,9 +142,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                     .then((value) {
                                   setState(() {
                                     widget.myUser.blocked = true;
+                                    EasyLoading.dismiss();
                                     showToast("Engelleme başarılı...");
                                   });
                                 }).catchError((onError) {
+                                  EasyLoading.dismiss();
                                   showToast(onError);
                                 });
                               },

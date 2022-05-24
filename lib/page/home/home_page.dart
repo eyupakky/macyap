@@ -6,11 +6,12 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:halisaha/help/location_mixin.dart';
+
 import 'package:halisaha/page/account/account_page.dart';
 import 'package:halisaha/page/home/game_list/main_list.dart';
 import 'package:halisaha/page/message/message_page.dart';
 import 'package:halisaha/page/venues/venues_page.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/firebase_controller.dart';
 
@@ -23,7 +24,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with LocationMixin {
+class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   late Widget body;
   var constraints;
@@ -32,15 +33,28 @@ class _HomePageState extends State<HomePage> with LocationMixin {
   @override
   void initState() {
     super.initState();
-    _notification();
-    getLocation().then((value) {
-      if (value != null) {
-        _firebaseController.sendLocation(value.latitude!, value.longitude!);
-      }
-    });
+   // _notification();
+    initPlatformState();
   }
 
-  _notification()async {
+  Future<void> initPlatformState() async {
+    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    OneSignal.shared.setNotificationOpenedHandler(
+      (OSNotificationOpenedResult result) {
+        _navigateToItemDetail(result.notification);
+        print(result.notification.launchUrl);
+      },
+    );
+    OneSignal.shared.setNotificationWillShowInForegroundHandler((event) {
+      _showNotificationCustomSound(event.notification);
+    });
+    OneSignal.shared.setAppId("13c3cb3f-8feb-4059-a683-da58e2933d5b");
+    OneSignal.shared
+        .promptUserForPushNotificationPermission()
+        .then((accepted) {});
+  }
+
+  _notification() async {
     FirebaseMessaging.instance.getToken().then((value) => sendGuid(value!));
     await FirebaseMessaging.instance.subscribeToTopic('all');
     FirebaseMessaging.instance.getInitialMessage().then((value) {
@@ -51,34 +65,38 @@ class _HomePageState extends State<HomePage> with LocationMixin {
       _navigateToItemDetail(message);
     });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      _showNotificationCustomSound(message);
+      OSNotification osNotification = OSNotification({
+        "title": message.notification!.title,
+        "body": message.notification!.body
+      });
+      _showNotificationCustomSound(osNotification);
       // _showItemDialog(message);
     });
   }
-  Future<void> _showNotificationCustomSound(RemoteMessage message) async {
-    RemoteNotification? notification = message.notification;
 
+  Future<void> _showNotificationCustomSound(OSNotification message) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(
+        AndroidNotificationDetails(
       'notification_channel_id',
       'notification_channel_id',
-       'notification_channel_id',
+      'notification_channel_id',
       icon: 'launch_background',
       sound: RawResourceAndroidNotificationSound('aa'),
     );
     const IOSNotificationDetails iOSPlatformChannelSpecifics =
-    IOSNotificationDetails(sound: 'aa.wav');
-    const NotificationDetails platformChannelSpecifics =  NotificationDetails(
+        IOSNotificationDetails(sound: 'aa.wav');
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );
     await flutterLocalNotificationsPlugin.show(
       0,
-      notification!.title,
-      notification.body,
+      message.title,
+      message.body,
       platformChannelSpecifics,
     );
   }
+
   _navigateToItemDetail(message) {
     if (message.data.isNotEmpty && message.data["page"] != "Home") {
       Navigator.pushNamed(context, '/${message.data["page"]}',
@@ -137,8 +155,8 @@ class _HomePageState extends State<HomePage> with LocationMixin {
   }
 
   sendGuid(String guid) {
-     print("############################");
-     print(guid);
+    print("############################");
+    print(guid);
     if (guid.isNotEmpty && Constant.accessToken.isNotEmpty) {
       _firebaseController.sendGuid(guid).then((value) {
         print(value);
