@@ -33,8 +33,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-   // _notification();
-    initPlatformState();
+   _notification();
+    //initPlatformState();
   }
 
   Future<void> initPlatformState() async {
@@ -67,7 +67,8 @@ class _HomePageState extends State<HomePage> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       OSNotification osNotification = OSNotification({
         "title": message.notification!.title,
-        "body": message.notification!.body
+        "body": message.notification!.body,
+        "notificationId":message.messageId,
       });
       _showNotificationCustomSound(osNotification);
       // _showItemDialog(message);

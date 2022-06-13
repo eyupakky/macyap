@@ -32,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
           image: DecorationImage(
               image: Image.asset("assets/images/giris_ng.jpg").image,
               fit: BoxFit.fill)),
-      child: Center(child: Image.asset("assets/images/test.png")),
+      child: Center(child: Image.asset("assets/test.png")),
     );
   }
 

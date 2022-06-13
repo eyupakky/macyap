@@ -30,12 +30,16 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Galeri ve kamera iznini profil fotoğrafını değiştirebilmeniz için istemekteyiz.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>MaçYap, size konumsal olarak en yakın sonuçları gösterebilmek için, konum bilginize ihtiyaç duyar.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>MaçYap, size konumsal olarak en yakın sonuçları gösterebilmek için, konum bilginize ihtiyaç duyar.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone Library Access Warning</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo Library Access Warning</string>
+	<string>Galeri ve kamera iznini profil fotoğrafını değiştirebilmeniz için istemekteyiz.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
