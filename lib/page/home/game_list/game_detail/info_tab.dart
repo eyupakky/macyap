@@ -122,9 +122,18 @@ class GameDetailInfoTab extends StatelessWidget {
                           ),
                         ),
                       ),
-                      subtitle: const Text(
-                        'Organizatör',
-                        style: TextStyle(fontSize: 12),
+                      subtitle:  Column(
+                        crossAxisAlignment:CrossAxisAlignment.start ,
+                        children:  [
+                          const Text(
+                            'Organizatör',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          const SizedBox(height: 5,),
+                          InkWell(onTap: (){
+                            launch('tel:${gameDetail.orgTel}');
+                          },child: Text('${gameDetail.orgTel}',style: const TextStyle(color: Colors.black,fontSize: 12),))
+                        ],
                       ),
                     ),
                     Wrap(

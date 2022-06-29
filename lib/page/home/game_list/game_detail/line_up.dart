@@ -9,9 +9,12 @@ import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/model/game_detail.dart';
 import 'package:repository_eyup/model/game_users.dart';
 
+import '../../../../widget/check_hizmet_sozlesmesi.dart';
+
 class LineUp extends StatefulWidget {
   HomeController homeController;
   int id;
+
   LineUp({Key? key, required this.homeController, required this.id})
       : super(key: key);
 
@@ -21,7 +24,7 @@ class LineUp extends StatefulWidget {
 
 class _LineUpState extends State<LineUp> {
   bool katil = true;
-  late String text="Maça Katıl";
+  late String text = "Maça Katıl";
   late BuildContext _context;
   late GameUsers users = GameUsers();
 
@@ -34,16 +37,16 @@ class _LineUpState extends State<LineUp> {
           builder: (cnx, snapshot) {
             if (snapshot.data != null) {
               users = snapshot.data!;
-              if(AppConfig.gameDetail.locked!){
-                text="Maça katılma isteği gönder";
-              }else{
-                if((users.totalPlayers ==
+              if (AppConfig.gameDetail.locked!) {
+                text = "Maça katılma isteği gönder";
+              } else {
+                if ((users.totalPlayers ==
                     (users.rivalTeamSize! + users.myTeamSize!))) {
                   text = "Maç Dolu";
-                }else if(users.myCheck){
-                  text="Maçtan Çık";
-                }else{
-                  text="Maça Katıl";
+                } else if (users.myCheck) {
+                  text = "Maçtan Çık";
+                } else {
+                  text = "Maça Katıl";
                 }
               }
               var myListFiltered = snapshot.data!.allTeam!
@@ -83,20 +86,23 @@ class _LineUpState extends State<LineUp> {
         builder: (context, count) => FlatButton(
             padding: const EdgeInsets.all(8),
             onPressed: () {
-              if(AppConfig.gameDetail.locked!){
+              if (AppConfig.gameDetail.locked!) {
                 joinGameRequest();
-              }else{
-                if(!users.myCheck){
+              } else {
+                if (!users.myCheck) {
                   joinMatch();
-                }else{
-                  quitGame();
+                } else {
+                  _showDialog();
+                  //quitGame();
                 }
               }
             },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(1)),
             child: Text(
-              text,
+              (users.totalPlayers == (users.rivalTeamSize! + users.myTeamSize!))
+                  ? "Maç Dolu"
+                  : ((users.myCheck) ? "Maçtan Çık" : "Maça Katıl"),
               style: GoogleFonts.montserrat(
                   fontSize: 16,
                   color: Colors.white,
@@ -105,9 +111,9 @@ class _LineUpState extends State<LineUp> {
             color:
                 users.totalPlayers == (users.rivalTeamSize! + users.myTeamSize!)
                     ? Colors.grey
-                    : !users.myCheck
-                        ? Colors.green.withOpacity(0.9)
-                        : Colors.red.withOpacity(0.9)),
+                    : users.myCheck
+                        ? Colors.red.withOpacity(0.9)
+                        : Colors.green.withOpacity(0.9)),
       ),
     );
   }
@@ -158,7 +164,8 @@ class _LineUpState extends State<LineUp> {
               child: Center(
                 child: Text("@${myTeam[index].username}",
                     maxLines: 1,
-                    style: const TextStyle(color: Colors.black87, fontSize: 12)),
+                    style:
+                        const TextStyle(color: Colors.black87, fontSize: 12)),
               ),
             ),
             Text(
@@ -184,25 +191,91 @@ class _LineUpState extends State<LineUp> {
     });
   }
 
-  void joinMatch() {
-     widget.homeController.joinGame(widget.id).then((value) {
-            if (value.success!) {
-              users.myCheck=true;
-              context.read<GameFavorite>().changeFavorite(true);
-              setState(() {});
-            } else {
-              showToast('${value.description}');
-              if (value.description!.contains("bakiyeniz eksik")) {
-                Navigator.pushNamed(context, "/wallet",
-                    arguments: Constant.userId);
-              }
-            }
-          });
+  _showDialog() {
+    showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel:
+            MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        barrierColor: Colors.black45,
+        transitionDuration: const Duration(milliseconds: 200),
+        pageBuilder: (BuildContext buildContext, Animation animation,
+            Animation secondaryAnimation) {
+          return Center(
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                margin: const EdgeInsets.only(right: 10, left: 10),
+                padding: const EdgeInsets.only(
+                    left: 12, right: 12, top: 18, bottom: 12),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Maç saatine 6 saat kala ve daha önce yapılan iptal ve maçtan çıkış işlemlerinde maç ücreti hesabınıza geri yansıtılacak. Sonrasında ücret iadesi yapılamayacaktır. Maçtan çıkacaksınız! Emin misiniz ? ",
+                        style: TextStyle(fontFamily: "Montserrat-normal"),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: CupertinoButton(
+                                child: const Text("İptal Et"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: CupertinoButton(
+                                child: const Text("Onayla"),
+                                onPressed: () {
+                                  quitGame();
+                                  Navigator.pop(context);
+                                }),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                )),
+          );
+        });
   }
-  void quitGame(){
+
+  void joinMatch() {
+    widget.homeController.joinGame(widget.id).then((value) {
+      if (value.success!) {
+        users.myCheck = true;
+        context.read<GameFavorite>().changeFavorite(true);
+        setState(() {});
+      } else {
+        showToast('${value.description}');
+        if (value.description!.contains("bakiyeniz eksik")) {
+          Navigator.pushNamed(context, "/wallet", arguments: Constant.userId);
+        }
+      }
+    });
+  }
+
+  void quitGame() {
     widget.homeController.quitGame(widget.id).then((value) {
       if (value.success!) {
-        users.myCheck=false;
+        users.myCheck = false;
         context.read<GameFavorite>().changeFavorite(false);
         setState(() {});
       } else {

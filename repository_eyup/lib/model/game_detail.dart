@@ -30,6 +30,7 @@ class GameDetail {
   String? description;
   String? locationX;
   String? locationY;
+  String? orgTel;
   List<String>? tags=[];
   bool? locked=false;
   bool? amIAnOrganizer=false;
@@ -40,6 +41,7 @@ class GameDetail {
     success = json['success'];
     limit = json['limit'];
     userId = json['user_id'];
+    orgTel=json['org_tel'];
     gun = json['gun'];
     gunSayi = json['gun_sayi'];
     ay = json['ay'];
