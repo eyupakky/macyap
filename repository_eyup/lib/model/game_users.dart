@@ -5,10 +5,10 @@ class GameUsers {
   List<Users>? allTeam;
   List<Users>? myTeam;
   List<Users>? rivalTeam;
-  int? myTeamSize = 0;
-  int? rivalTeamSize = 0;
+  int? myTeamSize = -1;
+  int? rivalTeamSize = -1;
   int? totalPlayers = 14;
-  int? totalCheckPlayers = 0;
+  int? totalCheckPlayers = -1;
   bool myCheck = false;
   GameUsers();
 

@@ -6,10 +6,7 @@ import 'package:halisaha/cubit/cubit_abstract.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
-import 'package:repository_eyup/model/game_detail.dart';
 import 'package:repository_eyup/model/game_users.dart';
-
-import '../../../../widget/check_hizmet_sozlesmesi.dart';
 
 class LineUp extends StatefulWidget {
   HomeController homeController;
@@ -24,64 +21,44 @@ class LineUp extends StatefulWidget {
 
 class _LineUpState extends State<LineUp> {
   bool katil = true;
-  late String text = "Maça Katıl";
+  late String text = "";
   late BuildContext _context;
   late GameUsers users = GameUsers();
+  late List<Users>? myTeam;
+  late List<Users>? rivalTeam;
+
+  @override
+  void initState() {
+    super.initState();
+    getGetGameUsers();
+  }
 
   @override
   Widget build(BuildContext context) {
     _context = context;
     return Scaffold(
-      body: FutureBuilder<GameUsers>(
-          future: widget.homeController.getGameUsers(widget.id),
-          builder: (cnx, snapshot) {
-            if (snapshot.data != null) {
-              users = snapshot.data!;
-              if (AppConfig.gameDetail.locked!) {
-                text = "Maça katılma isteği gönder";
-              } else {
-                if ((users.totalPlayers ==
-                    (users.rivalTeamSize! + users.myTeamSize!))) {
-                  text = "Maç Dolu";
-                } else if (users.myCheck) {
-                  text = "Maçtan Çık";
-                } else {
-                  text = "Maça Katıl";
-                }
-              }
-              var myListFiltered = snapshot.data!.allTeam!
-                  .where((e) => e.userId == Constant.userId);
-              if (myListFiltered.isEmpty) {
-                context.read<ChangeBottomCubit>().changeFlushBar(true);
-              } else {
-                context.read<ChangeBottomCubit>().changeFlushBar(false);
-              }
-              List<Users>? myTeam = snapshot.data!.myTeam;
-              List<Users>? rivalTeam = snapshot.data!.rivalTeam;
-              return SingleChildScrollView(
-                child: Row(
-                  children: [
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: list(myTeam, context,
-                              "Açık Takım\n${snapshot.data!.myTeamSize} / ${myTeam!.length}"),
-                        )),
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: list(rivalTeam, context,
-                              "Koyu Takım\n${snapshot.data!.rivalTeamSize} / ${rivalTeam!.length}"),
-                        )),
-                  ],
-                ),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
+      body: users.myTeamSize == -1
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Row(
+                children: [
+                  Expanded(
+                      flex: 1,
+                      child: Column(
+                        children: list(myTeam, context,
+                            "Açık Takım\n${users.myTeamSize} / ${myTeam!.length}"),
+                      )),
+                  Expanded(
+                      flex: 1,
+                      child: Column(
+                        children: list(rivalTeam, context,
+                            "Koyu Takım\n${users.rivalTeamSize} / ${rivalTeam!.length}"),
+                      )),
+                ],
+              ),
+            ),
       bottomNavigationBar: BlocBuilder<ChangeBottomCubit, bool>(
         builder: (context, count) => FlatButton(
             padding: const EdgeInsets.all(8),
@@ -108,11 +85,12 @@ class _LineUpState extends State<LineUp> {
                   color: Colors.white,
                   fontWeight: FontWeight.w500),
             ),
-            color:
-                users.totalPlayers == (users.rivalTeamSize! + users.myTeamSize!)
-                    ? Colors.grey
-                    : users.myCheck
-                        ? Colors.red.withOpacity(0.9)
+            color: users.totalPlayers == users.totalCheckPlayers
+                ? Colors.grey
+                : users.myCheck
+                    ? Colors.red.withOpacity(0.9)
+                    : users.myTeamSize == -1
+                        ? Colors.transparent
                         : Colors.green.withOpacity(0.9)),
       ),
     );
@@ -262,7 +240,7 @@ class _LineUpState extends State<LineUp> {
       if (value.success!) {
         users.myCheck = true;
         context.read<GameFavorite>().changeFavorite(true);
-        setState(() {});
+        getGetGameUsers();
       } else {
         showToast('${value.description}');
         if (value.description!.contains("bakiyeniz eksik")) {
@@ -277,10 +255,39 @@ class _LineUpState extends State<LineUp> {
       if (value.success!) {
         users.myCheck = false;
         context.read<GameFavorite>().changeFavorite(false);
-        setState(() {});
+        getGetGameUsers();
       } else {
         showToast('${value.description}');
       }
+    });
+  }
+
+  void getGetGameUsers() {
+    //widget.id
+    widget.homeController.getGameUsers(widget.id).then((value) {
+      users = value;
+      if (AppConfig.gameDetail.locked!) {
+        text = "Maça katılma isteği gönder";
+      } else {
+        if ((users.totalPlayers ==
+            (users.rivalTeamSize! + users.myTeamSize!))) {
+          text = "Maç Dolu";
+        } else if (users.myCheck) {
+          text = "Maçtan Çık";
+        } else {
+          text = "Maça Katıl";
+        }
+        var myListFiltered =
+            value.allTeam!.where((e) => e.userId == Constant.userId);
+        if (myListFiltered.isEmpty) {
+          context.read<ChangeBottomCubit>().changeFlushBar(true);
+        } else {
+          context.read<ChangeBottomCubit>().changeFlushBar(false);
+        }
+        myTeam = value.myTeam;
+        rivalTeam = value.rivalTeam;
+      }
+      setState(() {});
     });
   }
 }

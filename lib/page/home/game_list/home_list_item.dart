@@ -77,17 +77,13 @@ class HomeListItem extends StatelessWidget {
                           Container(
                             child: Text.rich(
                                 TextSpan(
-                                text: 'Maç ',
+                                text: 'İlçe : ',
                                 style: const TextStyle(fontSize: 11,color: Colors.grey),
                                 children: <InlineSpan>[
                                   TextSpan(
                                     text:match.ilce,
                                     style: const TextStyle(fontSize: 12,color: Colors.black,fontWeight: FontWeight.bold),
                                   ),
-                                  const TextSpan(
-                                    text:" oynanacak",
-                                    style: TextStyle(fontSize: 11),
-                                  )
                                 ]
                             )),
                             alignment: Alignment.centerLeft,
