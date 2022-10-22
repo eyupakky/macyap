@@ -36,7 +36,7 @@ class Match {
   String? image;
   int? joinedGamers;
   String? gameType;
-
+  String? ilce;
   Match(
       {this.gameId,
       this.title,
@@ -47,7 +47,7 @@ class Match {
       this.name,
       this.username,
       this.image,
-      this.joinedGamers,this.gameType});
+      this.joinedGamers,this.gameType,this.ilce});
 
   Match.fromJson(Map<String, dynamic> json) {
     gameId = json['game_id'];
@@ -60,7 +60,7 @@ class Match {
       tagler!.add(json["il"]);
     }
     if(json["ilce"]!=null){
-      tagler!.add(json["ilce"]);
+      ilce=json["ilce"].replaceAll("#", "");
     }
     if(json["cinsiyet"]!=null){
       tagler!.add(json["cinsiyet"]);

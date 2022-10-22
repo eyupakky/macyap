@@ -10,6 +10,7 @@ class Constant{
 
   // Register
   static String login = "Home/Login";
+  static String help = "Support/Help";
   static String register = "Home/Register";
   static String getCounties = "Home/GetCounties";
   static String getCities = "Home/GetCities";
@@ -47,6 +48,7 @@ class Constant{
   static String blockUser = "Account/BlockUser";
   static String removeBlockUser = "Account/RemoveBlockUser";
   static String createOrganizer = "Account/OrganizerForm";
+  static String sendAComplaint = "Account/SendAComplaint";
   // Venue
   static String getVenues = "Venue/GetVenues";
   static String getVenueDetail = "Venue/GetVenueDetail";

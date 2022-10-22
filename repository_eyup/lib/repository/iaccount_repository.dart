@@ -46,6 +46,8 @@ abstract class IAccountRepository {
 
   Future<String> getMyRole();
 
+  Future<BaseResponse>sendAComplaint(String content);
+
   Future<BaseResponse> updatePassword(
       String? oldPass, String? newPass, String? newPassValid);
 }
@@ -80,6 +82,8 @@ class AccountRepository extends IAccountRepository {
         route: "/password", item: "Şifre güncelleme", icon: Icons.password));
     list.add(AccountModel(
         route: "/organizator", item: "Organizatör Ol", icon: Icons.event_note_outlined));
+    list.add(AccountModel(
+        route: "/support", item: "Yardım", icon: Icons.help));
     list.add(AccountModel(
         route: "/exit", item: "Çıkış Yap", icon: Icons.exit_to_app));
     return list;
@@ -276,6 +280,18 @@ class AccountRepository extends IAccountRepository {
   Future<BaseResponse> createOrganizer(String subject) async {
     var res = await _dio.post(Constant.baseUrl + Constant.createOrganizer, data: {
       "access_token": Constant.accessToken,"subject":subject
+    }).catchError((onError) {});
+    if (res.data["success"]) {
+      return Future.value(BaseResponse.fromJson(res.data));
+    } else {
+      return Future.error(BaseResponse.fromJson(res.data));
+    }
+  }
+
+  @override
+  Future<BaseResponse> sendAComplaint(String content) async {
+    var res = await _dio.post(Constant.baseUrl + Constant.sendAComplaint, data: {
+      "access_token": Constant.accessToken,"content":content,"user_id":Constant.userId
     }).catchError((onError) {});
     if (res.data["success"]) {
       return Future.value(BaseResponse.fromJson(res.data));

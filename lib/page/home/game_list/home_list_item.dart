@@ -61,14 +61,48 @@ class HomeListItem extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 6,
-                      child: Text(
-                        "@${match.username} ${match.limit} kişilik maç istiyor...",
-                        maxLines: 2,
-                        style: const TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10),
+                      child: Column(
+                        children: [
+                          Container(
+                            child: Text(
+                              "@${match.username} ${match.limit} kişilik maç istiyor...",
+                              maxLines: 2,
+                              style: const TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 10),
+                            ),
+                            alignment: Alignment.centerLeft,
+                          ),
+                          Container(
+                            child: Text.rich(
+                                TextSpan(
+                                text: 'Maç ',
+                                style: const TextStyle(fontSize: 11,color: Colors.grey),
+                                children: <InlineSpan>[
+                                  TextSpan(
+                                    text:match.ilce,
+                                    style: const TextStyle(fontSize: 12,color: Colors.black,fontWeight: FontWeight.bold),
+                                  ),
+                                  const TextSpan(
+                                    text:" oynanacak",
+                                    style: TextStyle(fontSize: 11),
+                                  )
+                                ]
+                            )),
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.only(top: 5),
+                          ),
+
+                        ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 25,
+                      width: 50,
+                      child: Image.asset(match.gameType == 'voleybol'
+                          ? "assets/images/voleyball.png"
+                          : "assets/images/football.png"),
                     ),
                     SizedBox(
                       height: 30,

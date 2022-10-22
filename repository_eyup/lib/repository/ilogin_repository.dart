@@ -7,6 +7,7 @@ import 'package:repository_eyup/model/register_model.dart';
 
 abstract class ILoginRepository {
   Future<String> login(String username, String password);
+  Future<BaseResponse> help(Map<String,String> map);
 
   Future<BaseResponse> register(RegisterModel registerModel);
 }
@@ -36,6 +37,17 @@ class LoginRepository implements ILoginRepository {
       return Future.value(BaseResponse.fromJson(jsonDecode(response.data)));
     }
     return Future.error(response.data);
+  }
+
+  @override
+  Future<BaseResponse> help(Map<String,String> map)async {
+    var res = await _dio.post(Constant.baseUrl + Constant.help, data: map).catchError((onError){
+      return Future.error(onError);
+    });
+    if (res.statusCode == 200 && res.data["success"]) {
+      return Future.value(BaseResponse.fromJson(res.data));
+    }
+    return Future.error("Giriş Başarısız.");
   }
 
 

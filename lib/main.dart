@@ -11,6 +11,7 @@ import 'package:halisaha/page/account/organizator.dart';
 import 'package:halisaha/page/account/password_update.dart';
 import 'package:halisaha/page/account/profile/profile.dart';
 import 'package:halisaha/page/account/settings/settings.dart';
+import 'package:halisaha/page/account/support/support.dart';
 import 'package:halisaha/page/account/wallet/tc_check.dart';
 import 'package:halisaha/page/account/wallet/upload_money.dart';
 import 'package:halisaha/page/account/wallet/wallet.dart';
@@ -23,6 +24,7 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:halisaha/page/login/forgat_my_password.dart';
+import 'package:halisaha/page/login/help.dart';
 import 'package:halisaha/page/login/login_page.dart';
 import 'package:halisaha/page/login/new_password.dart';
 import 'package:halisaha/page/login/register_page.dart';
@@ -230,6 +232,8 @@ class _MyAppState extends State<MyApp> {
           "/forgatMyPassword": (context) => const ForgatMyPassword(),
           "/newPassword": (context) => const NewPassword(),
           "/organizator": (context) => const Organizator(),
+          "/support": (context) => const SupportPage(),
+          "/help": (context) => const HelpLoginPage(),
         },
         theme: ThemeData(
             tabBarTheme: TabBarTheme(

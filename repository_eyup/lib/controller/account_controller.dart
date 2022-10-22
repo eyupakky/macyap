@@ -90,4 +90,7 @@ class AccountController {
     var users = await iAccountRepository.createOrganizer(subject);
     return users;
   }
+  Future<BaseResponse> sendAComplaint(String content)async{
+    return await iAccountRepository.sendAComplaint(content);
+  }
 }

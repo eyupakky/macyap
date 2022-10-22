@@ -221,13 +221,21 @@ class _LoginState extends State<LoginPage> {
               onTap: () {
                 Navigator.pushNamed(context, "/register");
               },
-              child: createUser()),
+              child: createUser("ÜYE OL!",true,FontWeight.bold)),
+        const SizedBox(height: 50,),
+          InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, "/help");
+              },
+              child: createUser("Yardım",false,FontWeight.normal)),
         ],
+
       ),
+
     );
   }
 
-  Widget createUser() {
+  Widget createUser(String text,bool icon,FontWeight fontWeight) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: SizedBox(
@@ -239,19 +247,22 @@ class _LoginState extends State<LoginPage> {
               child: SizedBox(
                 width: 90,
                 child: Text(
-                  "ÜYE OL!",
+                  text,
                   textAlign: TextAlign.right,
                   style: GoogleFonts.roboto(
                       fontSize: 16,
                       color: Colors.white,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: fontWeight),
                 ),
               ),
             ),
-            Icon(
-              Icons.navigate_next,
-              size: 24,
-              color: HexColor.fromHex("#f0243a"),
+            Visibility(
+              visible: icon,
+              child: Icon(
+                Icons.navigate_next,
+                size: 24,
+                color: HexColor.fromHex("#f0243a"),
+              ),
             ),
           ],
         ),
