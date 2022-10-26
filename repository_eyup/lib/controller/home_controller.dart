@@ -5,6 +5,7 @@ import 'package:repository_eyup/model/create_game.dart';
 import 'package:repository_eyup/model/game_detail.dart';
 import 'package:repository_eyup/model/game_users.dart';
 import 'package:repository_eyup/model/matches_model.dart';
+import 'package:repository_eyup/model/turnuva_list.dart';
 import 'package:repository_eyup/repository/imatches_repository.dart';
 
 class HomeController {
@@ -18,7 +19,9 @@ class HomeController {
   Future<List<Match>> getLazyMatches(Map<String, String> map) async {
     // String? tarih = map["tarih"];
     /* && matchesList[tarih]==null */
+    getTurnuvalar();
     return _iMatchesRepository.getLazyMatches(map);
+
     var response =
         await _iMatchesRepository.getLazyMatches(map).catchError((err) {
       temp = true;
@@ -109,5 +112,12 @@ class HomeController {
   Future<bool> lostMyPassword(String usernameEmail) async {
     var response = await _iMatchesRepository.lostMyPassword(usernameEmail);
     return Future.value(response);
+  }
+
+  Future<TurnuvaList> getTurnuvalar() async {
+    return await _iMatchesRepository.getTurnuvalar();
+  }
+  Future<BaseResponse> joinTurnuva(String id) async {
+    return await _iMatchesRepository.joinTurnuva(id);
   }
 }

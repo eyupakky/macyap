@@ -8,6 +8,7 @@ import 'package:repository_eyup/model/create_game.dart';
 import 'package:repository_eyup/model/game_detail.dart';
 import 'package:repository_eyup/model/game_users.dart';
 import 'package:repository_eyup/model/matches_model.dart';
+import 'package:repository_eyup/model/turnuva_list.dart';
 
 abstract class IMatchesRepository {
   Future<List<Match>> getLazyMatches(Map<String, String> search);
@@ -28,6 +29,8 @@ abstract class IMatchesRepository {
   Future<BaseResponse> createGame(CreateGame game);
 
   Future<bool> lostMyPassword(String usernameEmail);
+  Future<TurnuvaList> getTurnuvalar();
+  Future<BaseResponse> joinTurnuva(String id);
   Future<bool> resetMyPassword(String passsword,String code);
 }
 
@@ -169,6 +172,32 @@ class MatchesRepository extends IMatchesRepository {
     });
     if(response.statusCode==200){
       return Future.value(response.data);
+    }
+    return Future.error("Hata oluştu");
+  }
+
+  @override
+  Future<TurnuvaList> getTurnuvalar() async{
+    var response = await _dio.post(Constant.baseUrl + Constant.turnuvaList,data: {
+      "access_token": Constant.accessToken
+    }).catchError((err) {
+      return Future.error(err);
+    });
+    if(response.statusCode==200){
+      return Future.value(TurnuvaList.fromJson(response.data));
+    }
+    return Future.error("Hata oluştu");
+  }
+
+  @override
+  Future<BaseResponse> joinTurnuva(String id) async{
+    var response = await _dio.post(Constant.baseUrl + Constant.turnuvaList,data:{
+      "access_token": Constant.accessToken,"turnuva_id":id
+    }).catchError((err) {
+      return Future.error(err);
+    });
+    if(response.statusCode==200){
+      return Future.value(BaseResponse.fromJson(response.data));
     }
     return Future.error("Hata oluştu");
   }

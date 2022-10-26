@@ -22,6 +22,7 @@ class Constant{
   static String getGameUsers = "Games/GetGameUsers";
   static String getGameComments = "Games/GetGameComments";
   static String writeGameComment = "Games/WriteGameComment";
+  static String turnuvaList = "Games/TurnuvaList";
 
   // oyuna gir - çık
   static String joinGame = "Games/JoinGame";
