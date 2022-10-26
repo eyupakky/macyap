@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/base_widget.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/model/account_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../help/utils.dart';
 
 class AccountPage extends StatelessWidget {
   AccountPage({Key? key}) : super(key: key);
@@ -43,6 +46,31 @@ class AccountPage extends StatelessWidget {
                                 if(data[index].route=="/profile"){
                                   Navigator.pushNamed(context, data[index].route,arguments: Constant.userId);
                                 }
+                                else if(data[index].route=="/removeAccount"){
+                                  showDialog(context: context,
+                                      builder:(BuildContext contx){
+                                        return  AlertDialog(
+                                          title: const Text('Kullanıcını Silmek istediğine emin misin ?'),
+                                          actions: [
+                                            MaterialButton(                     // FlatButton widget is used to make a text to work like a button
+                                              textColor: Colors.black,
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },             // function used to perform after pressing the button
+                                              child: const Text('İptal'),
+                                            ),
+                                            MaterialButton(
+                                              textColor: Colors.black,
+                                              onPressed: () {
+                                                deleteAccount(context);
+                                              },
+                                              child: const Text('Onayla'),
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                  );
+                                }
                                 else if(data[index].route!="/exit") {
                                   Navigator.pushNamed(context, data[index].route);
                                 }else{
@@ -77,5 +105,15 @@ class AccountPage extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     Navigator.pushNamed(context, "/login");
+  }
+
+  void deleteAccount(context) {
+    _accountController.deleteAccount().then((value){
+      Navigator.pop(context);
+      exitApp(context);
+    }).catchError((onError){
+      EasyLoading.dismiss();
+      showToast(onError);
+    });
   }
 }

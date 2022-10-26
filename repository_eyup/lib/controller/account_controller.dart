@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/model/account_model.dart';
 import 'package:repository_eyup/model/base_response.dart';
-import 'package:repository_eyup/model/game_users.dart';
 import 'package:repository_eyup/model/matches_model.dart';
 import 'package:repository_eyup/model/user.dart';
 import 'package:repository_eyup/model/user_list.dart';
@@ -92,5 +91,8 @@ class AccountController {
   }
   Future<BaseResponse> sendAComplaint(String content)async{
     return await iAccountRepository.sendAComplaint(content);
+  }
+  Future<BaseResponse> deleteAccount()async{
+    return await iAccountRepository.deleteAccount();
   }
 }
