@@ -23,6 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:halisaha/page/home/turnuva_list.dart';
 import 'package:halisaha/page/login/forgat_my_password.dart';
 import 'package:halisaha/page/login/help.dart';
 import 'package:halisaha/page/login/login_page.dart';
@@ -234,6 +235,7 @@ class _MyAppState extends State<MyApp> {
           "/organizator": (context) => const Organizator(),
           "/support": (context) => const SupportPage(),
           "/help": (context) => const HelpLoginPage(),
+          "/turnuva": (context) => const TurnuvaList(),
         },
         theme: ThemeData(
             tabBarTheme: TabBarTheme(

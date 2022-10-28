@@ -9,6 +9,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:halisaha/page/account/account_page.dart';
 import 'package:halisaha/page/home/game_list/main_list.dart';
+import 'package:halisaha/page/home/turnuva_list.dart';
 import 'package:halisaha/page/message/message_page.dart';
 import 'package:halisaha/page/venues/venues_page.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -137,6 +138,11 @@ class _HomePageState extends State<HomePage> {
             title: const Text('Anasayfa'),
           ),
           FlashyTabBarItem(
+            icon: const Icon(Icons.tour),
+            activeColor: Colors.redAccent,
+            title: const Text('Turnuvalar'),
+          ),
+          FlashyTabBarItem(
               icon: const Icon(Icons.location_on_sharp),
               activeColor: Colors.redAccent,
               title: const Text('Mekanlar')),
@@ -173,12 +179,15 @@ class _HomePageState extends State<HomePage> {
         body = const MainList();
         break;
       case 1:
-        body = PlacesPage();
+        body = const TurnuvaList();
         break;
       case 2:
-        body = MessagePage();
+        body = PlacesPage();
         break;
       case 3:
+        body = MessagePage();
+        break;
+      case 4:
         body = AccountPage();
         break;
     }
