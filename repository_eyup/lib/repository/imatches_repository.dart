@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/constant.dart';
@@ -29,8 +28,9 @@ abstract class IMatchesRepository {
   Future<BaseResponse> createGame(CreateGame game);
 
   Future<bool> lostMyPassword(String usernameEmail);
-  Future<TurnuvaList> getTurnuvalar();
-  Future<BaseResponse> joinTurnuva(String id);
+  Future<TurnuvaListModel> getTurnuvalar();
+  Future<BaseResponse2> joinTurnuva(String id);
+  Future<BaseResponse2> getText();
   Future<bool> resetMyPassword(String passsword,String code);
 }
 
@@ -177,27 +177,40 @@ class MatchesRepository extends IMatchesRepository {
   }
 
   @override
-  Future<TurnuvaList> getTurnuvalar() async{
+  Future<TurnuvaListModel> getTurnuvalar() async{
     var response = await _dio.post(Constant.baseUrl + Constant.turnuvaList,data: {
       "access_token": Constant.accessToken
     }).catchError((err) {
       return Future.error(err);
     });
     if(response.statusCode==200){
-      return Future.value(TurnuvaList.fromJson(response.data));
+      return Future.value(TurnuvaListModel.fromJson(response.data));
     }
     return Future.error("Hata oluştu");
   }
 
   @override
-  Future<BaseResponse> joinTurnuva(String id) async{
-    var response = await _dio.post(Constant.baseUrl + Constant.turnuvaList,data:{
-      "access_token": Constant.accessToken,"turnuva_id":id
+  Future<BaseResponse2> joinTurnuva(String id) async{
+    var response = await _dio.post(Constant.baseUrl + Constant.joinTurnuva,data:{
+      "access_token": Constant.accessToken,"turnuva_id":int.parse(id)
     }).catchError((err) {
       return Future.error(err);
     });
     if(response.statusCode==200){
-      return Future.value(BaseResponse.fromJson(response.data));
+      return Future.value(BaseResponse2.fromJson(response.data));
+    }
+    return Future.error("Hata oluştu");
+  }
+
+  @override
+  Future<BaseResponse2> getText() async{
+    var response = await _dio.post(Constant.testBaseUrl + Constant.textList,data:{
+      "access_token": Constant.accessToken
+    }).catchError((err) {
+      return Future.error(err);
+    });
+    if(response.statusCode==200){
+      return Future.value(BaseResponse2.fromJson(response.data));
     }
     return Future.error("Hata oluştu");
   }

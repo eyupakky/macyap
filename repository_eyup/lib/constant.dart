@@ -7,6 +7,7 @@ class Constant{
   static String image="";
   static int userId =0;
   static String baseUrl = "http://80.93.213.244:5241/";
+  static String testBaseUrl = "http://78.111.98.76:1505/";
 
   // Register
   static String login = "Home/Login";
@@ -23,6 +24,8 @@ class Constant{
   static String getGameComments = "Games/GetGameComments";
   static String writeGameComment = "Games/WriteGameComment";
   static String turnuvaList = "Games/TurnuvaList";
+  static String joinTurnuva = "Games/TurnuvaJoinGame";
+  static String textList = "Games/TextList";
 
   // oyuna gir - çık
   static String joinGame = "Games/JoinGame";

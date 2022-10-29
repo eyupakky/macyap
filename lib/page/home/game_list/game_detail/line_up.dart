@@ -60,7 +60,7 @@ class _LineUpState extends State<LineUp> {
               ),
             ),
       bottomNavigationBar: BlocBuilder<ChangeBottomCubit, bool>(
-        builder: (context, count) => FlatButton(
+        builder: (context, count) => MaterialButton(
             padding: const EdgeInsets.all(8),
             onPressed: () {
               if (AppConfig.gameDetail.locked!) {

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:halisaha/page/account/email/update_email.dart';
 import 'package:halisaha/page/account/followers/followers.dart';
 import 'package:halisaha/page/account/organizator.dart';
@@ -40,20 +39,18 @@ import 'help/hex_color.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/subjects.dart';
 
-
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 const MethodChannel platform =
-MethodChannel('dexterx.dev/flutter_local_notifications_example');
+    MethodChannel('dexterx.dev/flutter_local_notifications_example');
 final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
-BehaviorSubject<ReceivedNotification>();
+    BehaviorSubject<ReceivedNotification>();
 
 final BehaviorSubject<String?> selectNotificationSubject =
-BehaviorSubject<String?>();
+    BehaviorSubject<String?>();
 
 String? selectedNotificationPayload;
-
 
 class ReceivedNotification {
   ReceivedNotification({
@@ -68,12 +65,11 @@ class ReceivedNotification {
   final String? body;
   final String? payload;
 }
-late AndroidNotificationChannel channel;
 
+late AndroidNotificationChannel channel;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
 }
 
 Future<void> main() async {
@@ -83,54 +79,51 @@ Future<void> main() async {
   );
   if (!kIsWeb) {
     channel = const AndroidNotificationChannel(
-      'notification_channel_id', // id
-      'notification_channel_id', // title
-      'notification_channel_id', // description
-      importance: Importance.high,
-      sound: RawResourceAndroidNotificationSound('aa')
-    );
+        'notification_channel_id', // id
+        'notification_channel_id', // title
+        'notification_channel_id', // description
+        importance: Importance.high,
+        sound: RawResourceAndroidNotificationSound('aa'));
   }
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
   const AndroidInitializationSettings initializationSettingsAndroid =
-  AndroidInitializationSettings('logo');
+      AndroidInitializationSettings('logo');
 
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   final IOSInitializationSettings initializationSettingsIOS =
-  IOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-      onDidReceiveLocalNotification: (
-          int id,
-          String? title,
-          String? body,
-          String? payload,
+      IOSInitializationSettings(
+          requestAlertPermission: false,
+          requestBadgePermission: false,
+          requestSoundPermission: false,
+          onDidReceiveLocalNotification: (
+            int id,
+            String? title,
+            String? body,
+            String? payload,
           ) async {
-        didReceiveLocalNotificationSubject.add(
-          ReceivedNotification(
-            id: id,
-            title: title,
-            body: body,
-            payload: payload,
-          ),
-        );
-      });
+            didReceiveLocalNotificationSubject.add(
+              ReceivedNotification(
+                id: id,
+                title: title,
+                body: body,
+                payload: payload,
+              ),
+            );
+          });
   final InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-    iOS: initializationSettingsIOS
-  );
+      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String? payload) async {
-        if (payload != null) {
-          debugPrint('notification payload: $payload');
-        }
-        selectedNotificationPayload = payload;
-        selectNotificationSubject.add(payload);
-      });
+    if (payload != null) {
+      debugPrint('notification payload: $payload');
+    }
+    selectedNotificationPayload = payload;
+    selectNotificationSubject.add(payload);
+  });
   AppContext appContext = AppContext();
 
   BlocOverrides.runZoned(
@@ -168,18 +161,20 @@ class _MyAppState extends State<MyApp> {
   bool _requested = false;
   bool _fetching = false;
   late NotificationSettings _settings;
+
   @override
   void initState() {
     super.initState();
     requestPermissions();
   }
+
   Future<void> requestPermissions() async {
     setState(() {
       _fetching = true;
     });
 
     NotificationSettings settings =
-    await FirebaseMessaging.instance.requestPermission(
+        await FirebaseMessaging.instance.requestPermission(
       announcement: true,
       carPlay: true,
       criticalAlert: true,
@@ -191,6 +186,7 @@ class _MyAppState extends State<MyApp> {
       _settings = settings;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -255,17 +251,11 @@ class _MyAppState extends State<MyApp> {
                   fontSize: 14,
                   fontWeight: FontWeight.w400),
               subtitle1: TextStyle(
-                  color: Colors.red,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400),
+                  color: Colors.red, fontSize: 14, fontWeight: FontWeight.w400),
             ),
             backgroundColor: Colors.white,
             fontFamily: "Montserrat-bold",
             primarySwatch: Colors.red),
-        localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
-        supportedLocales: const [
-          Locale('tr', "TR"),
-        ],
         debugShowCheckedModeBanner: false,
       ),
     );

@@ -114,10 +114,13 @@ class HomeController {
     return Future.value(response);
   }
 
-  Future<TurnuvaList> getTurnuvalar() async {
+  Future<TurnuvaListModel> getTurnuvalar() async {
     return await _iMatchesRepository.getTurnuvalar();
   }
-  Future<BaseResponse> joinTurnuva(String id) async {
+  Future<BaseResponse2> joinTurnuva(String id) async {
     return await _iMatchesRepository.joinTurnuva(id);
+  }
+  Future<BaseResponse2> getText() async {
+    return await _iMatchesRepository.getText();
   }
 }

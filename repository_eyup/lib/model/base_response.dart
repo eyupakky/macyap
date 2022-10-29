@@ -21,3 +21,12 @@ class RatingResponse {
     field = json['field'];
   }
 }
+class BaseResponse2 {
+  late bool success;
+  String? description;
+
+  BaseResponse2.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    description = json['value'];
+  }
+}

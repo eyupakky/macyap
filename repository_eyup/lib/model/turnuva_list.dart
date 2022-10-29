@@ -1,9 +1,9 @@
-class TurnuvaList{
+class TurnuvaListModel{
   bool? success;
   List<Turnuvalar>? turnuvalar;
-  TurnuvaList({this.success, this.turnuvalar});
+  TurnuvaListModel({this.success, this.turnuvalar});
 
-  TurnuvaList.fromJson(Map<String, dynamic> json) {
+  TurnuvaListModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     if (json['turnuvalar'] != null) {
       turnuvalar = <Turnuvalar>[];

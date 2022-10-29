@@ -6,6 +6,7 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:halisaha/help/utils.dart';
 
 import 'package:halisaha/page/account/account_page.dart';
 import 'package:halisaha/page/home/game_list/main_list.dart';
@@ -15,6 +16,8 @@ import 'package:halisaha/page/venues/venues_page.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/firebase_controller.dart';
+import 'package:repository_eyup/controller/home_controller.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../../main.dart';
 
@@ -30,12 +33,16 @@ class _HomePageState extends State<HomePage> {
   late Widget body;
   var constraints;
   final FirebaseController _firebaseController = FirebaseController();
+  final HomeController _homeController = HomeController();
+  String text =
+      'Maç Yap ta çok yakında gerçek çim sahalarda ve stadyumlarda maç yapabileceksiniz...       MaçYap ta turnuva zamanı... Turnuvalar sayfamızdan yapılacak turnuvalarımızı görebilir ,online olarak katılabilirsiniz. Turnuvalarımızda ünlü futbolcu ve Kaleci Yağmuru : Engin Baytar,Pascal Nouma,Ahmet Dursun ,Ali Eren,İbrahim Yattara,Tarık Daşgün,Veli Kavlak,Hami Mandıralı,Gökdeniz Karadeniz,Serkan Balcı,Deniz Ateş Bitnel,Ferit Aktuğ,Kubilay Aka,Hasan Kabze,Ümit Karan,Uğur Uçar,Emre Aşık,Mehmet Yozgatlı,Emre Toraman ve daha bir çok ünlü oyuncu sizlerle olacaklar...';
 
   @override
   void initState() {
     super.initState();
-   _notification();
+    _notification();
     //initPlatformState();
+    getTextList();
   }
 
   Future<void> initPlatformState() async {
@@ -69,7 +76,7 @@ class _HomePageState extends State<HomePage> {
       OSNotification osNotification = OSNotification({
         "title": message.notification!.title,
         "body": message.notification!.body,
-        "notificationId":message.messageId,
+        "notificationId": message.messageId,
       });
       _showNotificationCustomSound(osNotification);
       // _showItemDialog(message);
@@ -119,10 +126,22 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white.withAlpha(240),
       body: SafeArea(
-        child: LayoutBuilder(builder: (context, constraints) {
-          this.constraints = constraints;
-          return changeBottomItem(_selectedIndex);
-        }),
+        child: Stack(
+          children: [
+            LayoutBuilder(builder: (context, constraints) {
+              this.constraints = constraints;
+              return changeBottomItem(_selectedIndex);
+            }),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: TextScroll(
+                text,
+                intervalSpaces: 10,
+                velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
+              ),
+            )
+          ],
+        ),
       ),
       bottomNavigationBar: FlashyTabBar(
         selectedIndex: _selectedIndex,
@@ -251,5 +270,15 @@ class _HomePageState extends State<HomePage> {
         ),
       ],
     );
+  }
+
+  getTextList() {
+    _homeController.getText().then((value) {
+     setState(() {
+       // text = value.description!;
+     });
+    }).catchError((onError) {
+      showToast('$onError');
+    });
   }
 }
