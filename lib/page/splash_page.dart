@@ -51,7 +51,7 @@ class _SplashPageState extends State<SplashPage> {
         Constant.surname = surname!;
         Constant.image = image!;
         Constant.userId = int.parse('$userId');
-        Navigator.pushReplacementNamed(context, "/");
+        Navigator.pushReplacementNamed(context, "/home");
       } else {
         Navigator.pushReplacementNamed(context, "/login");
       }

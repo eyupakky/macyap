@@ -308,7 +308,7 @@ class _LoginState extends State<LoginPage> {
         Constant.name = value.firstname!;
         Constant.surname = value.lastname!;
         appContext.setMyUser(value);
-        Navigator.pushReplacementNamed(context, "/");
+        Navigator.pushReplacementNamed(context, "/home");
       });
     }).catchError((err) {
       EasyLoading.dismiss();

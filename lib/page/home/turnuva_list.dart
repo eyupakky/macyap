@@ -192,19 +192,6 @@ class _TurnuvaListState extends State<TurnuvaList> with LocationMixin {
             );
           }),
         ),
-        floatingActionButton: FutureBuilder<String>(
-            future: _accountController.getMyRole(),
-            builder: (context, snapshot) {
-              if (snapshot.data == null || snapshot.data != "Organizator") {
-                return SizedBox();
-              }
-              return FloatingActionButton.small(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/createGame");
-                },
-                child: const Icon(Icons.add),
-              );
-            }),
       ),
     );
   }

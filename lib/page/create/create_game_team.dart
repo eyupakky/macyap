@@ -250,7 +250,7 @@ class _CreateGameTeamState extends State<CreateGameTeam> {
       EasyLoading.dismiss();
       showToast(value.description!);
       Navigator.pushNamedAndRemoveUntil(
-          context, "/", ModalRoute.withName('/createGame'));
+          context, "/home", ModalRoute.withName('/createGame'));
     }).catchError((onError) {
       EasyLoading.dismiss();
       showToast(onError);

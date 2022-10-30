@@ -183,11 +183,17 @@ class _MainListState extends State<MainList> with LocationMixin {
               if (snapshot.data == null || snapshot.data != "Organizator") {
                 return SizedBox();
               }
-              return FloatingActionButton.small(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/createGame");
-                },
-                child: const Icon(Icons.add),
+              return Container(
+                width: 50,
+                height: 50,
+                margin: const EdgeInsets.only(bottom: 50),
+                child: FloatingActionButton.small(
+
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/createGame");
+                  },
+                  child: const Icon(Icons.add),
+                ),
               );
             }),
       ),

@@ -7,6 +7,7 @@ import 'package:repository_eyup/model/create_game.dart';
 import 'package:repository_eyup/model/game_detail.dart';
 import 'package:repository_eyup/model/game_users.dart';
 import 'package:repository_eyup/model/matches_model.dart';
+import 'package:repository_eyup/model/text_model.dart';
 import 'package:repository_eyup/model/turnuva_list.dart';
 
 abstract class IMatchesRepository {
@@ -30,7 +31,7 @@ abstract class IMatchesRepository {
   Future<bool> lostMyPassword(String usernameEmail);
   Future<TurnuvaListModel> getTurnuvalar();
   Future<BaseResponse2> joinTurnuva(String id);
-  Future<BaseResponse2> getText();
+  Future<TextModel> getText();
   Future<bool> resetMyPassword(String passsword,String code);
 }
 
@@ -203,14 +204,14 @@ class MatchesRepository extends IMatchesRepository {
   }
 
   @override
-  Future<BaseResponse2> getText() async{
-    var response = await _dio.post(Constant.testBaseUrl + Constant.textList,data:{
+  Future<TextModel> getText() async{
+    var response = await _dio.post(Constant.baseUrl + Constant.textList,data:{
       "access_token": Constant.accessToken
     }).catchError((err) {
       return Future.error(err);
     });
     if(response.statusCode==200){
-      return Future.value(BaseResponse2.fromJson(response.data));
+      return Future.value(TextModel.fromJson(response.data));
     }
     return Future.error("Hata oluştu");
   }

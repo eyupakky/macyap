@@ -205,12 +205,12 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: MaterialApp(
-        initialRoute: "/remote",
+        initialRoute: "/",
         builder: EasyLoading.init(),
         routes: {
-          "/": (context) => const HomePage(),
+          "/home": (context) => const HomePage(),
           "/splash": (context) => const SplashPage(),
-          "/remote": (context) => RemoteConfigPage(),
+          "/": (context) => RemoteConfigPage(),
           "/messageDetails": (context) => MessageDetails(),
           "/profile": (context) => ProfilePage(),
           "/followers": (context) => FollowersPage(),

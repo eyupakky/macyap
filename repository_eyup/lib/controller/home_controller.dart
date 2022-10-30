@@ -5,6 +5,7 @@ import 'package:repository_eyup/model/create_game.dart';
 import 'package:repository_eyup/model/game_detail.dart';
 import 'package:repository_eyup/model/game_users.dart';
 import 'package:repository_eyup/model/matches_model.dart';
+import 'package:repository_eyup/model/text_model.dart';
 import 'package:repository_eyup/model/turnuva_list.dart';
 import 'package:repository_eyup/repository/imatches_repository.dart';
 
@@ -120,7 +121,7 @@ class HomeController {
   Future<BaseResponse2> joinTurnuva(String id) async {
     return await _iMatchesRepository.joinTurnuva(id);
   }
-  Future<BaseResponse2> getText() async {
+  Future<TextModel> getText() async {
     return await _iMatchesRepository.getText();
   }
 }

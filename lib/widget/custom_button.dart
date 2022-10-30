@@ -72,7 +72,7 @@ class _CustomButtonState extends State<CustomButton>
         setState(() {
           createdProfile = true;
         });
-        //Navigator.pushReplacementNamed(context, "/")
+        //Navigator.pushReplacementNamed(context, "/home")
       },
       child: Transform.scale(
         scale: _scale,

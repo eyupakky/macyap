@@ -17,6 +17,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/firebase_controller.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
+import 'package:repository_eyup/model/base_response.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../main.dart';
@@ -36,13 +37,16 @@ class _HomePageState extends State<HomePage> {
   final HomeController _homeController = HomeController();
   String text =
       'Maç Yap ta çok yakında gerçek çim sahalarda ve stadyumlarda maç yapabileceksiniz...       MaçYap ta turnuva zamanı... Turnuvalar sayfamızdan yapılacak turnuvalarımızı görebilir ,online olarak katılabilirsiniz. Turnuvalarımızda ünlü futbolcu ve Kaleci Yağmuru : Engin Baytar,Pascal Nouma,Ahmet Dursun ,Ali Eren,İbrahim Yattara,Tarık Daşgün,Veli Kavlak,Hami Mandıralı,Gökdeniz Karadeniz,Serkan Balcı,Deniz Ateş Bitnel,Ferit Aktuğ,Kubilay Aka,Hasan Kabze,Ümit Karan,Uğur Uçar,Emre Aşık,Mehmet Yozgatlı,Emre Toraman ve daha bir çok ünlü oyuncu sizlerle olacaklar...';
+  bool visib = false;
 
   @override
   void initState() {
     super.initState();
     _notification();
     //initPlatformState();
-    getTextList();
+    if (Constant.accessToken.isNotEmpty) {
+      getTextList();
+    }
   }
 
   Future<void> initPlatformState() async {
@@ -130,14 +134,25 @@ class _HomePageState extends State<HomePage> {
           children: [
             LayoutBuilder(builder: (context, constraints) {
               this.constraints = constraints;
-              return changeBottomItem(_selectedIndex);
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 40),
+                child: changeBottomItem(_selectedIndex),
+              );
             }),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: TextScroll(
-                text,
-                intervalSpaces: 10,
-                velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
+            Visibility(
+              visible: visib,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 40,
+                  color: Colors.red,
+                  alignment: Alignment.center,
+                  child: TextScroll(
+                    text,
+                    intervalSpaces: 10,
+                    velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
+                  ),
+                ),
               ),
             )
           ],
@@ -159,7 +174,10 @@ class _HomePageState extends State<HomePage> {
           FlashyTabBarItem(
             icon: const Icon(Icons.tour),
             activeColor: Colors.redAccent,
-            title: const Text('Turnuvalar'),
+            title: const Text(
+              'Turnuvalar',
+              style: TextStyle(fontSize: 12),
+            ),
           ),
           FlashyTabBarItem(
               icon: const Icon(Icons.location_on_sharp),
@@ -181,8 +199,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   sendGuid(String guid) {
-    print("############################");
-    print(guid);
     if (guid.isNotEmpty && Constant.accessToken.isNotEmpty) {
       _firebaseController.sendGuid(guid).then((value) {
         print(value);
@@ -274,9 +290,12 @@ class _HomePageState extends State<HomePage> {
 
   getTextList() {
     _homeController.getText().then((value) {
-     setState(() {
-       // text = value.description!;
-     });
+      visib = value.success;
+      if (value.success) {
+        setState(() {
+          text = value.text;
+        });
+      }
     }).catchError((onError) {
       showToast('$onError');
     });
