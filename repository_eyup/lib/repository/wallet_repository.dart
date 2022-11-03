@@ -16,6 +16,8 @@ abstract class IWalletRepository {
   Future<bool> checkTc();
 
   Future<BaseResponse> setTc(String? tc);
+
+  Future<BaseResponse> setPromosyonCode(String? promosyonKodu);
 }
 
 class WalletRepository extends IWalletRepository {
@@ -77,11 +79,10 @@ class WalletRepository extends IWalletRepository {
 
   @override
   Future<BaseResponse> setTc(String? tc) async {
-    var response = await _dio.post(Constant.baseUrl + Constant.setTc,
-        data: {
-          "access_token": Constant.accessToken,
-          "tckno":"${tc}"
-        }).catchError((err) {
+    var response = await _dio.post(Constant.baseUrl + Constant.setTc, data: {
+      "access_token": Constant.accessToken,
+      "tckno": "${tc}"
+    }).catchError((err) {
       print(err);
       return Future.error(err);
     });
@@ -91,5 +92,17 @@ class WalletRepository extends IWalletRepository {
     } else {
       return Future.error(data.description!);
     }
+  }
+
+  @override
+  Future<BaseResponse> setPromosyonCode(String? promosyonKodu) async {
+    var response = await _dio.post(Constant.baseUrl + Constant.promosyonCode,
+        data: {
+          "access_token": Constant.accessToken,
+          "promosyonKodu": promosyonKodu
+        }).catchError((err) {
+      return Future.error(err);
+    });
+    return Future.value(response.data);
   }
 }

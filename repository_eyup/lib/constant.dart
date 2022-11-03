@@ -67,6 +67,7 @@ class Constant{
   static String getUserBalance = "Payment/GetUserBalance";
   static String checkTCKNO = "Payment/CheckTCKNO";
   static String setTc = "Payment/TCKNO";
+  static String promosyonCode = "Payment/PromosyonCode";
   static String payment = "MobilPayment/Payment";
   static String getPaymentLogs = "Payment/GetPaymentLogs";
 

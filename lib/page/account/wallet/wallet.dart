@@ -4,11 +4,14 @@ import 'package:intl/intl.dart';
 import 'package:repository_eyup/controller/wallet_controller.dart';
 import 'package:repository_eyup/model/payment_history_model.dart';
 
+import '../../../help/payment_card.dart';
+
 class WalletPage extends StatelessWidget {
   WalletPage({Key? key}) : super(key: key);
   final WalletController _walletController = WalletController();
   final f = DateFormat('yyyy-MM-dd');
   final f2 = DateFormat('dd.MM.yyyy');
+  final TextEditingController promosyonKoduController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +60,25 @@ class WalletPage extends StatelessWidget {
                   Navigator.pushNamed(context, "/tcCheck");
                 },
                 child: const Text(
-                  'Bakiye Yükle',
+                  '  Bakiye Yükle ',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red, // background
+                  onPrimary: Colors.white, // foreground
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, "/promosyonKodu");
+                },
+                child: const Text(
+                  'Promosyon Kodu Kullan',
+                  style: TextStyle(fontSize: 12),
+                ),
+              ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.7,
+                height: MediaQuery.of(context).size.height * 0.65,
                 child: FutureBuilder<PaymentHistoryModel>(
                     future: _walletController.getPaymentLogs(),
                     builder: (context, snapshot) {

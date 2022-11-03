@@ -21,4 +21,7 @@ class WalletController{
   Future<BaseResponse> setTc(String? tc){
     return Future.value(_walletRepository.setTc(tc));
   }
+  Future<BaseResponse> setPromosyon(String? promosyonKodu){
+    return Future.value(_walletRepository.setPromosyonCode(promosyonKodu));
+  }
 }

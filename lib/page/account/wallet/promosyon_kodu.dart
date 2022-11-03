@@ -8,15 +8,15 @@ import 'package:halisaha/help/payment_card.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:repository_eyup/controller/wallet_controller.dart';
 
-class TcCheckController extends StatefulWidget {
-  const TcCheckController({Key? key}) : super(key: key);
+class PromosyonKoduPage extends StatefulWidget {
+  const PromosyonKoduPage({Key? key}) : super(key: key);
 
   @override
-  State<TcCheckController> createState() => _TcCheckControllerState();
+  State<PromosyonKoduPage> createState() => _PromosyonKoduPageState();
 }
 
-class _TcCheckControllerState extends State<TcCheckController> {
-  final TextEditingController tcCheckController = TextEditingController();
+class _PromosyonKoduPageState extends State<PromosyonKoduPage> {
+  final TextEditingController promosyonController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -27,7 +27,6 @@ class _TcCheckControllerState extends State<TcCheckController> {
   @override
   void initState() {
     super.initState();
-    checkTc();
   }
 
   @override
@@ -39,7 +38,7 @@ class _TcCheckControllerState extends State<TcCheckController> {
           children: [
             ListTile(
               title: const Text(
-                "TC No",
+                "Promosyon Kodu",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               leading: IconButton(
@@ -56,10 +55,6 @@ class _TcCheckControllerState extends State<TcCheckController> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text(
-                    "* Tc kimlik numarasını, yasal zorunluluk sebebi ile istenmektedir.\n* Bu bilgi sizden bir defaya mahsus alınacaktır.",
-                    style: TextStyle(fontSize: 12),
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -75,7 +70,7 @@ class _TcCheckControllerState extends State<TcCheckController> {
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey),
                       ),
-                      hintText: "TC kimlik numarası",
+                      hintText: "Promosyon Kodu",
                       labelStyle:
                           const TextStyle(color: Colors.black, fontSize: 14),
                       focusedBorder: const UnderlineInputBorder(
@@ -85,11 +80,11 @@ class _TcCheckControllerState extends State<TcCheckController> {
                     keyboardType: TextInputType.number,
                     validator: (val) {
                       return val!.isNotEmpty
-                          ? (val.length == 11 ? null : Strings.tcNumarasi)
-                          : Strings.fieldReq;
+                          ? null
+                          : "Boş Geçilemez";
                     },
                     onChanged: (val) {},
-                    controller: tcCheckController,
+                    controller: promosyonController,
                   ),
                   const SizedBox(
                     height: 20,
@@ -114,7 +109,7 @@ class _TcCheckControllerState extends State<TcCheckController> {
                 height: 50,
                 alignment: Alignment.center,
                 child: const Text(
-                  'TCKNO Onayla',
+                  'SORGULA',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
@@ -127,25 +122,10 @@ class _TcCheckControllerState extends State<TcCheckController> {
 
   setTC() {
     EasyLoading.show();
-    _walletController
-        .setTc(tcCheckController.text)
-        .then((value) => Navigator.pushNamedAndRemoveUntil(
-            context, "/uploadMoney", ModalRoute.withName('/')))
-        .catchError((onError) {
-      EasyLoading.dismiss();
-      showToast(onError);
-    });
-  }
-
-  checkTc() {
-    EasyLoading.show();
-    _walletController.checkTc().then((value) {
-      if (value == true) {
-        Navigator.pushReplacementNamed(
-            context, "/uploadMoney");
-      } else {
-        EasyLoading.dismiss();
-      }
+    _walletController.setPromosyon(promosyonController.text).then((value) {
+      value.success!
+          ? showToast("Promosyon kodu başarılı bir şekilde uygulandı.")
+          : showToast("${value.description}");
     }).catchError((onError) {
       EasyLoading.dismiss();
       showToast(onError);
