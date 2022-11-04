@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import 'package:halisaha/page/message/message_page.dart';
 import 'package:halisaha/page/venues/venues_page.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/firebase_controller.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
@@ -38,7 +40,7 @@ class _HomePageState extends State<HomePage> {
   var constraints;
   String phoneNumber = "";
   PhoneNumber number = PhoneNumber(isoCode: 'TR');
-
+  late RemoteConfig config;
   final FirebaseController _firebaseController = FirebaseController();
   final HomeController _homeController = HomeController();
   TextEditingController code = TextEditingController();
@@ -50,6 +52,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _notification();
+    config=RemoteConfig.instance;
     //initPlatformState();
     if (Constant.accessToken.isNotEmpty) {
       getTextList();
@@ -412,17 +415,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   getSmsOnayKontrol() {
-    _homeController.getSmsOnayKontrol().then((value) {
-      if (value.description != "1") {
-        showDialog<bool>(
-          context: context,
-          barrierDismissible: false,
-          builder: (_) => _buildPhoneNumberDialog(context),
-        );
+    int version = config.getInt("ios_preview");
+    PackageInfo.fromPlatform().then((value) {
+      bool kontrol = version == int.parse(value.version) ? false : true;
+      if(kontrol) {
+        _homeController.getSmsOnayKontrol().then((value) {
+        if (value.description != "1") {
+          showDialog<bool>(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => _buildPhoneNumberDialog(context),
+          );
+        }
+      }).catchError((onError) {
+        showToast('$onError');
+      });
       }
-    }).catchError((onError) {
-      showToast('$onError');
+
     });
+
   }
 
   sendPhoneNumber() {
