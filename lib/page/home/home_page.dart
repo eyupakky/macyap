@@ -6,6 +6,7 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:halisaha/help/utils.dart';
 
 import 'package:halisaha/page/account/account_page.dart';
@@ -13,6 +14,7 @@ import 'package:halisaha/page/home/game_list/main_list.dart';
 import 'package:halisaha/page/home/turnuva_list.dart';
 import 'package:halisaha/page/message/message_page.dart';
 import 'package:halisaha/page/venues/venues_page.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/firebase_controller.dart';
@@ -20,6 +22,7 @@ import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:text_scroll/text_scroll.dart';
 
+import '../../help/hex_color.dart';
 import '../../main.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,8 +36,12 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   late Widget body;
   var constraints;
+  String phoneNumber = "";
+  PhoneNumber number = PhoneNumber(isoCode: 'TR');
+
   final FirebaseController _firebaseController = FirebaseController();
   final HomeController _homeController = HomeController();
+  TextEditingController code = TextEditingController();
   String text =
       'Maç Yap ta çok yakında gerçek çim sahalarda ve stadyumlarda maç yapabileceksiniz...       MaçYap ta turnuva zamanı... Turnuvalar sayfamızdan yapılacak turnuvalarımızı görebilir ,online olarak katılabilirsiniz. Turnuvalarımızda ünlü futbolcu ve Kaleci Yağmuru : Engin Baytar,Pascal Nouma,Ahmet Dursun ,Ali Eren,İbrahim Yattara,Tarık Daşgün,Veli Kavlak,Hami Mandıralı,Gökdeniz Karadeniz,Serkan Balcı,Deniz Ateş Bitnel,Ferit Aktuğ,Kubilay Aka,Hasan Kabze,Ümit Karan,Uğur Uçar,Emre Aşık,Mehmet Yozgatlı,Emre Toraman ve daha bir çok ünlü oyuncu sizlerle olacaklar...';
   bool visib = false;
@@ -46,6 +53,7 @@ class _HomePageState extends State<HomePage> {
     //initPlatformState();
     if (Constant.accessToken.isNotEmpty) {
       getTextList();
+      getSmsOnayKontrol();
     }
   }
 
@@ -229,6 +237,121 @@ class _HomePageState extends State<HomePage> {
     return body;
   }
 
+  Widget _buildSendDialog(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.white,
+      title: Container(
+        margin: const EdgeInsets.only(left: 45),
+        child: const Text(
+          'Telefonunuza gelen kodu giriniz',
+          maxLines: 3,
+        ),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            margin:
+                const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+            child: TextFormField(
+              decoration: const InputDecoration(
+                hintText: "Kod",
+              ),
+              controller: code,
+              keyboardType: TextInputType.phone,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          child: const Text(
+            'Gönder',
+          ),
+          onPressed: () {
+            if (code.text.isNotEmpty) {
+              smsKontrol();
+            } else {
+              showToast("Hatalı telefon numarası");
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPhoneNumberDialog(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.white,
+      title: Container(
+        margin: const EdgeInsets.only(left: 45),
+        child: const Text(
+          'Telefon numaranızı giriniz',
+          maxLines: 3,
+        ),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            margin:
+                const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+            child: InternationalPhoneNumberInput(
+              onInputChanged: (PhoneNumber number) {
+                phoneNumber = number.phoneNumber!;
+              },
+              selectorConfig: const SelectorConfig(
+                  selectorType: PhoneInputSelectorType.DIALOG),
+              initialValue: number,
+              inputDecoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: HexColor.fromHex("#f0243a"),
+                  ),
+                ),
+                labelText: "Cep telefonunuz".toUpperCase(),
+                labelStyle: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white60,
+                    fontSize: 10),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: HexColor.fromHex("#f0243a")),
+                ),
+              ),
+              keyboardType: const TextInputType.numberWithOptions(
+                  signed: true, decimal: true),
+              inputBorder: const OutlineInputBorder(),
+              onSaved: (PhoneNumber number) {
+                print('On Saved: $number');
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          child: const Text(
+            'Gönder',
+          ),
+          onPressed: () {
+            if (isValidPhoneNumber(phoneNumber)) {
+              Navigator.pop(context);
+              sendPhoneNumber();
+            } else {
+              showToast("Hatalı telefon numarası");
+            }
+          },
+        ),
+      ],
+    );
+  }
+
   Widget _buildDialog(BuildContext context, RemoteMessage message) {
     return AlertDialog(
       backgroundColor: Colors.white,
@@ -267,7 +390,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       actions: <Widget>[
-        FlatButton(
+        ElevatedButton(
           child: const Text(
             'Kapat',
           ),
@@ -275,7 +398,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.pop(context);
           },
         ),
-        FlatButton(
+        ElevatedButton(
           child: const Text(
             'Göster',
           ),
@@ -286,6 +409,44 @@ class _HomePageState extends State<HomePage> {
         ),
       ],
     );
+  }
+
+  getSmsOnayKontrol() {
+    _homeController.getSmsOnayKontrol().then((value) {
+      if (value.description != "1") {
+        showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => _buildPhoneNumberDialog(context),
+        );
+      }
+    }).catchError((onError) {
+      showToast('$onError');
+    });
+  }
+
+  sendPhoneNumber() {
+    _homeController.sendPhoneNumber(phoneNumber).then((value) {
+      if (value.description != "1") {
+        showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => _buildSendDialog(context),
+        );
+      }
+    }).catchError((onError) {
+      showToast('$onError');
+    });
+  }
+
+  smsKontrol() {
+    _homeController.smsKontrol(code.text).then((value) {
+      if (value.success) {
+        Navigator.pop(context);
+      }
+    }).catchError((onError) {
+      showToast('$onError');
+    });
   }
 
   getTextList() {
@@ -299,5 +460,11 @@ class _HomePageState extends State<HomePage> {
     }).catchError((onError) {
       showToast('$onError');
     });
+  }
+
+  bool isValidPhoneNumber(String? value) {
+    return RegExp(
+            r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{6,6}$)')
+        .hasMatch(value ?? '');
   }
 }

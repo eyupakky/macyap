@@ -124,4 +124,13 @@ class HomeController {
   Future<TextModel> getText() async {
     return await _iMatchesRepository.getText();
   }
+  Future<BaseResponse2> getSmsOnayKontrol() async {
+    return await _iMatchesRepository.getSmsOnayKontrol();
+  }
+  Future<BaseResponse2> sendPhoneNumber(String phoneNumber) async {
+    return await _iMatchesRepository.sendPhoneNumber(phoneNumber);
+  }
+  Future<BaseResponse2> smsKontrol(String code) async {
+    return await _iMatchesRepository.smsKontrol(code);
+  }
 }

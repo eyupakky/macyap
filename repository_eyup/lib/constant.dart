@@ -26,6 +26,9 @@ class Constant{
   static String turnuvaList = "Games/TurnuvaList";
   static String joinTurnuva = "Games/TurnuvaJoinGame";
   static String textList = "Games/TextList";
+  static String smsOnayKontrol = "Api/SMSOnayKontrol";
+  static String smsGonderPopup = "Api/SMSGonderPopup";
+  static String smsKontrolPopup = "Api/SMSKontrolPopup";
 
   // oyuna gir - çık
   static String joinGame = "Games/JoinGame";

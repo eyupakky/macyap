@@ -60,7 +60,6 @@ class _PromosyonKoduPageState extends State<PromosyonKoduPage> {
                   ),
                   TextFormField(
                     textAlignVertical: TextAlignVertical.center,
-                    maxLength: 11,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.star,
@@ -123,9 +122,9 @@ class _PromosyonKoduPageState extends State<PromosyonKoduPage> {
   setTC() {
     EasyLoading.show();
     _walletController.setPromosyon(promosyonController.text).then((value) {
-      value.success!
-          ? showToast("Promosyon kodu başarılı bir şekilde uygulandı.")
-          : showToast("${value.description}");
+      EasyLoading.dismiss();
+      showToast("${value.description}");
+      value.success!?Navigator.pop(context):null;
     }).catchError((onError) {
       EasyLoading.dismiss();
       showToast(onError);

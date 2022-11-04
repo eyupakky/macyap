@@ -22,6 +22,7 @@ abstract class IMatchesRepository {
   Future<BaseResponse> writeGameComment(String comment, int? id);
 
   Future<BaseResponse> joinGame(int? id);
+
   Future<BaseResponse> joinGameRequest(int? id);
 
   Future<BaseResponse> quitGame(int? id);
@@ -29,9 +30,19 @@ abstract class IMatchesRepository {
   Future<BaseResponse> createGame(CreateGame game);
 
   Future<bool> lostMyPassword(String usernameEmail);
+
   Future<TurnuvaListModel> getTurnuvalar();
+
   Future<BaseResponse2> joinTurnuva(String id);
+
   Future<TextModel> getText();
+
+  Future<BaseResponse2> getSmsOnayKontrol();
+
+  Future<BaseResponse2> sendPhoneNumber(String phoneNumber);
+
+  Future<BaseResponse2> smsKontrol(String code);
+
   Future<bool> resetMyPassword(String passsword,String code);
 }
 
@@ -212,6 +223,45 @@ class MatchesRepository extends IMatchesRepository {
     });
     if(response.statusCode==200){
       return Future.value(TextModel.fromJson(response.data));
+    }
+    return Future.error("Hata oluştu");
+  }
+
+  @override
+  Future<BaseResponse2> getSmsOnayKontrol()async {
+    var response = await _dio.post(Constant.testBaseUrl + Constant.smsOnayKontrol,data:{
+      "access_token": Constant.accessToken
+    }).catchError((err) {
+      return Future.error(err);
+    });
+    if(response.statusCode==200){
+      return Future.value(BaseResponse2.fromJson(response.data));
+    }
+    return Future.error("Hata oluştu");
+  }
+
+  @override
+  Future<BaseResponse2> sendPhoneNumber(String phoneNumber) async{
+    var response = await _dio.post(Constant.testBaseUrl + Constant.smsGonderPopup,data:{
+      "access_token": Constant.accessToken,"gsm":phoneNumber
+    }).catchError((err) {
+      return Future.error(err);
+    });
+    if(response.statusCode==200){
+      return Future.value(BaseResponse2.fromJson(response.data));
+    }
+    return Future.error("Hata oluştu");
+  }
+
+  @override
+  Future<BaseResponse2> smsKontrol(String code)async {
+    var response = await _dio.post(Constant.testBaseUrl + Constant.smsKontrolPopup,data:{
+      "access_token": Constant.accessToken,"kod":code
+    }).catchError((err) {
+      return Future.error(err);
+    });
+    if(response.statusCode==200){
+      return Future.value(BaseResponse2.fromJson(response.data));
     }
     return Future.error("Hata oluştu");
   }

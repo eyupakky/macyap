@@ -103,6 +103,6 @@ class WalletRepository extends IWalletRepository {
         }).catchError((err) {
       return Future.error(err);
     });
-    return Future.value(response.data);
+    return Future.value(BaseResponse.fromJson(response.data));
   }
 }
