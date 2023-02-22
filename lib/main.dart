@@ -235,6 +235,11 @@ class _MyAppState extends State<MyApp> {
           "/turnuva": (context) => const TurnuvaList(),
           "/promosyonKodu": (context) => const PromosyonKoduPage(),
         },
+        localizationsDelegates: const [
+          DefaultMaterialLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate,
+          DefaultWidgetsLocalizations.delegate,
+        ],
         theme: ThemeData(
             tabBarTheme: TabBarTheme(
                 labelColor: Colors.pink,

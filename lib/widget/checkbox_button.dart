@@ -46,7 +46,7 @@ class _CheckBoxButtonState extends State<CheckBoxButton> {
             children: <TextSpan>[
               TextSpan(
                   text: ' ${widget.text1}',
-                  style: const TextStyle(fontSize: 14)),
+                  style: const TextStyle(fontSize: 12)),
               // can add more TextSpans here...
             ],
           ),

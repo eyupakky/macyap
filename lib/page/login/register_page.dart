@@ -45,8 +45,8 @@ class _RegisterPageState extends State<RegisterPage> {
   List<Gender> alan = [];
   PhoneNumber number = PhoneNumber(isoCode: 'TR');
   String phoneNumber = "";
-  int? selectedCity = 0;
-  int? selectedCountry = 0;
+  int? selectedCity = 1;
+  int? selectedCountry = 1;
   int? selectedGender = 0;
   String? seciliAlan = "Futbol";
   List<Cities>? cityList = [];
@@ -319,7 +319,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 return Row(
                   children: [
                     const Expanded(
-                      flex: 1,
                       child: Text(
                         "Şehir seçiniz ",
                         textAlign: TextAlign.left,
@@ -328,7 +327,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     Expanded(
-                      flex: 2,
                       child: DropdownSearch<Cities>(
                           mode: Mode.MENU,
                           // onFind: (String filter) => getData(filter),
@@ -384,7 +382,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   return Row(
                     children: [
                       const Expanded(
-                        flex: 1,
                         child: Text(
                           "İlçe seçiniz ",
                           textAlign: TextAlign.left,
@@ -394,7 +391,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       Expanded(
-                        flex: 2,
                         child: DropdownSearch<Counties>(
                             mode: Mode.MENU,
                             showSearchBox: true,
@@ -480,7 +476,7 @@ class _RegisterPageState extends State<RegisterPage> {
               assetName: "assets/images/giris_button.png",
               onClick: () {
                 if (_formKey.currentState!.validate()) {
-                  if (!sartlarVeKosullar) {
+                  if (sartlarVeKosullar==false) {
                     showToast(
                         "Şartları kabul etmeden kayıt işlemi yapılamaz...");
                   }/*else if(!gizlilikPolitikasi){
