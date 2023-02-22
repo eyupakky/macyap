@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/comment.dart';
 import 'package:repository_eyup/model/matches_model.dart';
+import 'package:repository_eyup/model/urunler_model.dart';
 import 'package:repository_eyup/model/venues_detail_model.dart';
 import 'package:repository_eyup/model/venues_model.dart';
 import 'package:repository_eyup/repository/imatches_repository.dart';
@@ -18,11 +19,15 @@ class VenuesController {
     lastSearch = name;
     return venuesList;
   }
-
+  Future<UrunlerModel> getShoppingList(){
+    return Future.value(iVenuesRepository.getShopping());
+  }
   Future<VenusDetailModel> getVenuesDetail(int? id) async {
     return Future.value(iVenuesRepository.getVenue(id));
   }
-
+  Future<VenusDetailModel> getShoppingDetail(int? id) async {
+    return Future.value(iVenuesRepository.getUrun(id));
+  }
   Future<BaseResponse> venuesFavorite(int? venueId) async {
     return Future.value(iVenuesRepository.venueFollow(venueId));
   }

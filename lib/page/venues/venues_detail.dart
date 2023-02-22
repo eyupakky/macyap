@@ -5,16 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:halisaha/cubit/cubit_abstract.dart';
-import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/page/venues/venues_info.dart';
 import 'package:halisaha/page/venues/venues_reviews.dart';
 import 'package:halisaha/page/venues/venues_upcoming.dart';
-import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/controller/venues_controller.dart';
 import 'package:repository_eyup/model/venues_detail_model.dart';
-import 'package:repository_eyup/model/venues_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class VenuesDetail extends StatefulWidget {

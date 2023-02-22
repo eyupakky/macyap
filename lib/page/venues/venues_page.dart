@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/base_widget.dart';
 import 'package:halisaha/widget/search_widget.dart';
 import 'package:repository_eyup/controller/venues_controller.dart';
+import 'package:repository_eyup/model/urunler_model.dart';
 import 'package:repository_eyup/model/venues_model.dart';
 
 class PlacesPage extends StatefulWidget {
@@ -57,8 +58,8 @@ class _PlacesPageState extends State<PlacesPage> {
               ),
               SizedBox(
                 height: constraints.maxHeight - 60,
-                child: FutureBuilder<VenusModel>(
-                    future: _venuesController.getLazyVenues(search),
+                child: FutureBuilder<UrunlerModel>(
+                    future: _venuesController.getShoppingList(),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
                         return const Center(child: Text("Mekan bulunamadı."));
@@ -66,18 +67,18 @@ class _PlacesPageState extends State<PlacesPage> {
                       EasyLoading.dismiss();
                       var matches = snapshot.data;
                       return ListView.separated(
-                        itemCount: matches!.venues!.length,
+                        itemCount: matches!.value!.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          Venues venues = matches.venues![index];
+                          Value value = matches.value![index];
                           return ListTile(
                             onTap: () {
                               Navigator.pushNamed(context, "/venuesDetail",
-                                  arguments: venues.id);
+                                  arguments: value.id);
                             },
                             title: Text(
-                              '${venues.name}',
-                              style: const TextStyle(fontSize: 12),
+                              '${value.baslik}',
+                              style: const TextStyle(fontSize: 12,color: Colors.black),
                             ),
                             leading: Container(
                               width: 60,
@@ -85,7 +86,7 @@ class _PlacesPageState extends State<PlacesPage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: CachedNetworkImage(
-                                  imageUrl: '${venues.image}',
+                                  imageUrl: 'https://macyap.com.tr/Content/UrunImg/${value.img}',
                                   fit: BoxFit.cover,
                                   progressIndicatorBuilder:
                                       (context, url, downloadProgress) =>
@@ -97,9 +98,9 @@ class _PlacesPageState extends State<PlacesPage> {
                               ),
                             ),
                             subtitle: Text(
-                              '${venues.address}',
-                              style: TextStyle(
-                                  color: Colors.grey.shade400, fontSize: 9),
+                              '${value.fiyat} TL',
+                              style: const TextStyle(
+                                  color: Colors.red, fontSize: 12),
                             ),
                           );
                         },

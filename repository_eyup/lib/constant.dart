@@ -66,6 +66,8 @@ class Constant{
   static String rateVenue = "Venue/RateVenue";
   static String getVenueRates = "Venue/GetVenueRates";
   static String addVenueComment = "Venue/AddVenueComment";
+  static String urunlerList = "Ecommerce/Urunler";
+  static String urunlerDetails = "Ecommerce/UrunDetay";
   //Wallet
   static String getUserBalance = "Payment/GetUserBalance";
   static String checkTCKNO = "Payment/CheckTCKNO";

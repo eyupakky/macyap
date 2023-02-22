@@ -191,9 +191,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           FlashyTabBarItem(
-              icon: const Icon(Icons.location_on_sharp),
+              icon: const Icon(Icons.shop),
               activeColor: Colors.redAccent,
-              title: const Text('Mekanlar')),
+              title: const Text('Mağaza')),
           FlashyTabBarItem(
             icon: const Icon(Icons.message_outlined),
             activeColor: Colors.redAccent,

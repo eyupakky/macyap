@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/comment.dart';
 import 'package:repository_eyup/model/matches_model.dart';
+import 'package:repository_eyup/model/urunler_model.dart';
 import 'package:repository_eyup/model/venues_detail_model.dart';
 import 'package:repository_eyup/model/venues_model.dart';
 
@@ -11,6 +12,8 @@ abstract class IVenuesRepository {
   Future<VenusModel> getLazyVenues(String name);
 
   Future<VenusDetailModel> getVenue(int? id);
+  Future<VenusDetailModel> getUrun(int? id);
+  Future<UrunlerModel> getShopping();
 
   Future<BaseResponse> venueFollow(int? venueId);
 
@@ -127,5 +130,28 @@ class VenuesRepository extends IVenuesRepository {
       print(err);
     });
     return Future.value(BaseResponse.fromJson(response.data));
+  }
+
+  @override
+  Future<UrunlerModel> getShopping()async {
+    var response = await _dio.post(Constant.testBaseUrl + Constant.urunlerList,
+        data: {
+          "access_token": Constant.accessToken
+        }).catchError((err) {
+      print(err);
+    });
+    return Future.value(UrunlerModel.fromJson(response.data));
+  }
+
+  @override
+  Future<VenusDetailModel> getUrun(int? id) async{
+    var response = await _dio.post(Constant.testBaseUrl + Constant.urunlerDetails,
+        data: {
+          "access_token": Constant.accessToken,
+          "urun_id": id
+        }).catchError((err) {
+      print(err);
+    });
+    return Future.value(VenusDetailModel.fromJson(response.data));
   }
 }
