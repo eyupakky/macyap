@@ -8,6 +8,8 @@ import 'package:repository_eyup/model/venues_model.dart';
 import 'package:repository_eyup/repository/imatches_repository.dart';
 import 'package:repository_eyup/repository/ivenues_repository.dart';
 
+import '../model/urun_details.dart';
+
 class VenuesController {
   IVenuesRepository iVenuesRepository = VenuesRepository(Dio());
   late VenusModel venuesList=VenusModel();
@@ -25,7 +27,7 @@ class VenuesController {
   Future<VenusDetailModel> getVenuesDetail(int? id) async {
     return Future.value(iVenuesRepository.getVenue(id));
   }
-  Future<VenusDetailModel> getShoppingDetail(int? id) async {
+  Future<UrunlerDetailModel> getShoppingDetail(int? id) async {
     return Future.value(iVenuesRepository.getUrun(id));
   }
   Future<BaseResponse> venuesFavorite(int? venueId) async {

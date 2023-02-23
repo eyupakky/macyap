@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/comment.dart';
 import 'package:repository_eyup/model/matches_model.dart';
+import 'package:repository_eyup/model/urun_details.dart';
 import 'package:repository_eyup/model/urunler_model.dart';
 import 'package:repository_eyup/model/venues_detail_model.dart';
 import 'package:repository_eyup/model/venues_model.dart';
@@ -12,7 +13,7 @@ abstract class IVenuesRepository {
   Future<VenusModel> getLazyVenues(String name);
 
   Future<VenusDetailModel> getVenue(int? id);
-  Future<VenusDetailModel> getUrun(int? id);
+  Future<UrunlerDetailModel> getUrun(int? id);
   Future<UrunlerModel> getShopping();
 
   Future<BaseResponse> venueFollow(int? venueId);
@@ -144,7 +145,7 @@ class VenuesRepository extends IVenuesRepository {
   }
 
   @override
-  Future<VenusDetailModel> getUrun(int? id) async{
+  Future<UrunlerDetailModel> getUrun(int? id) async{
     var response = await _dio.post(Constant.testBaseUrl + Constant.urunlerDetails,
         data: {
           "access_token": Constant.accessToken,
@@ -152,6 +153,8 @@ class VenuesRepository extends IVenuesRepository {
         }).catchError((err) {
       print(err);
     });
-    return Future.value(VenusDetailModel.fromJson(response.data));
+    response.data = '"{\"success\":true,\"detail\":{\"id\":12,\"Baslik\":\"FENERBAHÇE-KONYASPORMAÇBİLETİ\",\"Aciklama\":\"FENERBAHÇE-KONYASPORMAÇBİLETİ\",\"Img\":\"adf21fed-70d4-4d99-813f-e6b6b9870471.jpg\",\"Img2\":\"07f1c6f4-8a33-4ad9-be7e-62cf7dd7451b.jpg\",\"Img3\":\"c480399d-7d78-4bf2-971f-510a9292f4ab.jpg\",\"Img4\":\"01686b6b-f78a-4fa1-b033-5b8e8e3d77c7.jpg\",\"Fiyat\":599.9,\"Barkod\":\"b4ccab3e-1d2c-450e-b056-131d8838d014\",\"Date\":\"2023-02-22T13:54:35.517\",\"UpdatedDate\":\"2023-02-22T16:01:33.743\",\"Active\":1},\"bedenList\":[{\"id\":68,\"UrunId\":12,\"UrunFiyat\":599.9,\"BedenId\":0,\"Stok\":1,\"Beden\":\"BEDENSİZ\"}]}"';
+
+    return Future.value(UrunlerDetailModel.fromJson(response.data));
   }
 }
