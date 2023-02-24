@@ -10,6 +10,7 @@ import 'package:halisaha/page/account/organizator.dart';
 import 'package:halisaha/page/account/password_update.dart';
 import 'package:halisaha/page/account/profile/profile.dart';
 import 'package:halisaha/page/account/settings/settings.dart';
+import 'package:halisaha/page/account/siparislerim.dart';
 import 'package:halisaha/page/account/support/support.dart';
 import 'package:halisaha/page/account/wallet/promosyon_kodu.dart';
 import 'package:halisaha/page/account/wallet/tc_check.dart';
@@ -218,6 +219,7 @@ class _MyAppState extends State<MyApp> {
           "/wallet": (context) => WalletPage(),
           "/email": (context) => UpdateEmailPage(),
           "/setting": (context) => SettingsPage(),
+          "/siparisler": (context) => const SiparislerimPage(),
           "/password": (context) => PasswordUpdatePage(),
           "/login": (context) => LoginPage(),
           "/register": (context) => const RegisterPage(),

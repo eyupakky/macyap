@@ -27,8 +27,11 @@ class VenuesController {
   Future<VenusDetailModel> getVenuesDetail(int? id) async {
     return Future.value(iVenuesRepository.getVenue(id));
   }
-  Future<UrunlerDetailModel> getShoppingDetail(int? id) async {
+  Future<UrunDetailModel> getShoppingDetail(int? id) async {
     return Future.value(iVenuesRepository.getUrun(id));
+  }
+  Future<BaseResponse> siparisVer(int urunId, int bedenId, int adet, String adres){
+    return Future.value(iVenuesRepository.siparisVer(urunId,bedenId,adet,adres));
   }
   Future<BaseResponse> venuesFavorite(int? venueId) async {
     return Future.value(iVenuesRepository.venueFollow(venueId));

@@ -68,6 +68,7 @@ class Constant{
   static String addVenueComment = "Venue/AddVenueComment";
   static String urunlerList = "Ecommerce/Urunler";
   static String urunlerDetails = "Ecommerce/UrunDetay";
+  static String siparisVer = "Ecommerce/SiparisVer";
   //Wallet
   static String getUserBalance = "Payment/GetUserBalance";
   static String checkTCKNO = "Payment/CheckTCKNO";

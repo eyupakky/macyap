@@ -76,6 +76,8 @@ class AccountRepository extends IAccountRepository {
         item: "Cüzdan",
         icon: Icons.account_balance_wallet_rounded));
     list.add(
+        AccountModel(route: "/siparisler", item: "Siparişlerim", icon: Icons.shop));
+    list.add(
         AccountModel(route: "/setting", item: "Ayarlar", icon: Icons.settings));
     list.add(AccountModel(
         route: "/email", item: "Email güncelleme", icon: Icons.email));
