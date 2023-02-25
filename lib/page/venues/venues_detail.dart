@@ -229,6 +229,8 @@ class _VenuesDetailState extends State<VenuesDetail>
                                   onChanged: (d) {
                                     setState(() {
                                       selectedCity = d;
+                                      selectedCountry =
+                                          Counties(id: 0, ilce: "İlçe Seçiniz");
                                     });
                                   },
                                   compareFn: (item, selectedItem) =>
@@ -275,6 +277,8 @@ class _VenuesDetailState extends State<VenuesDetail>
                       } else {
                         var list = snapshot.data;
                         countiesList!.clear();
+                        countiesList!
+                            .add(Counties(id: 0, ilce: "İlçe Seçiniz"));
                         countiesList!.addAll(list!);
                         EasyLoading.dismiss();
                       }
@@ -330,7 +334,7 @@ class _VenuesDetailState extends State<VenuesDetail>
                                     selectedCountry = d;
                                     print(d.toString());
                                   },
-                                  selectedItem: countiesList![0]),
+                                  selectedItem: selectedCountry),
                             ),
                           ],
                         ),
@@ -412,12 +416,16 @@ class _VenuesDetailState extends State<VenuesDetail>
 
   siparisVer() {
     _venuesController
-        .siparisVer(urunId, _selectedIndex, adet,
-            addressController.text + ' ${selectedCity!.il} / ${selectedCountry!.ilce}')
+        .siparisVer(
+            urunId,
+            detailModel.value!.bedenList![_selectedIndex].bedenId!,
+            adet,
+            addressController.text +
+                ' ${selectedCity!.il} / ${selectedCountry!.ilce}')
         .then((value) {
-      if (value.success!) {
+      if (value.success) {
         showToast(
-            "Sipariş başarılı. Profil ekranından siparişinizin durumunu görebilirsiniz.");
+            "Sipariş başarılı. Profil ekranından siparişinizin durumunu görebilirsiniz.",color: Colors.green);
         Navigator.pop(context);
       } else {
         showToast('${value.description}');

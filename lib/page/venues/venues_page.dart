@@ -62,7 +62,7 @@ class _PlacesPageState extends State<PlacesPage> {
                     future: _venuesController.getShoppingList(),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
-                        return const Center(child: Text("Mekan bulunamadı."));
+                        return const Center(child: Text("Ürün listesi yükleniyor..."));
                       }
                       EasyLoading.dismiss();
                       var matches = snapshot.data;

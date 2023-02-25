@@ -69,6 +69,7 @@ class Constant{
   static String urunlerList = "Ecommerce/Urunler";
   static String urunlerDetails = "Ecommerce/UrunDetay";
   static String siparisVer = "Ecommerce/SiparisVer";
+  static String siparisler = "Ecommerce/Siparisler";
   //Wallet
   static String getUserBalance = "Payment/GetUserBalance";
   static String checkTCKNO = "Payment/CheckTCKNO";

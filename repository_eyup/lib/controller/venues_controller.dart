@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/comment.dart';
 import 'package:repository_eyup/model/matches_model.dart';
+import 'package:repository_eyup/model/siparisler.dart';
 import 'package:repository_eyup/model/urunler_model.dart';
 import 'package:repository_eyup/model/venues_detail_model.dart';
 import 'package:repository_eyup/model/venues_model.dart';
@@ -24,13 +25,17 @@ class VenuesController {
   Future<UrunlerModel> getShoppingList(){
     return Future.value(iVenuesRepository.getShopping());
   }
+  Future<SiparisList> siparisler(){
+    return Future.value(iVenuesRepository.siparisler());
+
+  }
   Future<VenusDetailModel> getVenuesDetail(int? id) async {
     return Future.value(iVenuesRepository.getVenue(id));
   }
   Future<UrunDetailModel> getShoppingDetail(int? id) async {
     return Future.value(iVenuesRepository.getUrun(id));
   }
-  Future<BaseResponse> siparisVer(int urunId, int bedenId, int adet, String adres){
+  Future<BaseResponse2> siparisVer(int urunId, int bedenId, int adet, String adres){
     return Future.value(iVenuesRepository.siparisVer(urunId,bedenId,adet,adres));
   }
   Future<BaseResponse> venuesFavorite(int? venueId) async {

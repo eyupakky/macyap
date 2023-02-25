@@ -79,18 +79,21 @@ class UrunDetail {
 class BedenList {
   String? beden;
   int? stok;
+  int? bedenId;
 
-  BedenList({this.beden, this.stok});
+  BedenList({this.beden, this.stok,this.bedenId});
 
   BedenList.fromJson(Map<String, dynamic> json) {
     beden = json['beden'];
     stok = json['stok'];
+    bedenId = json['bedenId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['beden'] = beden;
     data['stok'] = stok;
+    data['bedenId'] = bedenId;
     return data;
   }
 }

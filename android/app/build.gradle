@@ -13,19 +13,19 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '26'
+    flutterVersionCode = '27'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '6.3.0'
+    flutterVersionName = '6.4.0'
 }
 
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -37,8 +37,8 @@ android {
         multiDexEnabled true
         applicationId "com.eyupakky.macyap"
         minSdkVersion 19
-        targetSdkVersion 32
-        versionCode flutterVersionCode.toInteger()
+        targetSdkVersion 33
+        versionCode 27
         versionName flutterVersionName
     }
 
