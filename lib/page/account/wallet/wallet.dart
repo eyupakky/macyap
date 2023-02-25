@@ -78,7 +78,7 @@ class WalletPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.65,
+                height: MediaQuery.of(context).size.height * 0.60,
                 child: FutureBuilder<PaymentHistoryModel>(
                     future: _walletController.getPaymentLogs(),
                     builder: (context, snapshot) {

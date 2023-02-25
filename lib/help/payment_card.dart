@@ -133,5 +133,5 @@ class Strings {
   static const String uploadMoneyError = 'Lütfen yükleme yapacağınız miktarı giriniz..';
   static const String passwordReq = 'Şifreniz en az 5 karakter olmalı';
   static const String numberIsInvalid = 'Geçersiz kart';
-  static const String minUpload = 'Minumum yükleme bedeli 20 TL dir.';
+  static const String minUpload = 'Minumum yükleme bedeli 100 TL dir.';
 }

@@ -417,7 +417,7 @@ class _HomePageState extends State<HomePage> {
   getSmsOnayKontrol() {
     int version = config.getInt("ios_preview");
     PackageInfo.fromPlatform().then((value) {
-      bool kontrol = version == int.parse(value.buildNumber) ? false : true;
+      bool kontrol = version == int.parse(value.version) ? false : true;
       if(kontrol) {
         _homeController.getSmsOnayKontrol().then((value) {
         if (value.description != "1") {

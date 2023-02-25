@@ -58,7 +58,7 @@ class _UploadMoneyState extends State<UploadMoney> {
                     height: 20,
                   ),
                   const Text(
-                    "* Minimum yükleme miktarı 20TL'dir",
+                    "* Minimum yükleme miktarı 100 TL'dir",
                     style: TextStyle(fontSize: 12),
                   ),
                   const SizedBox(
@@ -84,11 +84,13 @@ class _UploadMoneyState extends State<UploadMoney> {
                     ),
                     keyboardType: TextInputType.number,
                     validator: (val) {
-                      return val!.isNotEmpty
-                          ? (double.parse(val) >= 0 ? null : Strings.minUpload)
-                          : Strings.uploadMoneyError;
+                      return val!.isEmpty
+                          ?Strings.uploadMoneyError
+                          : (double.parse(val) < 100 ? Strings.minUpload : null  );
                     },
-                    onChanged: (val) {},
+                    onChanged: (val) {
+                      print(val);
+                    },
                     controller: uploadMoney,
                   ),
                   const SizedBox(
