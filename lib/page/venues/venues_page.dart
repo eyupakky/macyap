@@ -80,25 +80,18 @@ class _PlacesPageState extends State<PlacesPage> {
                               '${value.baslik}',
                               style: const TextStyle(fontSize: 12,color: Colors.black),
                             ),
-                            leading: Container(
-                              width: 60,
-                              margin: const EdgeInsets.all(12),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: CachedNetworkImage(
-                                  imageUrl: 'https://macyap.com.tr/Content/UrunImg/${value.img}',
-                                  fit: BoxFit.cover,
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          CircularProgressIndicator(
-                                              value: downloadProgress.progress),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
-                                ),
-                              ),
+                            leading: CachedNetworkImage(
+                              imageUrl: 'https://macyap.com.tr/Content/UrunImg/${value.img}',
+                              fit: BoxFit.fill,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                             ),
                             subtitle: Text(
-                              '${value.fiyat} TL',
+                              '\n\n\n${value.fiyat} TL ',
                               style: const TextStyle(
                                   color: Colors.red, fontSize: 12),
                             ),

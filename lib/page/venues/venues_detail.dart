@@ -90,7 +90,6 @@ class _VenuesDetailState extends State<VenuesDetail>
                   CarouselSlider(
                     items: imgList
                         .map((item) => Container(
-                              height: MediaQuery.of(context).size.height * 0.8,
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.all(5.0),
                               child: ClipRRect(
@@ -98,15 +97,12 @@ class _VenuesDetailState extends State<VenuesDetail>
                                       Radius.circular(5.0)),
                                   child: Stack(
                                     children: <Widget>[
-                                      Image.network(item,
-                                          fit: BoxFit.cover,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.8,
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width),
+                                  CachedNetworkImage(
+                                  imageUrl: item,
+                                    width: MediaQuery.of(context).size.width,
+                                    placeholder: (context, url) => const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                  ),
                                     ],
                                   )),
                             ))
@@ -364,23 +360,40 @@ class _VenuesDetailState extends State<VenuesDetail>
                   const SizedBox(
                     height: 10,
                   ),
-                  CustomButton(
-                    height: 75,
-                    text: "Satın Al",
-                    text2: "Satın Al",
-                    textChange: false,
-                    assetName: "assets/images/giris_button.png",
-                    onClick: () {
-                      if (adet > 0 &&
-                          selectedCity!.id! > 0 &&
-                          selectedCountry!.id! > 0 &&
-                          addressController.text.isNotEmpty) {
-                        siparisVer();
-                      } else {
-                        showToast("Boş Alanları Doldurunuz.");
-                      }
-                    },
-                    key: UniqueKey(),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        child: Text(
+                          '${detailModel.value!.fiyat} TL',
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 18,
+                              fontFamily: "Montserrat-bold"),
+                        ),
+                      )),
+                      Expanded(
+                        child: CustomButton(
+                          height: 75,
+                          text: "Satın Al",
+                          text2: "Satın Al",
+                          textChange: false,
+                          assetName: "assets/images/giris_button.png",
+                          onClick: () {
+                            if (adet > 0 &&
+                                selectedCity!.id! > 0 &&
+                                selectedCountry!.id! > 0 &&
+                                addressController.text.isNotEmpty) {
+                              showDialog();
+                            } else {
+                              showToast("Boş Alanları Doldurunuz.");
+                            }
+                          },
+                          key: UniqueKey(),
+                        ),
+                      ),
+                    ],
                   ),
                 ]),
               ),
@@ -414,6 +427,89 @@ class _VenuesDetailState extends State<VenuesDetail>
     return chips;
   }
 
+  showDialog() {
+    showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel:
+            MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        barrierColor: Colors.black45,
+        transitionDuration: const Duration(milliseconds: 200),
+        pageBuilder: (BuildContext buildContext, Animation animation,
+            Animation secondaryAnimation) {
+          return Center(
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                margin: const EdgeInsets.only(right: 10, left: 10),
+                padding: const EdgeInsets.only(
+                    left: 12, right: 12, top: 12, bottom: 0),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  child: Column(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                            text:
+                                "Satın alma işlemi yapmaktasınız. Hesabınızdan ",
+                            style: const TextStyle(
+                                fontFamily: "Montserrat-normal",
+                                color: Colors.black),
+                            children: [
+                              TextSpan(
+                                  text: "\n ${detailModel.value!.fiyat}",
+                                  style: const TextStyle(
+                                      fontFamily: "Montserrat-normal",
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)),
+                              const TextSpan(
+                                  text: " TL çekilecektir. Onaylıyor musunuz ?",
+                                  style: TextStyle(
+                                      fontFamily: "Montserrat-normal",
+                                      color: Colors.black)),
+                            ]),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: CupertinoButton(
+                                child: const Text("İptal Et"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: CupertinoButton(
+                                child: const Text("Onayla"),
+                                onPressed: () {
+                                  siparisVer();
+                                  Navigator.pop(context);
+                                }),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                )),
+          );
+        });
+  }
+
   siparisVer() {
     _venuesController
         .siparisVer(
@@ -425,7 +521,8 @@ class _VenuesDetailState extends State<VenuesDetail>
         .then((value) {
       if (value.success) {
         showToast(
-            "Sipariş başarılı. Profil ekranından siparişinizin durumunu görebilirsiniz.",color: Colors.green);
+            "Sipariş başarılı. Profil ekranından siparişinizin durumunu görebilirsiniz.",
+            color: Colors.green);
         Navigator.pop(context);
       } else {
         showToast('${value.description}');
