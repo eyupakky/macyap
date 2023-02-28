@@ -138,7 +138,7 @@ class VenuesRepository extends IVenuesRepository {
 
   @override
   Future<UrunlerModel> getShopping()async {
-    var response = await _dio.post(Constant.testBaseUrl + Constant.urunlerList,
+    var response = await _dio.post(Constant.baseUrl + Constant.urunlerList,
         data: {
           "access_token": Constant.accessToken
         }).catchError((err) {
@@ -149,7 +149,7 @@ class VenuesRepository extends IVenuesRepository {
 
   @override
   Future<UrunDetailModel> getUrun(int? id) async{
-    var response = await _dio.post(Constant.testBaseUrl + Constant.urunlerDetails,
+    var response = await _dio.post(Constant.baseUrl + Constant.urunlerDetails,
         data: {
           "access_token": Constant.accessToken,
           "urun_id": id
@@ -163,7 +163,7 @@ class VenuesRepository extends IVenuesRepository {
 
   @override
   Future<BaseResponse2> siparisVer(int urunId, int bedenId, int adet, String adres)async {
-    var response = await _dio.post(Constant.testBaseUrl + Constant.siparisVer,
+    var response = await _dio.post(Constant.baseUrl + Constant.siparisVer,
         data: {
           "access_token": Constant.accessToken,
           "urun_id": urunId,
@@ -178,7 +178,7 @@ class VenuesRepository extends IVenuesRepository {
 
   @override
   Future<SiparisList> siparisler()async {
-    var response = await _dio.post(Constant.testBaseUrl + Constant.siparisler,
+    var response = await _dio.post(Constant.baseUrl + Constant.siparisler,
         data: {
           "access_token": Constant.accessToken
         }).catchError((err) {
