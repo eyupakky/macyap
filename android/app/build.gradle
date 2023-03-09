@@ -36,7 +36,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "com.eyupakky.macyap"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 33
         versionCode 32
         versionName '7.0.0'

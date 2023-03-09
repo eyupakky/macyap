@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -16,6 +18,11 @@ class _WebviewPageState extends State<WebviewPage> {
   late String? arguments;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     EasyLoading.dismiss();
     arguments = ModalRoute.of(context)!.settings.arguments as String;
@@ -25,8 +32,11 @@ class _WebviewPageState extends State<WebviewPage> {
       color: Colors.white,
       child: InAppWebView(
         initialUrlRequest: URLRequest(url: Uri.parse(arguments!)),
-        initialOptions:
-            InAppWebViewGroupOptions(crossPlatform: InAppWebViewOptions()),
+        initialOptions: InAppWebViewGroupOptions(
+            android: AndroidInAppWebViewOptions(
+              useHybridComposition: true,
+            ),
+            crossPlatform: InAppWebViewOptions()),
         onWebViewCreated: (InAppWebViewController controller) {
           _webViewController = controller;
 
