@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/model/base_response.dart';
@@ -43,7 +42,7 @@ abstract class IMatchesRepository {
 
   Future<BaseResponse2> smsKontrol(String code);
 
-  Future<bool> resetMyPassword(String passsword,String code);
+  Future<bool> resetMyPassword(String passsword, String code);
 }
 
 class MatchesRepository extends IMatchesRepository {
@@ -55,17 +54,16 @@ class MatchesRepository extends IMatchesRepository {
   Future<List<Match>> getLazyMatches(Map<String, String> search) async {
     search.putIfAbsent("access_token", () => Constant.accessToken);
     var response = await _dio
-        .post(Constant.baseUrl + Constant.getGamesNoFilter, data: search)
+        .post(Constant.testBaseUrl + Constant.getGamesNoFilter, data: search)
         .catchError((err) {
       return Future.error(err);
     });
     MatchesModel model = MatchesModel.fromJson(response.data);
-    if(model.success!){
+    if (model.success!) {
       return Future.value(model.match);
-    }else{
+    } else {
       return Future.error("Sonuc boş.");
     }
-
   }
 
   @override
@@ -75,7 +73,7 @@ class MatchesRepository extends IMatchesRepository {
           "access_token": Constant.accessToken,
           "game_id": id
         }).catchError((err) {
-     return Future.error(err);
+      return Future.error(err);
     });
     return Future.value(GameDetail.fromJson(response.data));
   }
@@ -151,8 +149,9 @@ class MatchesRepository extends IMatchesRepository {
   }
 
   @override
-  Future<BaseResponse> joinGameRequest(int? id)async {
-    var response = await _dio.post(Constant.baseUrl + Constant.joinGameRequest, data: {
+  Future<BaseResponse> joinGameRequest(int? id) async {
+    var response =
+        await _dio.post(Constant.baseUrl + Constant.joinGameRequest, data: {
       "access_token": Constant.accessToken,
       "game_id": id,
     }).catchError((err) {
@@ -162,105 +161,111 @@ class MatchesRepository extends IMatchesRepository {
   }
 
   @override
-  Future<bool> lostMyPassword(String usernameEmail) async{
-    var response = await _dio.post(Constant.baseUrl + Constant.lostMyPassword, data: {
+  Future<bool> lostMyPassword(String usernameEmail) async {
+    var response =
+        await _dio.post(Constant.baseUrl + Constant.lostMyPassword, data: {
       "username_email": usernameEmail,
     }).catchError((err) {
       return Future.error(err);
     });
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       return Future.value(response.data);
     }
     return Future.error("Hata oluştu");
   }
 
   @override
-  Future<bool> resetMyPassword(String passsword, String code)async {
-    var response = await _dio.post(Constant.baseUrl + Constant.resetMyPassword, data: {
+  Future<bool> resetMyPassword(String passsword, String code) async {
+    var response =
+        await _dio.post(Constant.baseUrl + Constant.resetMyPassword, data: {
       "password": passsword,
-      "code":code,
+      "code": code,
     }).catchError((err) {
       return Future.error(err);
     });
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       return Future.value(response.data);
     }
     return Future.error("Hata oluştu");
   }
 
   @override
-  Future<TurnuvaListModel> getTurnuvalar() async{
-    var response = await _dio.post(Constant.baseUrl + Constant.turnuvaList,data: {
-      "access_token": Constant.accessToken
-    }).catchError((err) {
+  Future<TurnuvaListModel> getTurnuvalar() async {
+    var response = await _dio.post(Constant.baseUrl + Constant.turnuvaList,
+        data: {"access_token": Constant.accessToken}).catchError((err) {
       return Future.error(err);
     });
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       return Future.value(TurnuvaListModel.fromJson(response.data));
     }
     return Future.error("Hata oluştu");
   }
 
   @override
-  Future<BaseResponse2> joinTurnuva(String id) async{
-    var response = await _dio.post(Constant.baseUrl + Constant.joinTurnuva,data:{
-      "access_token": Constant.accessToken,"turnuva_id":int.parse(id)
-    }).catchError((err) {
+  Future<BaseResponse2> joinTurnuva(String id) async {
+    var response = await _dio.post(Constant.baseUrl + Constant.joinTurnuva,
+        data: {
+          "access_token": Constant.accessToken,
+          "turnuva_id": int.parse(id)
+        }).catchError((err) {
       return Future.error(err);
     });
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       return Future.value(BaseResponse2.fromJson(response.data));
     }
     return Future.error("Hata oluştu");
   }
 
   @override
-  Future<TextModel> getText() async{
-    var response = await _dio.post(Constant.baseUrl + Constant.textList,data:{
-      "access_token": Constant.accessToken
-    }).catchError((err) {
+  Future<TextModel> getText() async {
+    var response = await _dio.post(Constant.baseUrl + Constant.textList,
+        data: {"access_token": Constant.accessToken}).catchError((err) {
       return Future.error(err);
     });
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       return Future.value(TextModel.fromJson(response.data));
     }
     return Future.error("Hata oluştu");
   }
 
   @override
-  Future<BaseResponse2> getSmsOnayKontrol()async {
-    var response = await _dio.post(Constant.testBaseUrl + Constant.smsOnayKontrol,data:{
-      "access_token": Constant.accessToken
-    }).catchError((err) {
+  Future<BaseResponse2> getSmsOnayKontrol() async {
+    var response = await _dio.post(
+        Constant.testBaseUrl + Constant.smsOnayKontrol,
+        data: {"access_token": Constant.accessToken}).catchError((err) {
       return Future.error(err);
     });
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       return Future.value(BaseResponse2.fromJson(response.data));
     }
     return Future.error("Hata oluştu");
   }
 
   @override
-  Future<BaseResponse2> sendPhoneNumber(String phoneNumber) async{
-    var response = await _dio.post(Constant.testBaseUrl + Constant.smsGonderPopup,data:{
-      "access_token": Constant.accessToken,"gsm":phoneNumber
+  Future<BaseResponse2> sendPhoneNumber(String phoneNumber) async {
+    var response = await _dio
+        .post(Constant.testBaseUrl + Constant.smsGonderPopup, data: {
+      "access_token": Constant.accessToken,
+      "gsm": phoneNumber
     }).catchError((err) {
       return Future.error(err);
     });
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       return Future.value(BaseResponse2.fromJson(response.data));
     }
     return Future.error("Hata oluştu");
   }
 
   @override
-  Future<BaseResponse2> smsKontrol(String code)async {
-    var response = await _dio.post(Constant.testBaseUrl + Constant.smsKontrolPopup,data:{
-      "access_token": Constant.accessToken,"kod":code
+  Future<BaseResponse2> smsKontrol(String code) async {
+    var response = await _dio
+        .post(Constant.testBaseUrl + Constant.smsKontrolPopup, data: {
+      "access_token": Constant.accessToken,
+      "kod": code
     }).catchError((err) {
       return Future.error(err);
     });
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       return Future.value(BaseResponse2.fromJson(response.data));
     }
     return Future.error("Hata oluştu");

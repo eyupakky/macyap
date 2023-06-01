@@ -58,7 +58,7 @@ class _VenuesDetailState extends State<VenuesDetail>
         future: _venuesController.getShoppingDetail(urunId),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
-            return const Center(child: Text("Sonuç bekleniyor..."));
+            return const Center(child: Text("Yükleniyor..."));
           }
           EasyLoading.dismiss();
           detailModel = snapshot.data ?? UrunDetailModel();

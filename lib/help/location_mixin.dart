@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 
 mixin LocationMixin {
@@ -10,6 +13,8 @@ mixin LocationMixin {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
+        SystemNavigator.pop();
+        exit(0);
         return null;
       }
     }
@@ -17,6 +22,8 @@ mixin LocationMixin {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
+        SystemNavigator.pop();
+        exit(0);
         return null;
       }
     }

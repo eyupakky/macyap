@@ -83,7 +83,6 @@ Future<void> main() async {
     channel = const AndroidNotificationChannel(
         'notification_channel_id', // id
         'notification_channel_id', // title
-        'notification_channel_id', // description
         importance: Importance.high,
         sound: RawResourceAndroidNotificationSound('aa'));
   }

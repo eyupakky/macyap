@@ -86,7 +86,7 @@ class _UploadMoneyState extends State<UploadMoney> {
                     validator: (val) {
                       return val!.isEmpty
                           ?Strings.uploadMoneyError
-                          : (double.parse(val) < 100 ? Strings.minUpload : null  );
+                          : (double.parse(val) < 1 ? Strings.minUpload : null  );
                     },
                     onChanged: (val) {
                       print(val);

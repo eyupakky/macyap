@@ -16,6 +16,7 @@ import 'package:halisaha/page/home/turnuva_list.dart';
 import 'package:halisaha/page/message/message_page.dart';
 import 'package:halisaha/page/venues/venues_page.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:location/location.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repository_eyup/constant.dart';
@@ -101,7 +102,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> _showNotificationCustomSound(OSNotification message) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      'notification_channel_id',
       'notification_channel_id',
       'notification_channel_id',
       icon: 'launch_background',
@@ -417,7 +417,7 @@ class _HomePageState extends State<HomePage> {
   getSmsOnayKontrol() {
     int version = config.getInt("ios_preview");
     PackageInfo.fromPlatform().then((value) {
-      bool kontrol = version == int.parse(value.version) ? false : true;
+      bool kontrol = version == int.parse(value.buildNumber) ? false : true;
       if(kontrol) {
         _homeController.getSmsOnayKontrol().then((value) {
         if (value.description != "1") {

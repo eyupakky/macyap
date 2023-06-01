@@ -30,32 +30,12 @@ class _PlacesPageState extends State<PlacesPage> {
         child: LayoutBuilder(builder: (context, constraints) {
           return Column(
             children: [
-              SizedBox(
-                height: 60,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: SearchWidget(
-                          hintText: "Mekan ara...",
-                          callback: (search) {
-                            setState(() {
-                              this.search = search;
-                            });
-                          },
-                        ),
-                      ),
-                      // TODO filtre eklenecek
-                      // IconButton(
-                      //     onPressed: () {
-                      //       _scaffoldKey.currentState!.openEndDrawer();
-                      //     },
-                      //     icon: const Icon(Icons.filter_alt_rounded)),
-                    ],
-                  ),
-                ),
-              ),
+              Container(
+                  margin: const EdgeInsets.all(12),
+                  child: const Text(
+                    "Mağaza",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  )),
               SizedBox(
                 height: constraints.maxHeight - 60,
                 child: FutureBuilder<UrunlerModel>(

@@ -14,6 +14,7 @@ import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/model/matches_model.dart';
 import 'package:halisaha/help/location_mixin.dart';
 import 'home_list_item.dart';
+import 'package:geocoding/geocoding.dart';
 
 class MainList extends StatefulWidget {
   const MainList({Key? key}) : super(key: key);
@@ -31,14 +32,23 @@ class _MainListState extends State<MainList> with LocationMixin {
   final f = DateFormat('dd.MM.yyyy');
   List<Match> matchList = [];
   String filter = "";
+  bool sehir = false;
   final FirebaseController _firebaseController = FirebaseController();
 
   @override
   void initState() {
     super.initState();
     _resetSelectedDate();
-    getLocation().then((value) {
+    EasyLoading.isShow?"":EasyLoading.show();
+    getLocation().then((value) async {
       if (value != null) {
+        placemarkFromCoordinates(value.latitude!, value.longitude!)
+            .then((value) {
+          setState(() {
+            sehir = true;
+            map.putIfAbsent("sehir", () => '${value[0].administrativeArea}');
+          });
+        });
         _firebaseController.sendLocation(value.latitude!, value.longitude!);
       }
     });
@@ -130,46 +140,53 @@ class _MainListState extends State<MainList> with LocationMixin {
                     color: Colors.black.withAlpha(20),
                     child: BlocBuilder<GameFavorite, bool>(
                         builder: (context, count) {
-                      return FutureBuilder<List<Match>>(
-                          future: _homeController.getLazyMatches(map),
-                          builder: (context, snapshot) {
-                            if (snapshot.error == "Sonuc boş.") {
-                              return SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height,
-                                child:const Center(
-                                  child: Text("Bir hata oluştu."),
-                                ),
-                              );
-                            } else if (snapshot.data == null ||
-                                snapshot.data!.isEmpty) {
-                              EasyLoading.isShow ? EasyLoading.dismiss() : null;
-                              return SizedBox(
-                                height: 200,
-                                child: Center(
-                                    child: Column(
-                                  children: [
-                                    snapshot.data == null
-                                        ? const CircularProgressIndicator()
-                                        : const SizedBox(),
-                                    Text(snapshot.data == null
-                                        ? "Maç aranıyor..."
-                                        : "Maç bulunmuyor..."),
-                                  ],
-                                )),
-                              );
-                            }
-                            List<Match> list = filterFunc(snapshot.data);
-                            var matches = list;
-                            return ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
+                      return !sehir
+                          ? Container(
+                              color: Colors.white,
+                              child: const Text(
+                                  "Lütfen konum izni verin ve konumuzunu açın..."))
+                          : FutureBuilder<List<Match>>(
+                              future: _homeController.getLazyMatches(map),
+                              builder: (context, snapshot) {
+                                if (snapshot.error == "Sonuc boş.") {
+                                  return SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height,
+                                    child: const Center(
+                                      child: Text("Bir hata oluştu."),
+                                    ),
+                                  );
+                                } else if (snapshot.data == null ||
+                                    snapshot.data!.isEmpty) {
                                   EasyLoading.isShow
                                       ? EasyLoading.dismiss()
                                       : null;
-                                  return HomeListItem(matches[index]);
-                                });
-                          });
+                                  return SizedBox(
+                                    height: 200,
+                                    child: Center(
+                                        child: Column(
+                                      children: [
+                                        snapshot.data == null
+                                            ? const CircularProgressIndicator()
+                                            : const SizedBox(),
+                                        Text(snapshot.data == null
+                                            ? "Maç aranıyor..."
+                                            : "Maç bulunmuyor..."),
+                                      ],
+                                    )),
+                                  );
+                                }
+                                List<Match> list = filterFunc(snapshot.data);
+                                var matches = list;
+                                return ListView.builder(
+                                    itemCount: snapshot.data!.length,
+                                    itemBuilder: (context, index) {
+                                      EasyLoading.isShow
+                                          ? EasyLoading.dismiss()
+                                          : null;
+                                      return HomeListItem(matches[index]);
+                                    });
+                              });
                     }),
                   )
                 ],
@@ -188,7 +205,6 @@ class _MainListState extends State<MainList> with LocationMixin {
                 height: 50,
                 margin: const EdgeInsets.only(bottom: 50),
                 child: FloatingActionButton.small(
-
                   onPressed: () {
                     Navigator.pushNamed(context, "/createGame");
                   },

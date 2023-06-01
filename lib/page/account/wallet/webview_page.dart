@@ -27,47 +27,50 @@ class _WebviewPageState extends State<WebviewPage> {
     EasyLoading.dismiss();
     arguments = ModalRoute.of(context)!.settings.arguments as String;
     // arguments["info"].videoId;
-    return Container(
-      padding: const EdgeInsets.all(35),
-      color: Colors.white,
-      child: InAppWebView(
-        initialUrlRequest: URLRequest(url: Uri.parse(arguments!)),
-        initialOptions: InAppWebViewGroupOptions(
-            android: AndroidInAppWebViewOptions(
-              useHybridComposition: true,
-            ),
-            crossPlatform: InAppWebViewOptions()),
-        onWebViewCreated: (InAppWebViewController controller) {
-          _webViewController = controller;
+    return Scaffold(
+      resizeToAvoidBottomInset:true,
+      body: Container(
+        padding: const EdgeInsets.all(35),
+        color: Colors.white,
+        child: InAppWebView(
+          initialUrlRequest: URLRequest(url: Uri.parse(arguments!)),
+          initialOptions: InAppWebViewGroupOptions(
+              android: AndroidInAppWebViewOptions(
+                useHybridComposition: true,
+              ),
+              crossPlatform: InAppWebViewOptions()),
+          onWebViewCreated: (InAppWebViewController controller) {
+            _webViewController = controller;
 
-          _webViewController.addJavaScriptHandler(
-              handlerName: 'handlerFoo', callback: (args) {});
+            _webViewController.addJavaScriptHandler(
+                handlerName: 'handlerFoo', callback: (args) {});
 
-          _webViewController.addJavaScriptHandler(
-              handlerName: 'paymentResultCallback',
-              callback: (args) {
-                if (!args[0]) {
-                  showToast(args[1], color: Colors.redAccent);
-                  Navigator.pop(context);
-                } else if (args[0]) {
-                  showToast("Ödeme başarılı", color: Colors.green);
-                  selectItem();
-                }
-              });
-        },
-        onConsoleMessage: (controller, consoleMessage) {
-          print(consoleMessage);
-        },
-        onLoadStop: (a, uri) {
-          // if (uri.toString().contains("Param/Successfull")) {
-          //   selectItem();
-          //   showToast("İşlem başarılı.");
-          // }else if (uri.toString().contains("Param/Unsuccessfull")) {
-          //   showToast("İşlem başarısız.");
-          //   selectItem();
-          // }
-          print(uri);
-        },
+            _webViewController.addJavaScriptHandler(
+                handlerName: 'paymentResultCallback',
+                callback: (args) {
+                  if (!args[0]) {
+                    showToast(args[1], color: Colors.redAccent);
+                    Navigator.pop(context);
+                  } else if (args[0]) {
+                    showToast("Ödeme başarılı", color: Colors.green);
+                    selectItem();
+                  }
+                });
+          },
+          onConsoleMessage: (controller, consoleMessage) {
+            print(consoleMessage);
+          },
+          onLoadStop: (a, uri) {
+            // if (uri.toString().contains("Param/Successfull")) {
+            //   selectItem();
+            //   showToast("İşlem başarılı.");
+            // }else if (uri.toString().contains("Param/Unsuccessfull")) {
+            //   showToast("İşlem başarısız.");
+            //   selectItem();
+            // }
+            print(uri);
+          },
+        ),
       ),
     );
   }
