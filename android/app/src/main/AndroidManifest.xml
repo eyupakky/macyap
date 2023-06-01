@@ -4,7 +4,6 @@
     <application
         android:label="MaçYap"
         android:icon="@mipmap/logo"
-        android:windowSoftInputMode="adjustResize"
        >
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

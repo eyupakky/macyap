@@ -54,7 +54,7 @@ class MatchesRepository extends IMatchesRepository {
   Future<List<Match>> getLazyMatches(Map<String, String> search) async {
     search.putIfAbsent("access_token", () => Constant.accessToken);
     var response = await _dio
-        .post(Constant.testBaseUrl + Constant.getGamesNoFilter, data: search)
+        .post(Constant.baseUrl + Constant.getGamesNoFilter, data: search)
         .catchError((err) {
       return Future.error(err);
     });
