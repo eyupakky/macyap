@@ -39,18 +39,23 @@ class _MainListState extends State<MainList> with LocationMixin {
   void initState() {
     super.initState();
     _resetSelectedDate();
-    EasyLoading.isShow?"":EasyLoading.show();
+    EasyLoading.isShow ? "" : EasyLoading.show();
     getLocation().then((value) async {
       if (value != null) {
         placemarkFromCoordinates(value.latitude!, value.longitude!)
             .then((value) {
-          setState(() {
-            sehir = true;
-            map.putIfAbsent("sehir", () => '${value[0].administrativeArea}');
-          });
+          map.putIfAbsent("sehir", () => '${value[0].administrativeArea}');
         });
         _firebaseController.sendLocation(value.latitude!, value.longitude!);
+      } else {
+        setState(() {
+          sehir = true;
+        });
       }
+    }).onError((error, stackTrace) {
+      setState(() {
+        sehir = true;
+      });
     });
   }
 

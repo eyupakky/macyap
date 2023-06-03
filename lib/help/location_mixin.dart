@@ -13,8 +13,6 @@ mixin LocationMixin {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
-        SystemNavigator.pop();
-        exit(0);
         return null;
       }
     }
