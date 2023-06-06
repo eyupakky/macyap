@@ -44,7 +44,10 @@ class _MainListState extends State<MainList> with LocationMixin {
       if (value != null) {
         placemarkFromCoordinates(value.latitude!, value.longitude!)
             .then((value) {
-          map.putIfAbsent("sehir", () => '${value[0].administrativeArea}');
+          setState(() {
+            map.putIfAbsent("sehir", () => '${value[0].administrativeArea}');
+            sehir = true;
+          });
         });
         _firebaseController.sendLocation(value.latitude!, value.longitude!);
       } else {
