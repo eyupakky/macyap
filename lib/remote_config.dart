@@ -16,9 +16,9 @@ class _RemoteConfigPageState extends State<RemoteConfigPage> {
     super.initState();
   }
 
-  Future<RemoteConfig> setupRemoteConfig() async {
+  Future<FirebaseRemoteConfig> setupRemoteConfig() async {
     await Firebase.initializeApp();
-    final RemoteConfig remoteConfig = RemoteConfig.instance;
+    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(seconds: 3),
       minimumFetchInterval: const Duration(hours: 1),
@@ -34,9 +34,9 @@ class _RemoteConfigPageState extends State<RemoteConfigPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<RemoteConfig>(
+    return FutureBuilder<FirebaseRemoteConfig>(
       future: setupRemoteConfig(),
-      builder: (BuildContext context, AsyncSnapshot<RemoteConfig> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<FirebaseRemoteConfig> snapshot) {
         if (snapshot.hasData) {
           Constant.baseUrl = snapshot.requireData.getString("api_path");
           if (snapshot.requireData.getString("api_path") == "") {

@@ -67,7 +67,10 @@ class ReceivedNotification {
   final String? body;
   final String? payload;
 }
-
+class Mutable<T> {
+  Mutable(this.value);
+  T value;
+}
 late AndroidNotificationChannel channel;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -95,8 +98,8 @@ Future<void> main() async {
 
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  final IOSInitializationSettings initializationSettingsIOS =
-      IOSInitializationSettings(
+  final DarwinInitializationSettings initializationSettingsIOS =
+  DarwinInitializationSettings(
           requestAlertPermission: false,
           requestBadgePermission: false,
           requestSoundPermission: false,
@@ -118,22 +121,28 @@ Future<void> main() async {
   final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String? payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: $payload');
+      onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {
+    if (notificationResponse != null) {
+      debugPrint('notification payload: $notificationResponse');
     }
-    selectedNotificationPayload = payload;
-    selectNotificationSubject.add(payload);
+    selectedNotificationPayload = notificationResponse.payload;
+    selectNotificationSubject.add(notificationResponse.payload);
   });
   AppContext appContext = AppContext();
 
-  BlocOverrides.runZoned(
-    () => runZonedGuarded(() {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+  Bloc.observer = AppBlocObserver();
       runApp(ContextProvider(
           current: appContext, key: UniqueKey(), child: const MyApp()));
-    }, FirebaseCrashlytics.instance.recordError),
-    blocObserver: AppBlocObserver(),
-  );
 }
 
 class AppBlocObserver extends BlocObserver {

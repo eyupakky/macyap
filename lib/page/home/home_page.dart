@@ -16,13 +16,11 @@ import 'package:halisaha/page/home/turnuva_list.dart';
 import 'package:halisaha/page/message/message_page.dart';
 import 'package:halisaha/page/venues/venues_page.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:location/location.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/firebase_controller.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
-import 'package:repository_eyup/model/base_response.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../help/hex_color.dart';
@@ -41,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   var constraints;
   String phoneNumber = "";
   PhoneNumber number = PhoneNumber(isoCode: 'TR');
-  late RemoteConfig config;
+  late FirebaseRemoteConfig config;
   final FirebaseController _firebaseController = FirebaseController();
   final HomeController _homeController = HomeController();
   TextEditingController code = TextEditingController();
@@ -53,7 +51,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _notification();
-    config=RemoteConfig.instance;
+    config=FirebaseRemoteConfig.instance;
     //initPlatformState();
     if (Constant.accessToken.isNotEmpty) {
       getTextList();
@@ -107,8 +105,14 @@ class _HomePageState extends State<HomePage> {
       icon: 'launch_background',
       sound: RawResourceAndroidNotificationSound('aa'),
     );
-    const IOSNotificationDetails iOSPlatformChannelSpecifics =
-        IOSNotificationDetails(sound: 'aa.wav');
+
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    const DarwinNotificationDetails iOSPlatformChannelSpecifics =
+    DarwinNotificationDetails(sound: 'aa.wav');
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,

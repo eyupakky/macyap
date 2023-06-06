@@ -20,8 +20,6 @@ mixin LocationMixin {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        SystemNavigator.pop();
-        exit(0);
         return null;
       }
     }
