@@ -103,7 +103,7 @@ class HomeListItem extends StatelessWidget {
                     SizedBox(
                       height: 30,
                       width: 65,
-                      child: FlatButton(
+                      child: MaterialButton(
                         color: (match.limit! ~/ 2) < match.joinedGamers!
                             ? (match.limit! != match.joinedGamers!
                                 ? Colors.blue

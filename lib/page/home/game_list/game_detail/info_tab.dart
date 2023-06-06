@@ -20,7 +20,7 @@ class GameDetailInfoTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: FlatButton(
+      bottomNavigationBar: MaterialButton(
           minWidth: MediaQuery.of(context).size.width * 0.95,
           padding: const EdgeInsets.all(8),
           onPressed: () {

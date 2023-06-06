@@ -52,7 +52,7 @@ class _NewPasswordState extends State<NewPassword> {
                 const SizedBox(
                   height: 20,
                 ),
-                FlatButton(
+                MaterialButton(
                     height: 40,
                     padding: const EdgeInsets.symmetric(
                         vertical: 12, horizontal: 100),
