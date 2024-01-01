@@ -216,12 +216,11 @@ class _VenuesDetailState extends State<VenuesDetail>
                             Expanded(
                               flex: 6,
                               child: DropdownSearch<Cities>(
-                                  mode: Mode.MENU,
+                                  popupProps: const PopupProps.menu(
+                                      showSelectedItems: true, showSearchBox: true
+                                  ),
                                   // onFind: (String filter) => getData(filter),
-                                  itemAsString: (u) => u!.getCities(),
-                                  dropdownSearchTextAlign: TextAlign.center,
-                                  dropdownSearchTextAlignVertical:
-                                      TextAlignVertical.center,
+                                  itemAsString: (u) => u.getCities(),
                                   onChanged: (d) {
                                     setState(() {
                                       selectedCity = d;
@@ -230,26 +229,35 @@ class _VenuesDetailState extends State<VenuesDetail>
                                     });
                                   },
                                   compareFn: (item, selectedItem) =>
-                                      item?.id == selectedItem?.id,
-                                  showSearchBox: true,
-                                  showSelectedItems: true,
-                                  showAsSuffixIcons: true,
-                                  dropDownButton: const Icon(
-                                    Icons.arrow_drop_down,
-                                    size: 24,
-                                    color: Colors.white,
+                                      item.id == selectedItem.id,
+                                  enabled: true,
+                                  dropdownButtonProps: const DropdownButtonProps(
+                                    icon:  Icon(
+                                      Icons.arrow_drop_down,
+                                      size: 24,
+                                      color: Colors.white60,
+                                    ),
                                   ),
-                                  items: snapshot.data,
-                                  dropdownSearchDecoration: InputDecoration(
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.5,
-                                          color: HexColor.fromHex("#f0243a")),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: HexColor.fromHex("#f0243a")),
-                                    ),
+                                  items: snapshot.data!,
+                                  dropdownDecoratorProps: DropDownDecoratorProps(
+                                    textAlign: TextAlign.center,
+                                      textAlignVertical: TextAlignVertical.center,
+                                      dropdownSearchDecoration: InputDecoration(
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.5,
+                                              color: HexColor.fromHex("#f0243a")),
+                                        ),
+                                        hintStyle: const TextStyle(fontSize: 14),
+                                        // labelStyle: const TextStyle(
+                                        //     color: Color.fromRGBO(246, 164, 182, 1),
+                                        //     fontSize: 14),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.5,
+                                              color: HexColor.fromHex("#f0243a")),
+                                        ),
+                                      )
                                   ),
                                   selectedItem: cityList![0]),
                             ),
@@ -295,36 +303,38 @@ class _VenuesDetailState extends State<VenuesDetail>
                             Expanded(
                               flex: 6,
                               child: DropdownSearch<Counties>(
-                                  mode: Mode.MENU,
-                                  showSearchBox: true,
+                                  popupProps: const PopupProps.menu(
+                                    showSelectedItems: true, showSearchBox: true
+                                  ),
                                   compareFn: (item, selectedItem) =>
-                                      item?.id == selectedItem?.id,
-                                  dropdownSearchBaseStyle:
-                                      const TextStyle(color: Colors.white60),
-                                  showSelectedItems: true,
-                                  itemAsString: (u) => u!.ilce ?? "",
-                                  showAsSuffixIcons: true,
-                                  dropDownButton: const Icon(
+                                      item.id == selectedItem.id,
+                                  itemAsString: (u) => u.ilce ?? "",
+                                  enabled: true,
+                                dropdownButtonProps:const DropdownButtonProps(
+                                  icon:  Icon(
                                     Icons.arrow_drop_down,
                                     size: 24,
                                     color: Colors.white60,
                                   ),
-                                  items: countiesList,
-                                  dropdownSearchDecoration: InputDecoration(
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.5,
-                                          color: HexColor.fromHex("#f0243a")),
-                                    ),
-                                    hintStyle: const TextStyle(fontSize: 14),
-                                    // labelStyle: const TextStyle(
-                                    //     color: Color.fromRGBO(246, 164, 182, 1),
-                                    //     fontSize: 14),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.5,
-                                          color: HexColor.fromHex("#f0243a")),
-                                    ),
+                                ),
+                                  items: countiesList!,
+                                  dropdownDecoratorProps: DropDownDecoratorProps(
+                                    dropdownSearchDecoration: InputDecoration(
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.5,
+                                            color: HexColor.fromHex("#f0243a")),
+                                      ),
+                                      hintStyle: const TextStyle(fontSize: 14),
+                                      // labelStyle: const TextStyle(
+                                      //     color: Color.fromRGBO(246, 164, 182, 1),
+                                      //     fontSize: 14),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.5,
+                                            color: HexColor.fromHex("#f0243a")),
+                                      ),
+                                    )
                                   ),
                                   onChanged: (d) {
                                     selectedCountry = d;

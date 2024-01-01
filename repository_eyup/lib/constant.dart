@@ -6,8 +6,8 @@ class Constant{
   static String surname="";
   static String image="";
   static int userId =0;
-  static String baseUrl = "http://80.93.213.244:5241/";
-  static String testBaseUrl = "http://78.111.98.76:1505/";
+  static String testbaseUrl = "http://78.111.98.76:5241/";
+  static String baseUrl = "http://78.111.98.76:1505/";
 
   // Register
   static String login = "Home/Login";
@@ -38,6 +38,7 @@ class Constant{
   // şifremi unuttum
   static String lostMyPassword ="Home/LostMyPassword";
   static String resetMyPassword ="Home/ResetMyPassword";
+  static String activeControl ="Home/ActiveControl";
   // Account
   static String getMyUser = "Account/GetMyUserProfile";
   static String getUserProfile = "Account/GetUserProfile";

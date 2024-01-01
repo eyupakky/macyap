@@ -31,6 +31,7 @@ abstract class IMatchesRepository {
   Future<bool> lostMyPassword(String usernameEmail);
 
   Future<TurnuvaListModel> getTurnuvalar();
+  Future<BaseResponse2> getActiveControl();
 
   Future<BaseResponse2> joinTurnuva(String id);
 
@@ -231,7 +232,7 @@ class MatchesRepository extends IMatchesRepository {
   @override
   Future<BaseResponse2> getSmsOnayKontrol() async {
     var response = await _dio.post(
-        Constant.testBaseUrl + Constant.smsOnayKontrol,
+        Constant.baseUrl + Constant.smsOnayKontrol,
         data: {"access_token": Constant.accessToken}).catchError((err) {
       return Future.error(err);
     });
@@ -244,7 +245,7 @@ class MatchesRepository extends IMatchesRepository {
   @override
   Future<BaseResponse2> sendPhoneNumber(String phoneNumber) async {
     var response = await _dio
-        .post(Constant.testBaseUrl + Constant.smsGonderPopup, data: {
+        .post(Constant.baseUrl + Constant.smsGonderPopup, data: {
       "access_token": Constant.accessToken,
       "gsm": phoneNumber
     }).catchError((err) {
@@ -259,9 +260,23 @@ class MatchesRepository extends IMatchesRepository {
   @override
   Future<BaseResponse2> smsKontrol(String code) async {
     var response = await _dio
-        .post(Constant.testBaseUrl + Constant.smsKontrolPopup, data: {
+        .post(Constant.baseUrl + Constant.smsKontrolPopup, data: {
       "access_token": Constant.accessToken,
       "kod": code
+    }).catchError((err) {
+      return Future.error(err);
+    });
+    if (response.statusCode == 200) {
+      return Future.value(BaseResponse2.fromJson(response.data));
+    }
+    return Future.error("Hata oluştu");
+  }
+
+  @override
+  Future<BaseResponse2> getActiveControl() async{
+    var response = await _dio
+        .post(Constant.testbaseUrl + Constant.activeControl, data: {
+      "access_token": Constant.accessToken
     }).catchError((err) {
       return Future.error(err);
     });

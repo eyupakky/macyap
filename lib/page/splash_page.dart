@@ -1,9 +1,7 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:halisaha/help/utils.dart';
 import 'package:repository_eyup/constant.dart';
-import 'package:repository_eyup/controller/firebase_controller.dart';
+import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashPage extends StatefulWidget {
@@ -14,6 +12,8 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  final HomeController _homeController = HomeController();
+
   @override
   void initState() {
     super.initState();
@@ -51,7 +51,15 @@ class _SplashPageState extends State<SplashPage> {
         Constant.surname = surname!;
         Constant.image = image!;
         Constant.userId = int.parse('$userId');
-        Navigator.pushReplacementNamed(context, "/home");
+        _homeController.getActiveControl().then((res) {
+          if(res.success){
+            Navigator.pushReplacementNamed(context, "/home");
+          } else{
+            value.clear();
+            Navigator.pushReplacementNamed(context, "/login");
+          }
+        });
+
       } else {
         Navigator.pushReplacementNamed(context, "/login");
       }

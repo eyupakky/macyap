@@ -240,66 +240,75 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: DropdownSearch<Gender>(
-                        mode: Mode.MENU,
-                        itemAsString: (u) => u!.text,
+                        popupProps: const PopupProps.menu(
+                            showSelectedItems: true, showSearchBox: true
+                        ),
+                        itemAsString: (u) => u.text,
                         onChanged: (d) {
                           setState(() {
                             selectedGender = d!.id;
                           });
                         },
                         compareFn: (item, selectedItem) =>
-                            item?.id == selectedItem?.id,
-                        showSearchBox: false,
-                        showSelectedItems: true,
-                        showAsSuffixIcons: true,
-                        dropDownButton: const Icon(
-                          Icons.arrow_drop_down,
-                          size: 24,
-                          color: Colors.white60,
+                            item.id == selectedItem.id,
+                        enabled: true,
+                        dropdownButtonProps: const DropdownButtonProps(
+                          icon:  Icon(
+                            Icons.arrow_drop_down,
+                            size: 24,
+                            color: Colors.white60,
+                          ),
                         ),
                         items: gender,
-                        dropdownSearchDecoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: HexColor.fromHex("#f0243a")),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: HexColor.fromHex("#f0243a")),
-                          ),
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                              BorderSide(color: HexColor.fromHex("#f0243a")),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                              BorderSide(color: HexColor.fromHex("#f0243a")),
+                            ),
+                          )
                         ),
                         selectedItem: gender[0]),
                   ),
                 ),
                 Expanded(
                   child: DropdownSearch<Gender>(
-                      mode: Mode.MENU,
-                      itemAsString: (u) => u!.text,
+                      popupProps: const PopupProps.menu(
+                          showSelectedItems: true, showSearchBox: true
+                      ),
+                      itemAsString: (u) => u.text,
                       onChanged: (d) {
                         setState(() {
                           seciliAlan = d!.text;
                         });
                       },
                       compareFn: (item, selectedItem) =>
-                          item?.id == selectedItem?.id,
-                      showSearchBox: false,
-                      showSelectedItems: true,
-                      showAsSuffixIcons: true,
-                      dropDownButton: const Icon(
-                        Icons.arrow_drop_down,
-                        size: 24,
-                        color: Colors.white60,
-                      ),
+                          item.id == selectedItem.id,
+
                       items: alan,
-                      dropdownSearchDecoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: HexColor.fromHex("#f0243a")),
+                      enabled: true,
+                      dropdownButtonProps: const DropdownButtonProps(
+                        icon:  Icon(
+                          Icons.arrow_drop_down,
+                          size: 24,
+                          color: Colors.white60,
                         ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
+                      ),
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide:
                               BorderSide(color: HexColor.fromHex("#f0243a")),
-                        ),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                              BorderSide(color: HexColor.fromHex("#f0243a")),
+                            ),
+                          )
                       ),
                       selectedItem: alan[0]),
                 ),
@@ -328,7 +337,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     Expanded(
                       child: DropdownSearch<Cities>(
-                          mode: Mode.MENU,
+                          popupProps: const PopupProps.menu(
+                              showSelectedItems: true, showSearchBox: true
+                          ),
                           // onFind: (String filter) => getData(filter),
                           itemAsString: (u) => u!.getCities(),
                           onChanged: (d) {
@@ -338,24 +349,26 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                           compareFn: (item, selectedItem) =>
                               item?.id == selectedItem?.id,
-                          showSearchBox: true,
-                          showSelectedItems: true,
-                          showAsSuffixIcons: true,
-                          dropDownButton: const Icon(
-                            Icons.arrow_drop_down,
-                            size: 24,
-                            color: Colors.white60,
+                          enabled: true,
+                          dropdownButtonProps: const DropdownButtonProps(
+                            icon:  Icon(
+                              Icons.arrow_drop_down,
+                              size: 24,
+                              color: Colors.white60,
+                            ),
                           ),
-                          items: snapshot.data,
-                          dropdownSearchDecoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: HexColor.fromHex("#f0243a")),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: HexColor.fromHex("#f0243a")),
-                            ),
+                          items: snapshot.data!,
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide:
+                                  BorderSide(color: HexColor.fromHex("#f0243a")),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                  BorderSide(color: HexColor.fromHex("#f0243a")),
+                                ),
+                              )
                           ),
                           selectedItem: cityList![0]),
                     ),
@@ -392,34 +405,32 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       Expanded(
                         child: DropdownSearch<Counties>(
-                            mode: Mode.MENU,
-                            showSearchBox: true,
-                            compareFn: (item, selectedItem) =>
-                                item?.id == selectedItem?.id,
-                            dropdownSearchBaseStyle:
-                                const TextStyle(color: Colors.white60),
-                            showSelectedItems: true,
-                            itemAsString: (u) => u!.ilce ?? "",
-                            showAsSuffixIcons: true,
-                            dropDownButton: const Icon(
-                              Icons.arrow_drop_down,
-                              size: 24,
-                              color: Colors.white60,
+                            popupProps: const PopupProps.menu(
+                                showSelectedItems: true, showSearchBox: true
                             ),
-                            items: countiesList,
-                            dropdownSearchDecoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: HexColor.fromHex("#f0243a")),
+                            compareFn: (item, selectedItem) =>
+                                item.id == selectedItem.id,
+                            itemAsString: (u) => u!.ilce ?? "",
+                            enabled: true,
+                            dropdownButtonProps: const DropdownButtonProps(
+                              icon:  Icon(
+                                Icons.arrow_drop_down,
+                                size: 24,
+                                color: Colors.white60,
                               ),
-                              hintStyle: const TextStyle(fontSize: 14),
-                              // labelStyle: const TextStyle(
-                              //     color: Color.fromRGBO(246, 164, 182, 1),
-                              //     fontSize: 14),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: HexColor.fromHex("#f0243a")),
-                              ),
+                            ),
+                            items: countiesList!,
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                    BorderSide(color: HexColor.fromHex("#f0243a")),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                    BorderSide(color: HexColor.fromHex("#f0243a")),
+                                  ),
+                                )
                             ),
                             onChanged: (d) {
                               selectedCountry = d!.id;
