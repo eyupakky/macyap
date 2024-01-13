@@ -55,25 +55,23 @@ class _HomePageState extends State<HomePage> {
     //initPlatformState();
     if (Constant.accessToken.isNotEmpty) {
       getTextList();
-      getSmsOnayKontrol();
+      //getSmsOnayKontrol();
     }
   }
 
   Future<void> initPlatformState() async {
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-    OneSignal.shared.setNotificationOpenedHandler(
-      (OSNotificationOpenedResult result) {
-        _navigateToItemDetail(result.notification);
-        print(result.notification.launchUrl);
-      },
-    );
-    OneSignal.shared.setNotificationWillShowInForegroundHandler((event) {
-      _showNotificationCustomSound(event.notification);
+    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+    OneSignal.Notifications.addClickListener((event) {
+      _navigateToItemDetail(event.notification);
+      print(event.notification.launchUrl);
+
     });
-    OneSignal.shared.setAppId("13c3cb3f-8feb-4059-a683-da58e2933d5b");
-    OneSignal.shared
-        .promptUserForPushNotificationPermission()
-        .then((accepted) {});
+    OneSignal.Notifications.addForegroundWillDisplayListener((event) {
+      _showNotificationCustomSound(event.notification);
+
+    });
+    OneSignal.initialize("13c3cb3f-8feb-4059-a683-da58e2933d5b");
+    OneSignal.Notifications.requestPermission(true);
   }
 
   _notification() async {
@@ -421,7 +419,7 @@ class _HomePageState extends State<HomePage> {
   getSmsOnayKontrol() {
     int version = config.getInt("ios_preview");
     PackageInfo.fromPlatform().then((value) {
-      bool kontrol = version == int.parse(value.buildNumber) ? false : true;
+      bool kontrol = version == int.parse(value.version) ? false : true;
       if(kontrol) {
         _homeController.getSmsOnayKontrol().then((value) {
         if (value.description != "1") {

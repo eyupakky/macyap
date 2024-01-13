@@ -1,4 +1,0 @@
-enum RadioButtonTextPosition {
-  right,
-  left,
-}

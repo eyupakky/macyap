@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -24,6 +25,7 @@ class _UploadMoneyState extends State<UploadMoney> {
   final WalletController _walletController = WalletController();
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode validate = AutovalidateMode.disabled;
+  final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
 
   @override
   void initState() {
@@ -57,8 +59,8 @@ class _UploadMoneyState extends State<UploadMoney> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text(
-                    "* Minimum yükleme miktarı 100 TL'dir",
+                  Text(
+                    "* Minimum yükleme miktarı ${remoteConfig.getString("odeme_tutari")} TL'dir",
                     style: TextStyle(fontSize: 12),
                   ),
                   const SizedBox(
@@ -86,7 +88,7 @@ class _UploadMoneyState extends State<UploadMoney> {
                     validator: (val) {
                       return val!.isEmpty
                           ?Strings.uploadMoneyError
-                          : (double.parse(val) < 1 ? Strings.minUpload : null  );
+                          : (double.parse(val) < remoteConfig.getInt("odeme_tutari") ? Strings.minUpload : null  );
                     },
                     onChanged: (val) {
                       print(val);
