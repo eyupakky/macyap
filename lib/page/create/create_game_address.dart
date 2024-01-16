@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha/help/payment_card.dart';
 import 'package:halisaha/help/utils.dart';
@@ -8,6 +9,8 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:repository_eyup/controller/venues_controller.dart';
 import 'package:repository_eyup/model/create_game.dart';
 import 'package:repository_eyup/model/venues_model.dart';
+
+import '../../help/hex_color.dart';
 
 class CreateGameAddress extends StatefulWidget {
   CreateGame gameModel;
@@ -29,7 +32,7 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
   PhoneNumber number = PhoneNumber(isoCode: 'TR');
   VenuesController _venuesController = VenuesController();
   String phoneNumber = "";
-  int venueId = 0;
+  Venues selectedItem = new Venues();
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +123,8 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
                           setState(() {
                             _autovalidateMode = AutovalidateMode.always;
                           });
-                        } else if ((kendiSaham && listedeVar && venueId == 0) ||
-                            (!kendiSaham && !listedeVar && venueId == 0)) {
+                        } else if ((kendiSaham && listedeVar && selectedItem.id == 0) ||
+                            (!kendiSaham && !listedeVar && selectedItem.id == 0)) {
                           showToast("Lütfen mekan seçiniz.");
                         } else {
                           navigate();
@@ -146,32 +149,48 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
               child: Text("Yükleniyor..."),
             );
           }
-          Venues model = Venues(id: 0, name: "Mekan seçiniz...");
           VenusModel venusModel = VenusModel();
           venusModel.venues = [];
-          venusModel.venues!.add(model);
+          if(selectedItem.id==null) {
+            Venues model = Venues(id: 0, name: "Mekan seçiniz...");
+            venusModel.venues!.add(model);
+          }
           venusModel.venues!.addAll(snapshot.data!.venues!);
-          return DropdownButton<int>(
-            items: venusModel.venues!.map((item) {
-              return DropdownMenuItem(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.80,
-                  child: RichText(
-                    text: TextSpan(
-                        text: item.name,
-                        style: const TextStyle(color: Colors.black)),
-                  ),
+          selectedItem = venusModel.venues![0];
+          return DropdownSearch<Venues>(
+              popupProps: const PopupProps.menu(
+                  showSelectedItems: true, showSearchBox: true
+              ),
+              itemAsString: (u) => u.name!,
+              onChanged: (d) {
+                setState(() {
+                  selectedItem = d!;
+                });
+              },
+              compareFn: (item, selectedItem) =>
+              item.id == selectedItem.id,
+              enabled: true,
+              dropdownButtonProps: const DropdownButtonProps(
+                icon:  Icon(
+                  Icons.arrow_drop_down,
+                  size: 24,
+                  color: Colors.white60,
                 ),
-                value: item.id,
-              );
-            }).toList(),
-            onChanged: (newVal) {
-              setState(() {
-                venueId = newVal!;
-              });
-            },
-            value: venueId,
-          );
+              ),
+              items: venusModel.venues!,
+              dropdownDecoratorProps: DropDownDecoratorProps(
+                  dropdownSearchDecoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide:
+                      BorderSide(color: HexColor.fromHex("#f0243a")),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide:
+                      BorderSide(color: HexColor.fromHex("#f0243a")),
+                    ),
+                  )
+              ),
+              selectedItem: selectedItem);
         });
   }
 
@@ -275,8 +294,8 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
       game.ozelSahaIsim = nameController.text;
       game.ozelSahaTel = phoneNumber;
     }
-    if (venueId != 0) {
-      game.venueId = venueId;
+    if (selectedItem.id != 0) {
+      game.venueId = selectedItem.id;
     }
     Navigator.of(context).push(createRoute(CreateGameTeam(
       game: widget.gameModel,

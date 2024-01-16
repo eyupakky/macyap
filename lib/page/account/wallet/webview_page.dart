@@ -48,13 +48,16 @@ class _WebviewPageState extends State<WebviewPage> {
             _webViewController.addJavaScriptHandler(
                 handlerName: 'paymentResultCallback',
                 callback: (args) {
-                  if (!args[0]) {
-                    showToast(args[1], color: Colors.redAccent);
-                    Navigator.pop(context);
-                  } else if (args[0]) {
-                    showToast("Ödeme başarılı", color: Colors.green);
-                    selectItem();
-                  }
+                  Future.delayed(const Duration(milliseconds: 4000), () {
+                    if (!args[0]) {
+                      showToast(args[1], color: Colors.redAccent);
+                      Navigator.pop(context);
+                    } else if (args[0]) {
+                      showToast("Ödeme başarılı", color: Colors.green);
+                      selectItem();
+                    }
+                  });
+
                 });
           },
           onConsoleMessage: (controller, consoleMessage) {

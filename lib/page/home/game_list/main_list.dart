@@ -40,6 +40,7 @@ class _MainListState extends State<MainList> with LocationMixin {
     super.initState();
     _resetSelectedDate();
     EasyLoading.isShow ? "" : EasyLoading.show();
+    sehir = true;
     getLocation().then((value) async {
       if (value != null) {
         placemarkFromCoordinates(value.latitude!, value.longitude!)
