@@ -16,6 +16,7 @@ import 'package:halisaha/page/home/turnuva_list.dart';
 import 'package:halisaha/page/message/message_page.dart';
 import 'package:halisaha/page/venues/venues_page.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repository_eyup/constant.dart';
@@ -57,6 +58,7 @@ class _HomePageState extends State<HomePage> {
       getTextList();
       //getSmsOnayKontrol();
     }
+    getAppVersion();
   }
 
   Future<void> initPlatformState() async {
@@ -479,5 +481,49 @@ class _HomePageState extends State<HomePage> {
     return RegExp(
             r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{6,6}$)')
         .hasMatch(value ?? '');
+  }
+  Future<bool> getAppVersion() async {
+    FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    int buildNumber = int.parse(packageInfo.buildNumber);
+    int version;
+    if(Platform.isIOS){
+      version = remoteConfig.getInt("ios_version_number");
+    } else {
+      version = remoteConfig.getInt("android_version_number");
+    }
+    if (version > 39) {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return WillPopScope(
+            onWillPop: () {
+              return Future.value(false);
+            },
+            child: AlertDialog(
+              title: const Text("Uyarı"),
+              content: const Text("Lütfen uygulamayı güncelleyiniz..."),
+              backgroundColor: Colors.white,
+              actions: [
+                MaterialButton(
+                  onPressed: () {
+                    LaunchReview.launch(
+                      androidAppId: packageInfo.packageName,
+                      iOSAppId: "1610877039",
+                    );
+                    //goTo(link, context);
+                  },
+                  child: const Text("Güncelle"),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+      return Future.value(false);
+    } else{
+      return Future.value(true);
+    }
   }
 }

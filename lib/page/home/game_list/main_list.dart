@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
@@ -8,6 +11,8 @@ import 'package:halisaha/cubit/cubit_abstract.dart';
 import 'package:halisaha/widget/filter_drawer.dart';
 import 'package:halisaha/widget/search_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:launch_review/launch_review.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/controller/firebase_controller.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
@@ -247,6 +252,50 @@ class _MainListState extends State<MainList> with LocationMixin {
         return list;
       default:
         return list!;
+    }
+  }
+  Future<bool> getAppVersion() async {
+    FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    int buildNumber = int.parse(packageInfo.buildNumber);
+    int version;
+    if(Platform.isIOS){
+      version = remoteConfig.getInt("ios_preview");
+    } else {
+      version = remoteConfig.getInt("android_version_number");
+    }
+    if (version > buildNumber) {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return WillPopScope(
+            onWillPop: () {
+              return Future.value(true);
+            },
+            child: AlertDialog(
+              title: const Text("Uyarı"),
+              content: const Text("Lütfen uygulamayı güncelleyiniz..."),
+              backgroundColor: Colors.white,
+              actions: [
+                MaterialButton(
+                  onPressed: () {
+                    LaunchReview.launch(
+                      androidAppId: packageInfo.packageName,
+                      iOSAppId: "1610877039",
+                    );
+                    //goTo(link, context);
+                  },
+                  child: const Text("Güncelle"),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+      return Future.value(false);
+    } else{
+      return Future.value(true);
     }
   }
 }
