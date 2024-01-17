@@ -492,7 +492,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       version = remoteConfig.getInt("android_version_number");
     }
-    if (version > 39) {
+    if (version > 40) {
       showDialog(
         barrierDismissible: false,
         context: context,
