@@ -38,8 +38,8 @@ android {
         applicationId "com.eyupakky.macyap"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 38
-        versionName '7.1.0'
+        versionCode 39
+        versionName '7.2.0'
     }
 
     buildTypes {

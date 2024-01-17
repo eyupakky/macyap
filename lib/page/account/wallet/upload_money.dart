@@ -88,7 +88,7 @@ class _UploadMoneyState extends State<UploadMoney> {
                     validator: (val) {
                       return val!.isEmpty
                           ?Strings.uploadMoneyError
-                          : (double.parse(val) < remoteConfig.getInt("odeme_tutari") ? Strings.minUpload : null  );
+                          : (double.parse(val) < remoteConfig.getInt("odeme_tutari") ? "* Minimum yükleme miktarı ${remoteConfig.getString("odeme_tutari")} TL'dir": null  );
                     },
                     onChanged: (val) {
                       print(val);
