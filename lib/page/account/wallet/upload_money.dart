@@ -26,11 +26,13 @@ class _UploadMoneyState extends State<UploadMoney> {
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode validate = AutovalidateMode.disabled;
   final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+  double minTutar=201;
 
   @override
   void initState() {
     super.initState();
     EasyLoading.dismiss();
+    minTutar = remoteConfig.getDouble("odeme_tutari") != 0 ? remoteConfig.getDouble("odeme_tutari") : 201;
   }
 
   @override
@@ -60,7 +62,7 @@ class _UploadMoneyState extends State<UploadMoney> {
                     height: 20,
                   ),
                   Text(
-                    "* Minimum yükleme miktarı ${remoteConfig.getString("odeme_tutari")} TL'dir",
+                    "* Minimum yükleme miktarı $minTutar TL'dir",
                     style: TextStyle(fontSize: 12),
                   ),
                   const SizedBox(
@@ -88,7 +90,7 @@ class _UploadMoneyState extends State<UploadMoney> {
                     validator: (val) {
                       return val!.isEmpty
                           ?Strings.uploadMoneyError
-                          : (double.parse(val) < remoteConfig.getInt("odeme_tutari") ? "* Minimum yükleme miktarı ${remoteConfig.getString("odeme_tutari")} TL'dir": null  );
+                          : (double.parse(val) < minTutar ? "* Minimum yükleme miktarı $minTutar TL'dir": null  );
                     },
                     onChanged: (val) {
                       print(val);
