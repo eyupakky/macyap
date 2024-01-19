@@ -26,6 +26,7 @@ class _RemoteConfigPageState extends State<RemoteConfigPage> {
     await remoteConfig.setDefaults(<String, dynamic>{
       'welcome': 'default welcome',
     });
+    remoteConfig.fetch();
     await remoteConfig.fetchAndActivate();
 
     // RemoteConfigValue(null, ValueSource.valueStatic);

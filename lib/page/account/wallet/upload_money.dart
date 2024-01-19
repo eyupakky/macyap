@@ -32,11 +32,11 @@ class _UploadMoneyState extends State<UploadMoney> {
   void initState() {
     super.initState();
     EasyLoading.dismiss();
-    minTutar = remoteConfig.getDouble("odeme_tutari") != 0 ? remoteConfig.getDouble("odeme_tutari") : 201;
   }
 
   @override
   Widget build(BuildContext context) {
+    minTutar = remoteConfig.getDouble("ios_min_odeme") != 0 ? remoteConfig.getDouble("ios_min_odeme") : 200;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
