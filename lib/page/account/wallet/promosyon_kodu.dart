@@ -96,8 +96,8 @@ class _PromosyonKoduPageState extends State<PromosyonKoduPage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.redAccent, // background
-                onPrimary: Colors.white, // foreground
+                backgroundColor: Colors.redAccent, // background
+                foregroundColor: Colors.white, // foreground
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {}

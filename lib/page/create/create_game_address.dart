@@ -33,7 +33,12 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
   VenuesController _venuesController = VenuesController();
   String phoneNumber = "";
   Venues selectedItem = new Venues();
-
+  VenusModel venusModel = VenusModel();
+  @override
+  void initState() {
+    super.initState();
+    venusModel.venues = [];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,14 +154,9 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
               child: Text("Yükleniyor..."),
             );
           }
-          VenusModel venusModel = VenusModel();
-          venusModel.venues = [];
-          if(selectedItem.id==null) {
-            Venues model = Venues(id: 0, name: "Mekan seçiniz...");
-            venusModel.venues!.add(model);
+          else {
+            venusModel.venues!.addAll(snapshot.data!.venues!);
           }
-          venusModel.venues!.addAll(snapshot.data!.venues!);
-          selectedItem = venusModel.venues![0];
           return DropdownSearch<Venues>(
               popupProps: const PopupProps.menu(
                   showSelectedItems: true, showSearchBox: true
@@ -190,7 +190,7 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
                     ),
                   )
               ),
-              selectedItem: selectedItem);
+              selectedItem: venusModel.venues![0]);
         });
   }
 

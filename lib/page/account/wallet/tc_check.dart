@@ -102,8 +102,8 @@ class _TcCheckControllerState extends State<TcCheckController> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.redAccent, // background
-                onPrimary: Colors.white, // foreground
+                backgroundColor: Colors.redAccent, // background
+                foregroundColor: Colors.white, // foreground
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {}

@@ -54,8 +54,8 @@ class WalletPage extends StatelessWidget {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.red, // background
-                  onPrimary: Colors.white, // foreground
+                  backgroundColor: Colors.red, // background
+                  foregroundColor: Colors.white, // foreground
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, "/tcCheck");
@@ -67,8 +67,8 @@ class WalletPage extends StatelessWidget {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.red, // background
-                  onPrimary: Colors.white, // foreground
+                  backgroundColor: Colors.red, // background
+                  foregroundColor: Colors.white, // foreground
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, "/promosyonKodu");
