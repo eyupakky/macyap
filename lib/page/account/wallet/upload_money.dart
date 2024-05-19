@@ -244,7 +244,7 @@ class _UploadMoneyState extends State<UploadMoney> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green, // background
-                foregroundColor: Colors.white, // foreground
+                foregroundColor : Colors.white, // foreground
               ),
               onPressed: () {
                 setState(() {

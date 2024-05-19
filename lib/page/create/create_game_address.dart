@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:halisaha/help/payment_card.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/page/create/create_game_team.dart';
-import 'package:halisaha/page/home/game_list/game_detail.dart';
 import 'package:halisaha/widget/checkbox_button.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:repository_eyup/controller/venues_controller.dart';
@@ -22,7 +21,7 @@ class CreateGameAddress extends StatefulWidget {
 }
 
 class _CreateGameAddressState extends State<CreateGameAddress> {
-  bool kendiSaham = false, listedeVar = false,ozelOyun=false;
+  bool kendiSaham = false, listedeVar = false, ozelOyun = false;
   int selectIndex = 1;
   final _formKey = GlobalKey<FormState>();
   late AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
@@ -34,11 +33,14 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
   String phoneNumber = "";
   Venues selectedItem = new Venues();
   VenusModel venusModel = VenusModel();
+
   @override
   void initState() {
     super.initState();
     venusModel.venues = [];
+    getData();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,8 +130,12 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
                           setState(() {
                             _autovalidateMode = AutovalidateMode.always;
                           });
-                        } else if ((kendiSaham && listedeVar && selectedItem.id == 0) ||
-                            (!kendiSaham && !listedeVar && selectedItem.id == 0)) {
+                        } else if ((kendiSaham &&
+                                listedeVar &&
+                                selectedItem.id == 0) ||
+                            (!kendiSaham &&
+                                !listedeVar &&
+                                selectedItem.id == 0)) {
                           showToast("Lütfen mekan seçiniz.");
                         } else {
                           navigate();
@@ -146,52 +152,32 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
   }
 
   Widget comboWidget() {
-    return FutureBuilder<VenusModel>(
-        future: _venuesController.getLazyVenues(""),
-        builder: (context, snapshot) {
-          if (snapshot.data == null) {
-            return const Center(
-              child: Text("Yükleniyor..."),
-            );
-          }
-          else {
-            venusModel.venues!.addAll(snapshot.data!.venues!);
-          }
-          return DropdownSearch<Venues>(
-              popupProps: const PopupProps.menu(
-                  showSelectedItems: true, showSearchBox: true
+    return DropdownSearch<Venues>(
+        popupProps: const PopupProps.menu(
+            showSelectedItems: true, showSearchBox: true),
+        itemAsString: (u) => u.name!,
+        onChanged: (d) {
+          selectedItem = d!;
+        },
+        enabled: true,
+        dropdownButtonProps: const DropdownButtonProps(
+          icon: Icon(
+            Icons.arrow_drop_down,
+            size: 24,
+            color: Colors.white60,
+          ),
+        ),
+        items: venusModel.venues!,
+        dropdownDecoratorProps: DropDownDecoratorProps(
+            dropdownSearchDecoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: HexColor.fromHex("#f0243a")),
               ),
-              itemAsString: (u) => u.name!,
-              onChanged: (d) {
-                setState(() {
-                  selectedItem = d!;
-                });
-              },
-              compareFn: (item, selectedItem) =>
-              item.id == selectedItem.id,
-              enabled: true,
-              dropdownButtonProps: const DropdownButtonProps(
-                icon:  Icon(
-                  Icons.arrow_drop_down,
-                  size: 24,
-                  color: Colors.white60,
-                ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: HexColor.fromHex("#f0243a")),
               ),
-              items: venusModel.venues!,
-              dropdownDecoratorProps: DropDownDecoratorProps(
-                  dropdownSearchDecoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                      BorderSide(color: HexColor.fromHex("#f0243a")),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide:
-                      BorderSide(color: HexColor.fromHex("#f0243a")),
-                    ),
-                  )
-              ),
-              selectedItem: venusModel.venues![0]);
-        });
+            )),
+        selectedItem: selectedItem);
   }
 
   Widget kendiSahamVar() {
@@ -288,7 +274,7 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
     CreateGame game = widget.gameModel;
     game.ksha = kendiSaham ? 1 : 0;
     game.ksha1 = listedeVar ? 0 : 1;
-    game.ozelOyun=ozelOyun?1:0;
+    game.ozelOyun = ozelOyun ? 1 : 0;
     if (kendiSaham && !listedeVar) {
       game.ozelSahaAdress = addressController.text;
       game.ozelSahaIsim = nameController.text;
@@ -300,5 +286,10 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
     Navigator.of(context).push(createRoute(CreateGameTeam(
       game: widget.gameModel,
     )));
+  }
+  getData(){
+    _venuesController.getLazyVenues("").then((value) {
+      venusModel.venues!.addAll(value.venues!);
+    });
   }
 }
