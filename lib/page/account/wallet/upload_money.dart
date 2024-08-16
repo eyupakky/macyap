@@ -1,4 +1,4 @@
-import 'dart:convert';
+// ignore_for_file: avoid_print
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ import 'package:halisaha/help/utils.dart';
 import 'package:repository_eyup/controller/wallet_controller.dart';
 
 class UploadMoney extends StatefulWidget {
-  UploadMoney({Key? key}) : super(key: key);
+  const UploadMoney({Key? key}) : super(key: key);
 
   @override
   State<UploadMoney> createState() => _UploadMoneyState();
@@ -26,7 +26,7 @@ class _UploadMoneyState extends State<UploadMoney> {
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode validate = AutovalidateMode.disabled;
   final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
-  double minTutar=201;
+  double minTutar = 201;
 
   @override
   void initState() {
@@ -36,7 +36,9 @@ class _UploadMoneyState extends State<UploadMoney> {
 
   @override
   Widget build(BuildContext context) {
-    minTutar = remoteConfig.getDouble("ios_min_odeme") != 0 ? remoteConfig.getDouble("ios_min_odeme") : 200;
+    minTutar = remoteConfig.getDouble("ios_min_odeme") != 0
+        ? remoteConfig.getDouble("ios_min_odeme")
+        : 200;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -63,7 +65,7 @@ class _UploadMoneyState extends State<UploadMoney> {
                   ),
                   Text(
                     "* Minimum yükleme miktarı $minTutar TL'dir",
-                    style: TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12),
                   ),
                   const SizedBox(
                     height: 20,
@@ -89,8 +91,10 @@ class _UploadMoneyState extends State<UploadMoney> {
                     keyboardType: TextInputType.number,
                     validator: (val) {
                       return val!.isEmpty
-                          ?Strings.uploadMoneyError
-                          : (double.parse(val) < minTutar ? "* Minimum yükleme miktarı $minTutar TL'dir": null  );
+                          ? Strings.uploadMoneyError
+                          : (double.parse(val) < minTutar
+                              ? "* Minimum yükleme miktarı $minTutar TL'dir"
+                              : null);
                     },
                     onChanged: (val) {
                       print(val);
@@ -244,7 +248,7 @@ class _UploadMoneyState extends State<UploadMoney> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green, // background
-                foregroundColor : Colors.white, // foreground
+                foregroundColor: Colors.white, // foreground
               ),
               onPressed: () {
                 setState(() {

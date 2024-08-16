@@ -1,10 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/help/hex_color.dart';
 import 'package:repository_eyup/controller/venues_controller.dart';
 import 'package:repository_eyup/model/siparisler.dart';
-import 'package:repository_eyup/model/urunler_model.dart';
 
 class SiparislerimPage extends StatefulWidget {
   const SiparislerimPage({Key? key}) : super(key: key);
@@ -65,31 +63,43 @@ class _SiparislerimPageState extends State<SiparislerimPage> {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 8,),
+                      const SizedBox(
+                        height: 8,
+                      ),
                       Row(
                         children: [
                           Expanded(
                             child: Text(
                               "${value.adet} Adet",
-                              style: const TextStyle(color: Colors.black87, fontSize: 10),
+                              style: const TextStyle(
+                                  color: Colors.black87, fontSize: 10),
                             ),
-                          ), Expanded(
+                          ),
+                          Expanded(
                             child: Text(
                               "Beden : ${value.beden}",
-                              style: const TextStyle(color: Colors.black87, fontSize: 10),
+                              style: const TextStyle(
+                                  color: Colors.black87, fontSize: 10),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8,),
+                      const SizedBox(
+                        height: 8,
+                      ),
                       Text(
                         "Tarih/Saat : ${value.date}",
-                        style: const TextStyle(color: Colors.black87, fontSize: 10),
+                        style: const TextStyle(
+                            color: Colors.black87, fontSize: 10),
                       ),
-                      const SizedBox(height: 8,),
+                      const SizedBox(
+                        height: 8,
+                      ),
                       Text(
                         "${value.durum}",
-                        style:  TextStyle(color: HexColor.fromHex(value.color!), fontSize: 12),
+                        style: TextStyle(
+                            color: HexColor.fromHex(value.color!),
+                            fontSize: 12),
                       )
                     ],
                   ),

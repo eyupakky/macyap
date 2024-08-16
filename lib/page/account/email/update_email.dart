@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/widget/edittext_widget.dart';
@@ -6,7 +5,7 @@ import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:validators/validators.dart';
 
 class UpdateEmailPage extends StatefulWidget {
-  UpdateEmailPage({Key? key}) : super(key: key);
+  const UpdateEmailPage({Key? key}) : super(key: key);
 
   @override
   State<UpdateEmailPage> createState() => _UpdateEmailPageState();

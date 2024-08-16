@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -8,7 +9,6 @@ import 'package:halisaha/base_widget.dart';
 import 'package:halisaha/cubit/cubit_abstract.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/widget/filter_drawer.dart';
-import 'package:halisaha/widget/search_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/controller/firebase_controller.dart';
@@ -16,7 +16,6 @@ import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/model/matches_model.dart';
 import 'package:halisaha/help/location_mixin.dart';
 import 'package:repository_eyup/model/turnuva_list.dart';
-import 'game_list/home_list_item.dart';
 
 class TurnuvaList extends StatefulWidget {
   const TurnuvaList({Key? key}) : super(key: key);
@@ -127,9 +126,7 @@ class _TurnuvaListState extends State<TurnuvaList> with LocationMixin {
                                                   const TextStyle(fontSize: 18),
                                             )),
                                         HtmlWidget(
-                                         '${snapshot.data!
-                                             .turnuvalar![index].aciklama}'
-                                        ),
+                                            '${snapshot.data!.turnuvalar![index].aciklama}'),
                                         MaterialButton(
                                             minWidth: MediaQuery.of(context)
                                                 .size
@@ -192,7 +189,8 @@ class _TurnuvaListState extends State<TurnuvaList> with LocationMixin {
 
   void joinTurnuva(int? id) {
     _homeController.joinTurnuva("$id").then((value) {
-      showToast("${value.description}",color: value.success?Colors.green:Colors.red);
+      showToast("${value.description}",
+          color: value.success ? Colors.green : Colors.red);
     }).catchError((onError) {
       showToast("${onError.description}");
     });

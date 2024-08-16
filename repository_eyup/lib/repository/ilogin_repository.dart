@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields, invalid_return_type_for_catch_error
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -7,7 +9,7 @@ import 'package:repository_eyup/model/register_model.dart';
 
 abstract class ILoginRepository {
   Future<String> login(String username, String password);
-  Future<BaseResponse> help(Map<String,String> map);
+  Future<BaseResponse> help(Map<String, String> map);
 
   Future<BaseResponse> register(RegisterModel registerModel);
 }
@@ -20,7 +22,9 @@ class LoginRepository implements ILoginRepository {
   @override
   Future<String> login(String email, String password) async {
     Map<String, String> body = {"username_email": email, "password": password};
-    var res = await _dio.post(Constant.baseUrl + Constant.login, data: body).catchError((onError){
+    var res = await _dio
+        .post(Constant.baseUrl + Constant.login, data: body)
+        .catchError((onError) {
       return Future.error(onError);
     });
     if (res.statusCode == 200 && res.data["success"]) {
@@ -40,8 +44,10 @@ class LoginRepository implements ILoginRepository {
   }
 
   @override
-  Future<BaseResponse> help(Map<String,String> map)async {
-    var res = await _dio.post(Constant.baseUrl + Constant.help, data: map).catchError((onError){
+  Future<BaseResponse> help(Map<String, String> map) async {
+    var res = await _dio
+        .post(Constant.baseUrl + Constant.help, data: map)
+        .catchError((onError) {
       return Future.error(onError);
     });
     if (res.statusCode == 200 && res.data["success"]) {
@@ -49,6 +55,4 @@ class LoginRepository implements ILoginRepository {
     }
     return Future.error("Giriş Başarısız.");
   }
-
-
 }

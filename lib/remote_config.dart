@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha/page/splash_page.dart';
 import 'package:repository_eyup/constant.dart';
 
 class RemoteConfigPage extends StatefulWidget {
+  const RemoteConfigPage({super.key});
+
   @override
   _RemoteConfigPageState createState() => _RemoteConfigPageState();
 }
@@ -37,7 +38,8 @@ class _RemoteConfigPageState extends State<RemoteConfigPage> {
   Widget build(BuildContext context) {
     return FutureBuilder<FirebaseRemoteConfig>(
       future: setupRemoteConfig(),
-      builder: (BuildContext context, AsyncSnapshot<FirebaseRemoteConfig> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<FirebaseRemoteConfig> snapshot) {
         if (snapshot.hasData) {
           Constant.baseUrl = snapshot.requireData.getString("api_path");
           if (snapshot.requireData.getString("api_path") == "") {
@@ -45,7 +47,7 @@ class _RemoteConfigPageState extends State<RemoteConfigPage> {
           }
         }
         return snapshot.hasData
-            ? SplashPage()
+            ? const SplashPage()
             : const Center(
                 child: CircularProgressIndicator(),
               );

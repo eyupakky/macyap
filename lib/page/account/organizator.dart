@@ -3,7 +3,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import '../../help/ui_guide.dart';
-import '../../widget/custom_button.dart';
 
 class Organizator extends StatefulWidget {
   const Organizator({Key? key}) : super(key: key);
@@ -68,7 +67,8 @@ class _OrganizatorState extends State<Organizator> {
                     .then((value) {
                   if (value.success!) {
                     EasyLoading.dismiss();
-                    showToast("Organizatör isteğiniz gönderildi.",color: Colors.green);
+                    showToast("Organizatör isteğiniz gönderildi.",
+                        color: Colors.green);
                     Navigator.pop(context);
                   }
                 }).catchError((err) {

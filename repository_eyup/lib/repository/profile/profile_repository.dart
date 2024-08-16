@@ -1,14 +1,14 @@
-import 'package:dio/src/dio.dart';
-import 'package:repository_eyup/model/matches_model.dart';
-import 'package:repository_eyup/model/venues_model.dart';
+// ignore_for_file: implementation_imports, prefer_final_fields, unused_field
 
-abstract class IProfileRepository{
+import 'package:dio/src/dio.dart';
+
+abstract class IProfileRepository {
   Future<String> getProfile(String id);
   Future<List<String>> getAttending(String id);
   Future<List<String>> getPlayed(String id);
 }
 
-class ProfileRepository extends IProfileRepository{
+class ProfileRepository extends IProfileRepository {
   Dio _dio;
   ProfileRepository(this._dio);
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+// ignore: must_be_immutable
 class BaseWidget extends StatelessWidget {
   Widget child;
 

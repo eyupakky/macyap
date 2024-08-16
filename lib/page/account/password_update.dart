@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/widget/edittext_widget.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 
 class PasswordUpdatePage extends StatefulWidget {
-  PasswordUpdatePage({Key? key}) : super(key: key);
+  const PasswordUpdatePage({Key? key}) : super(key: key);
 
   @override
   State<PasswordUpdatePage> createState() => _PasswordUpdatePageState();
@@ -16,11 +15,12 @@ class _PasswordUpdatePageState extends State<PasswordUpdatePage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _passwordController=TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  final TextEditingController _newpasswordController=TextEditingController();
+  final TextEditingController _newpasswordController = TextEditingController();
 
-  final TextEditingController _newpasswordConfirmController=TextEditingController();
+  final TextEditingController _newpasswordConfirmController =
+      TextEditingController();
 
   final AccountController _accountController = AccountController();
 
@@ -53,7 +53,8 @@ class _PasswordUpdatePageState extends State<PasswordUpdatePage> {
               labelText: "Şuanki Şifreniz",
               icon: null,
               maxLength: 100,
-              validator: (value)=>value!.isEmpty?"Bu alan boş geçemez...":null,
+              validator: (value) =>
+                  value!.isEmpty ? "Bu alan boş geçemez..." : null,
               iconColor: Theme.of(context).primaryColorLight,
               focusColor: const Color.fromRGBO(80, 80, 80, 1),
               unFocusColor: Colors.grey,
@@ -67,7 +68,8 @@ class _PasswordUpdatePageState extends State<PasswordUpdatePage> {
               icon: null,
               maxLength: 100,
               iconColor: Theme.of(context).primaryColorLight,
-              validator: (value)=>value!.isEmpty?"Bu alan boş geçilemez...":null,
+              validator: (value) =>
+                  value!.isEmpty ? "Bu alan boş geçilemez..." : null,
               focusColor: const Color.fromRGBO(80, 80, 80, 1),
               unFocusColor: Colors.grey,
               labelColor: const Color.fromRGBO(80, 80, 80, 1),
@@ -80,8 +82,12 @@ class _PasswordUpdatePageState extends State<PasswordUpdatePage> {
               icon: null,
               maxLength: 100,
               iconColor: Theme.of(context).primaryColorLight,
-              validator: (value){
-                return value!.isEmpty?"Bu alan boş geçilemez...":(_newpasswordController.text!=value?"Şifreler uyuşmuyor...":null);
+              validator: (value) {
+                return value!.isEmpty
+                    ? "Bu alan boş geçilemez..."
+                    : (_newpasswordController.text != value
+                        ? "Şifreler uyuşmuyor..."
+                        : null);
               },
               focusColor: const Color.fromRGBO(80, 80, 80, 1),
               unFocusColor: Colors.grey,
@@ -93,14 +99,17 @@ class _PasswordUpdatePageState extends State<PasswordUpdatePage> {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     if (!_formKey.currentState!.validate()) {
                       setState(() {
                         validate = AutovalidateMode.onUserInteraction;
                       });
                     } else {
                       _accountController
-                          .updatePassword(_passwordController.text, _newpasswordController.text,_newpasswordConfirmController.text)
+                          .updatePassword(
+                              _passwordController.text,
+                              _newpasswordController.text,
+                              _newpasswordConfirmController.text)
                           .then((value) {
                         showToast('${value.description}', color: Colors.green);
                         Navigator.pop(context);

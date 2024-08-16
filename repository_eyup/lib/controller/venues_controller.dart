@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/comment.dart';
@@ -13,31 +15,40 @@ import '../model/urun_details.dart';
 
 class VenuesController {
   IVenuesRepository iVenuesRepository = VenuesRepository(Dio());
-  late VenusModel venuesList=VenusModel();
+  late VenusModel venuesList = VenusModel();
   String lastSearch = "";
   Future<VenusModel> getLazyVenues(String? name) async {
-    if(venuesList.success==null || name!.isNotEmpty || lastSearch.isNotEmpty) {
+    if (venuesList.success == null ||
+        name!.isNotEmpty ||
+        lastSearch.isNotEmpty) {
       venuesList = await iVenuesRepository.getLazyVenues(name!);
     }
     lastSearch = name;
     return venuesList;
   }
-  Future<UrunlerModel> getShoppingList(){
+
+  Future<UrunlerModel> getShoppingList() {
     return Future.value(iVenuesRepository.getShopping());
   }
-  Future<SiparisList> siparisler(){
-    return Future.value(iVenuesRepository.siparisler());
 
+  Future<SiparisList> siparisler() {
+    return Future.value(iVenuesRepository.siparisler());
   }
+
   Future<VenusDetailModel> getVenuesDetail(int? id) async {
     return Future.value(iVenuesRepository.getVenue(id));
   }
+
   Future<UrunDetailModel> getShoppingDetail(int? id) async {
     return Future.value(iVenuesRepository.getUrun(id));
   }
-  Future<BaseResponse2> siparisVer(int urunId, int bedenId, int adet, String adres){
-    return Future.value(iVenuesRepository.siparisVer(urunId,bedenId,adet,adres));
+
+  Future<BaseResponse2> siparisVer(
+      int urunId, int bedenId, int adet, String adres) {
+    return Future.value(
+        iVenuesRepository.siparisVer(urunId, bedenId, adet, adres));
   }
+
   Future<BaseResponse> venuesFavorite(int? venueId) async {
     return Future.value(iVenuesRepository.venueFollow(venueId));
   }

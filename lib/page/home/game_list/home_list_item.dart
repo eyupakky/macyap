@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:halisaha/help/hex_color.dart';
 import 'package:repository_eyup/model/matches_model.dart';
@@ -75,21 +76,22 @@ class HomeListItem extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                           ),
                           Container(
-                            child: Text.rich(
-                                TextSpan(
+                            child: Text.rich(TextSpan(
                                 text: 'İlçe : ',
-                                style: const TextStyle(fontSize: 11,color: Colors.grey),
+                                style: const TextStyle(
+                                    fontSize: 11, color: Colors.grey),
                                 children: <InlineSpan>[
                                   TextSpan(
-                                    text:match.ilce,
-                                    style: const TextStyle(fontSize: 12,color: Colors.black,fontWeight: FontWeight.bold),
+                                    text: match.ilce,
+                                    style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                ]
-                            )),
+                                ])),
                             alignment: Alignment.centerLeft,
                             margin: const EdgeInsets.only(top: 5),
                           ),
-
                         ],
                       ),
                     ),

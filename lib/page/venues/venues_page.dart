@@ -1,15 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/base_widget.dart';
-import 'package:halisaha/widget/search_widget.dart';
 import 'package:repository_eyup/controller/venues_controller.dart';
 import 'package:repository_eyup/model/urunler_model.dart';
-import 'package:repository_eyup/model/venues_model.dart';
 
 class PlacesPage extends StatefulWidget {
-  PlacesPage({Key? key}) : super(key: key);
+  const PlacesPage({Key? key}) : super(key: key);
 
   @override
   State<PlacesPage> createState() => _PlacesPageState();
@@ -42,7 +39,8 @@ class _PlacesPageState extends State<PlacesPage> {
                     future: _venuesController.getShoppingList(),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
-                        return const Center(child: Text("Ürün listesi yükleniyor..."));
+                        return const Center(
+                            child: Text("Ürün listesi yükleniyor..."));
                       }
                       EasyLoading.dismiss();
                       var matches = snapshot.data;
@@ -58,10 +56,12 @@ class _PlacesPageState extends State<PlacesPage> {
                             },
                             title: Text(
                               '${value.baslik}',
-                              style: const TextStyle(fontSize: 12,color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.black),
                             ),
                             leading: CachedNetworkImage(
-                              imageUrl: 'https://macyap.com.tr/Content/UrunImg/${value.img}',
+                              imageUrl:
+                                  'https://macyap.com.tr/Content/UrunImg/${value.img}',
                               fit: BoxFit.fill,
                               progressIndicatorBuilder:
                                   (context, url, downloadProgress) =>

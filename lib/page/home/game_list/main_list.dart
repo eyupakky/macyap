@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -212,7 +211,7 @@ class _MainListState extends State<MainList> with LocationMixin {
             future: _accountController.getMyRole(),
             builder: (context, snapshot) {
               if (snapshot.data == null || snapshot.data != "Organizator") {
-                return SizedBox();
+                return const SizedBox();
               }
               return Container(
                 width: 50,
@@ -254,12 +253,13 @@ class _MainListState extends State<MainList> with LocationMixin {
         return list!;
     }
   }
+
   Future<bool> getAppVersion() async {
     FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     int buildNumber = int.parse(packageInfo.buildNumber);
     int version;
-    if(Platform.isIOS){
+    if (Platform.isIOS) {
       version = remoteConfig.getInt("ios_preview");
     } else {
       version = remoteConfig.getInt("android_version_number");
@@ -294,7 +294,7 @@ class _MainListState extends State<MainList> with LocationMixin {
         },
       );
       return Future.value(false);
-    } else{
+    } else {
       return Future.value(true);
     }
   }

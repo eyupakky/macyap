@@ -1,9 +1,7 @@
-import 'dart:convert';
+// ignore_for_file: body_might_complete_normally_catch_error
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:halisaha/help/input_formatter.dart';
 import 'package:halisaha/help/payment_card.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:repository_eyup/controller/wallet_controller.dart';
@@ -141,8 +139,7 @@ class _TcCheckControllerState extends State<TcCheckController> {
     EasyLoading.show();
     _walletController.checkTc().then((value) {
       if (value == true) {
-        Navigator.pushReplacementNamed(
-            context, "/uploadMoney");
+        Navigator.pushReplacementNamed(context, "/uploadMoney");
       } else {
         EasyLoading.dismiss();
       }

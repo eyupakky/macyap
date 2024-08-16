@@ -7,7 +7,7 @@ import 'package:repository_eyup/model/game_detail.dart';
 // app configurations
 class AppConfig {
   static const appName = "Flutter Login Templates";
-  static GameDetail gameDetail=GameDetail();
+  static GameDetail gameDetail = GameDetail();
 }
 
 //Class to get Screen Size
@@ -49,6 +49,7 @@ void showToast(String text, {Color? color}) {
       textColor: Colors.white,
       fontSize: 16.0);
 }
+
 class Debouncer {
   late final int milliseconds;
 
@@ -64,6 +65,7 @@ class Debouncer {
     _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }
+
 Route createRoute(Widget page) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => page,

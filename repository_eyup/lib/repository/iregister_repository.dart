@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_return_type_for_catch_error, prefer_final_fields, avoid_print, body_might_complete_normally_catch_error, avoid_renaming_method_parameters
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -21,7 +23,8 @@ class RegisterRepository extends IRegisterRepository {
 
   @override
   Future<List<Cities>> getCities() async {
-    var res = await _dio.get(Constant.baseUrl + Constant.getCities).catchError((err){
+    var res =
+        await _dio.get(Constant.baseUrl + Constant.getCities).catchError((err) {
       return Future.error("Şehir listesi yüklenemedi.");
     });
     if (res.statusCode == 200 && res.data["success"]) {

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/base_widget.dart';
@@ -24,9 +23,10 @@ class AccountPage extends StatelessWidget {
               Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(12),
-                  child:  Text(
+                  child: Text(
                     Constant.userName,
-                    style:const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   )),
               SizedBox(
                 height: constraints.maxHeight - 50,
@@ -43,20 +43,25 @@ class AccountPage extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return ListTile(
                               onTap: () {
-                                if(data[index].route=="/profile"){
-                                  Navigator.pushNamed(context, data[index].route,arguments: Constant.userId);
-                                }
-                                else if(data[index].route=="/removeAccount"){
-                                  showDialog(context: context,
-                                      builder:(BuildContext contx){
-                                        return  AlertDialog(
-                                          title: const Text('Kullanıcını Silmek istediğine emin misin ?'),
+                                if (data[index].route == "/profile") {
+                                  Navigator.pushNamed(
+                                      context, data[index].route,
+                                      arguments: Constant.userId);
+                                } else if (data[index].route ==
+                                    "/removeAccount") {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext contx) {
+                                        return AlertDialog(
+                                          title: const Text(
+                                              'Kullanıcını Silmek istediğine emin misin ?'),
                                           actions: [
-                                            MaterialButton(                     // FlatButton widget is used to make a text to work like a button
+                                            MaterialButton(
+                                              // FlatButton widget is used to make a text to work like a button
                                               textColor: Colors.black,
                                               onPressed: () {
                                                 Navigator.pop(context);
-                                              },             // function used to perform after pressing the button
+                                              }, // function used to perform after pressing the button
                                               child: const Text('İptal'),
                                             ),
                                             MaterialButton(
@@ -68,12 +73,11 @@ class AccountPage extends StatelessWidget {
                                             ),
                                           ],
                                         );
-                                      }
-                                  );
-                                }
-                                else if(data[index].route!="/exit") {
-                                  Navigator.pushNamed(context, data[index].route);
-                                }else{
+                                      });
+                                } else if (data[index].route != "/exit") {
+                                  Navigator.pushNamed(
+                                      context, data[index].route);
+                                } else {
                                   exitApp(context);
                                 }
                               },
@@ -101,7 +105,7 @@ class AccountPage extends StatelessWidget {
     ));
   }
 
-  void exitApp(context) async{
+  void exitApp(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     prefs.remove("accessToken");
@@ -109,10 +113,10 @@ class AccountPage extends StatelessWidget {
   }
 
   void deleteAccount(context) {
-    _accountController.deleteAccount().then((value){
+    _accountController.deleteAccount().then((value) {
       Navigator.pop(context);
       exitApp(context);
-    }).catchError((onError){
+    }).catchError((onError) {
       EasyLoading.dismiss();
       showToast(onError);
     });

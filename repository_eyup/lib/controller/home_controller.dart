@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, prefer_final_fields, null_argument_to_non_null_type
+
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/comment.dart';
@@ -22,13 +24,6 @@ class HomeController {
     /* && matchesList[tarih]==null */
     getTurnuvalar();
     return _iMatchesRepository.getLazyMatches(map);
-
-    var response =
-        await _iMatchesRepository.getLazyMatches(map).catchError((err) {
-      temp = true;
-    });
-    matches = response;
-    return Future.value(matches);
   }
 
   Future<GameDetail> getGameDetail(int id) async {
@@ -118,21 +113,27 @@ class HomeController {
   Future<TurnuvaListModel> getTurnuvalar() async {
     return await _iMatchesRepository.getTurnuvalar();
   }
+
   Future<BaseResponse2> getActiveControl() async {
     return await _iMatchesRepository.getActiveControl();
   }
+
   Future<BaseResponse2> joinTurnuva(String id) async {
     return await _iMatchesRepository.joinTurnuva(id);
   }
+
   Future<TextModel> getText() async {
     return await _iMatchesRepository.getText();
   }
+
   Future<BaseResponse2> getSmsOnayKontrol() async {
     return await _iMatchesRepository.getSmsOnayKontrol();
   }
+
   Future<BaseResponse2> sendPhoneNumber(String phoneNumber) async {
     return await _iMatchesRepository.sendPhoneNumber(phoneNumber);
   }
+
   Future<BaseResponse2> smsKontrol(String code) async {
     return await _iMatchesRepository.smsKontrol(code);
   }

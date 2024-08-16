@@ -12,10 +12,10 @@ class CheckBoxHizmetButton extends StatefulWidget {
 
   const CheckBoxHizmetButton(
       {required Key key,
-        required this.text1,
-        required this.text2,
-        required this.callback,
-        required this.url})
+      required this.text1,
+      required this.text2,
+      required this.callback,
+      required this.url})
       : super(key: key);
 
   @override
@@ -33,6 +33,7 @@ class _CheckBoxButtonState extends State<CheckBoxHizmetButton> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Checkbox(
           checkColor: Colors.white,
@@ -40,6 +41,7 @@ class _CheckBoxButtonState extends State<CheckBoxHizmetButton> {
           value: check,
           onChanged: (value) {
             widget.callback();
+
             setState(() {
               check = value!;
             });
@@ -48,7 +50,6 @@ class _CheckBoxButtonState extends State<CheckBoxHizmetButton> {
         Text.rich(
           TextSpan(
             style: const TextStyle(
-              color: Colors.redAccent,
               fontSize: 15,
             ),
             children: <TextSpan>[
@@ -78,7 +79,7 @@ class _CheckBoxButtonState extends State<CheckBoxHizmetButton> {
         context: context,
         barrierDismissible: true,
         barrierLabel:
-        MaterialLocalizations.of(context).modalBarrierDismissLabel,
+            MaterialLocalizations.of(context).modalBarrierDismissLabel,
         barrierColor: Colors.black45,
         transitionDuration: const Duration(milliseconds: 200),
         pageBuilder: (BuildContext buildContext, Animation animation,
@@ -101,7 +102,7 @@ class _CheckBoxButtonState extends State<CheckBoxHizmetButton> {
                 padding: const EdgeInsets.only(
                     left: 12, right: 12, top: 18, bottom: 12),
                 height: MediaQuery.of(context).size.height - 50,
-                child:FullScreenDialog(
+                child: FullScreenDialog(
                   url: widget.url,
                   callback: () {
                     widget.callback();
@@ -109,19 +110,24 @@ class _CheckBoxButtonState extends State<CheckBoxHizmetButton> {
                       check = true;
                     });
                   },
-                  title: 'Hizmet Sözleşmesi', key: UniqueKey(),
-                )
-            ),
+                  title: 'Hizmet Sözleşmesi',
+                  key: UniqueKey(),
+                )),
           );
         });
   }
 }
+
 class FullScreenDialog extends StatefulWidget {
   final VoidCallback callback;
   final String url;
   final String title;
 
-  const FullScreenDialog({required Key key,required this.callback,required this.title,required this.url})
+  const FullScreenDialog(
+      {required Key key,
+      required this.callback,
+      required this.title,
+      required this.url})
       : super(key: key);
 
   @override
@@ -152,8 +158,7 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
       ),
       body: SafeArea(
         child: InAppWebView(
-          initialUrlRequest:
-          URLRequest(url: Uri.parse(widget.url)),
+          initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
         ),
       ),
     );

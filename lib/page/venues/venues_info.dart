@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: must_be_immutable, deprecated_member_use
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:halisaha/widget/rating_widget.dart';
 import 'package:repository_eyup/controller/venues_controller.dart';
 
@@ -43,11 +43,12 @@ class VenuesInfoTab extends StatelessWidget {
                     padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.0),
-                        color:Theme.of(context).primaryColor),
+                        color: Theme.of(context).primaryColor),
                     child: Text(
                       venues!.tags![index],
                       style: const TextStyle(
-                        fontSize: 10,color: Colors.white,
+                        fontSize: 10,
+                        color: Colors.white,
                         fontStyle: FontStyle.normal,
                       ),
                     ),

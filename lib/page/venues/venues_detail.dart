@@ -1,4 +1,4 @@
-import 'dart:io';
+// ignore_for_file: prefer_final_fields, unrelated_type_equality_checks, avoid_print
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -17,7 +17,7 @@ import 'package:repository_eyup/model/urun_details.dart';
 import '../../help/hex_color.dart';
 
 class VenuesDetail extends StatefulWidget {
-  VenuesDetail({Key? key}) : super(key: key);
+  const VenuesDetail({Key? key}) : super(key: key);
 
   @override
   State<VenuesDetail> createState() => _VenuesDetailState();
@@ -97,12 +97,15 @@ class _VenuesDetailState extends State<VenuesDetail>
                                       Radius.circular(5.0)),
                                   child: Stack(
                                     children: <Widget>[
-                                  CachedNetworkImage(
-                                  imageUrl: item,
-                                    width: MediaQuery.of(context).size.width,
-                                    placeholder: (context, url) => const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                                  ),
+                                      CachedNetworkImage(
+                                        imageUrl: item,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        placeholder: (context, url) =>
+                                            const CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      ),
                                     ],
                                   )),
                             ))
@@ -217,8 +220,8 @@ class _VenuesDetailState extends State<VenuesDetail>
                               flex: 6,
                               child: DropdownSearch<Cities>(
                                   popupProps: const PopupProps.menu(
-                                      showSelectedItems: true, showSearchBox: true
-                                  ),
+                                      showSelectedItems: true,
+                                      showSearchBox: true),
                                   // onFind: (String filter) => getData(filter),
                                   itemAsString: (u) => u.getCities(),
                                   onChanged: (d) {
@@ -231,34 +234,40 @@ class _VenuesDetailState extends State<VenuesDetail>
                                   compareFn: (item, selectedItem) =>
                                       item.id == selectedItem.id,
                                   enabled: true,
-                                  dropdownButtonProps: const DropdownButtonProps(
-                                    icon:  Icon(
+                                  dropdownButtonProps:
+                                      const DropdownButtonProps(
+                                    icon: Icon(
                                       Icons.arrow_drop_down,
                                       size: 24,
                                       color: Colors.white60,
                                     ),
                                   ),
                                   items: snapshot.data!,
-                                  dropdownDecoratorProps: DropDownDecoratorProps(
-                                    textAlign: TextAlign.center,
-                                      textAlignVertical: TextAlignVertical.center,
-                                      dropdownSearchDecoration: InputDecoration(
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.5,
-                                              color: HexColor.fromHex("#f0243a")),
-                                        ),
-                                        hintStyle: const TextStyle(fontSize: 14),
-                                        // labelStyle: const TextStyle(
-                                        //     color: Color.fromRGBO(246, 164, 182, 1),
-                                        //     fontSize: 14),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.5,
-                                              color: HexColor.fromHex("#f0243a")),
-                                        ),
-                                      )
-                                  ),
+                                  dropdownDecoratorProps:
+                                      DropDownDecoratorProps(
+                                          textAlign: TextAlign.center,
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
+                                          dropdownSearchDecoration:
+                                              InputDecoration(
+                                            enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.5,
+                                                  color: HexColor.fromHex(
+                                                      "#f0243a")),
+                                            ),
+                                            hintStyle:
+                                                const TextStyle(fontSize: 14),
+                                            // labelStyle: const TextStyle(
+                                            //     color: Color.fromRGBO(246, 164, 182, 1),
+                                            //     fontSize: 14),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.5,
+                                                  color: HexColor.fromHex(
+                                                      "#f0243a")),
+                                            ),
+                                          )),
                                   selectedItem: cityList![0]),
                             ),
                           ],
@@ -304,38 +313,40 @@ class _VenuesDetailState extends State<VenuesDetail>
                               flex: 6,
                               child: DropdownSearch<Counties>(
                                   popupProps: const PopupProps.menu(
-                                    showSelectedItems: true, showSearchBox: true
-                                  ),
+                                      showSelectedItems: true,
+                                      showSearchBox: true),
                                   compareFn: (item, selectedItem) =>
                                       item.id == selectedItem.id,
                                   itemAsString: (u) => u.ilce ?? "",
                                   enabled: true,
-                                dropdownButtonProps:const DropdownButtonProps(
-                                  icon:  Icon(
-                                    Icons.arrow_drop_down,
-                                    size: 24,
-                                    color: Colors.white60,
+                                  dropdownButtonProps:
+                                      const DropdownButtonProps(
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      size: 24,
+                                      color: Colors.white60,
+                                    ),
                                   ),
-                                ),
                                   items: countiesList!,
-                                  dropdownDecoratorProps: DropDownDecoratorProps(
-                                    dropdownSearchDecoration: InputDecoration(
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.5,
-                                            color: HexColor.fromHex("#f0243a")),
-                                      ),
-                                      hintStyle: const TextStyle(fontSize: 14),
-                                      // labelStyle: const TextStyle(
-                                      //     color: Color.fromRGBO(246, 164, 182, 1),
-                                      //     fontSize: 14),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.5,
-                                            color: HexColor.fromHex("#f0243a")),
-                                      ),
-                                    )
-                                  ),
+                                  dropdownDecoratorProps:
+                                      DropDownDecoratorProps(
+                                          dropdownSearchDecoration:
+                                              InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.5,
+                                          color: HexColor.fromHex("#f0243a")),
+                                    ),
+                                    hintStyle: const TextStyle(fontSize: 14),
+                                    // labelStyle: const TextStyle(
+                                    //     color: Color.fromRGBO(246, 164, 182, 1),
+                                    //     fontSize: 14),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.5,
+                                          color: HexColor.fromHex("#f0243a")),
+                                    ),
+                                  )),
                                   onChanged: (d) {
                                     selectedCountry = d;
                                     print(d.toString());

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -17,9 +19,11 @@ class AccountController {
   Future<User> getMyUser() {
     return Future.value(iAccountRepository.getMyUser());
   }
+
   Future<User> getUserProfile(int? id) {
     return Future.value(iAccountRepository.getUserProfile(id));
   }
+
   Future<List<AccountModel>> getAccount(String id) async {
     _accountModel = await iAccountRepository.getAccount(id);
     return _accountModel;
@@ -53,46 +57,61 @@ class AccountController {
     var users = await iAccountRepository.follow(id);
     return users;
   }
+
   Future<BaseResponse> blockUser(int? id) async {
     var users = await iAccountRepository.blockUser(id);
     return users;
   }
+
   Future<BaseResponse> removeBlockUser(int? id) async {
     var users = await iAccountRepository.removeBlockUser(id);
     return users;
   }
-  Future<BaseResponse> updateEmail(String? newEmail,String? password) async {
-    var users = await iAccountRepository.updateEmail(newEmail,password);
+
+  Future<BaseResponse> updateEmail(String? newEmail, String? password) async {
+    var users = await iAccountRepository.updateEmail(newEmail, password);
     return users;
   }
-  Future<BaseResponse> updatePassword(String? oldPass,String? newPass,String? newPassValid) async {
-    var users = await iAccountRepository.updatePassword(oldPass,newPass,newPassValid);
+
+  Future<BaseResponse> updatePassword(
+      String? oldPass, String? newPass, String? newPassValid) async {
+    var users =
+        await iAccountRepository.updatePassword(oldPass, newPass, newPassValid);
     return users;
   }
-  Future<BaseResponse> updateSetting(String? userName, String? name,String? lastName) async {
-    var users = await iAccountRepository.updateSetting(userName,name,lastName);
+
+  Future<BaseResponse> updateSetting(
+      String? userName, String? name, String? lastName) async {
+    var users =
+        await iAccountRepository.updateSetting(userName, name, lastName);
     return users;
   }
+
   Future<BaseResponse> updateImage(String image) async {
     var users = await iAccountRepository.uploadImage(image);
     return users;
   }
+
   Future<bool> checkFollow(int? userId) async {
     var res = await iAccountRepository.checkFollow(userId);
     return res;
   }
+
   Future<String> getMyRole() async {
     var res = await iAccountRepository.getMyRole();
     return res;
   }
+
   Future<BaseResponse> createOrganizer(String subject) async {
     var users = await iAccountRepository.createOrganizer(subject);
     return users;
   }
-  Future<BaseResponse> sendAComplaint(String content)async{
+
+  Future<BaseResponse> sendAComplaint(String content) async {
     return await iAccountRepository.sendAComplaint(content);
   }
-  Future<BaseResponse> deleteAccount()async{
+
+  Future<BaseResponse> deleteAccount() async {
     return await iAccountRepository.deleteAccount();
   }
 }

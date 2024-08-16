@@ -1,7 +1,8 @@
+// ignore_for_file: unused_field, avoid_print
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:halisaha/base_widget.dart';
 import 'package:halisaha/help/app_context.dart';
 import 'package:halisaha/help/hex_color.dart';
 import 'package:halisaha/help/ui_guide.dart';
@@ -241,8 +242,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     padding: const EdgeInsets.only(right: 8.0),
                     child: DropdownSearch<Gender>(
                         popupProps: const PopupProps.menu(
-                            showSelectedItems: true, showSearchBox: true
-                        ),
+                            showSelectedItems: true, showSearchBox: true),
                         itemAsString: (u) => u.text,
                         onChanged: (d) {
                           setState(() {
@@ -253,7 +253,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             item.id == selectedItem.id,
                         enabled: true,
                         dropdownButtonProps: const DropdownButtonProps(
-                          icon:  Icon(
+                          icon: Icon(
                             Icons.arrow_drop_down,
                             size: 24,
                             color: Colors.white60,
@@ -261,25 +261,23 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         items: gender,
                         dropdownDecoratorProps: DropDownDecoratorProps(
-                          dropdownSearchDecoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                              BorderSide(color: HexColor.fromHex("#f0243a")),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide:
-                              BorderSide(color: HexColor.fromHex("#f0243a")),
-                            ),
-                          )
-                        ),
+                            dropdownSearchDecoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: HexColor.fromHex("#f0243a")),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: HexColor.fromHex("#f0243a")),
+                          ),
+                        )),
                         selectedItem: gender[0]),
                   ),
                 ),
                 Expanded(
                   child: DropdownSearch<Gender>(
                       popupProps: const PopupProps.menu(
-                          showSelectedItems: true, showSearchBox: true
-                      ),
+                          showSelectedItems: true, showSearchBox: true),
                       itemAsString: (u) => u.text,
                       onChanged: (d) {
                         setState(() {
@@ -288,11 +286,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       compareFn: (item, selectedItem) =>
                           item.id == selectedItem.id,
-
                       items: alan,
                       enabled: true,
                       dropdownButtonProps: const DropdownButtonProps(
-                        icon:  Icon(
+                        icon: Icon(
                           Icons.arrow_drop_down,
                           size: 24,
                           color: Colors.white60,
@@ -300,16 +297,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       dropdownDecoratorProps: DropDownDecoratorProps(
                           dropdownSearchDecoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide:
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
                               BorderSide(color: HexColor.fromHex("#f0243a")),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide:
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
                               BorderSide(color: HexColor.fromHex("#f0243a")),
-                            ),
-                          )
-                      ),
+                        ),
+                      )),
                       selectedItem: alan[0]),
                 ),
               ],
@@ -338,20 +334,19 @@ class _RegisterPageState extends State<RegisterPage> {
                     Expanded(
                       child: DropdownSearch<Cities>(
                           popupProps: const PopupProps.menu(
-                              showSelectedItems: true, showSearchBox: true
-                          ),
+                              showSelectedItems: true, showSearchBox: true),
                           // onFind: (String filter) => getData(filter),
-                          itemAsString: (u) => u!.getCities(),
+                          itemAsString: (u) => u.getCities(),
                           onChanged: (d) {
                             setState(() {
                               selectedCity = d!.id;
                             });
                           },
                           compareFn: (item, selectedItem) =>
-                              item?.id == selectedItem?.id,
+                              item.id == selectedItem.id,
                           enabled: true,
                           dropdownButtonProps: const DropdownButtonProps(
-                            icon:  Icon(
+                            icon: Icon(
                               Icons.arrow_drop_down,
                               size: 24,
                               color: Colors.white60,
@@ -360,16 +355,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           items: snapshot.data!,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                  BorderSide(color: HexColor.fromHex("#f0243a")),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                  BorderSide(color: HexColor.fromHex("#f0243a")),
-                                ),
-                              )
-                          ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: HexColor.fromHex("#f0243a")),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: HexColor.fromHex("#f0243a")),
+                            ),
+                          )),
                           selectedItem: cityList![0]),
                     ),
                   ],
@@ -406,14 +400,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       Expanded(
                         child: DropdownSearch<Counties>(
                             popupProps: const PopupProps.menu(
-                                showSelectedItems: true, showSearchBox: true
-                            ),
+                                showSelectedItems: true, showSearchBox: true),
                             compareFn: (item, selectedItem) =>
                                 item.id == selectedItem.id,
-                            itemAsString: (u) => u!.ilce ?? "",
+                            itemAsString: (u) => u.ilce ?? "",
                             enabled: true,
                             dropdownButtonProps: const DropdownButtonProps(
-                              icon:  Icon(
+                              icon: Icon(
                                 Icons.arrow_drop_down,
                                 size: 24,
                                 color: Colors.white60,
@@ -422,16 +415,15 @@ class _RegisterPageState extends State<RegisterPage> {
                             items: countiesList!,
                             dropdownDecoratorProps: DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                    BorderSide(color: HexColor.fromHex("#f0243a")),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                    BorderSide(color: HexColor.fromHex("#f0243a")),
-                                  ),
-                                )
-                            ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: HexColor.fromHex("#f0243a")),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: HexColor.fromHex("#f0243a")),
+                              ),
+                            )),
                             onChanged: (d) {
                               selectedCountry = d!.id;
                               print(d.toString());
@@ -458,7 +450,7 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(
               height: 10,
             ),
-           /* CheckBoxHizmetButton(
+            /* CheckBoxHizmetButton(
               callback: () {
                 gizlilikPolitikasi = !gizlilikPolitikasi;
               },
@@ -487,13 +479,14 @@ class _RegisterPageState extends State<RegisterPage> {
               assetName: "assets/images/giris_button.png",
               onClick: () {
                 if (_formKey.currentState!.validate()) {
-                  if (sartlarVeKosullar==false) {
+                  if (sartlarVeKosullar == false) {
                     showToast(
                         "Şartları kabul etmeden kayıt işlemi yapılamaz...");
-                  }/*else if(!gizlilikPolitikasi){
+                  } /*else if(!gizlilikPolitikasi){
                     showToast(
                         "Gizlilik Sözleşmesini kabul etmeden kayıt işlemi yapılamaz...");
-                  }*/ else {
+                  }*/
+                  else {
                     register();
                   }
                 } else {

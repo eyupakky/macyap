@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/page/home/game_list/home_list_item.dart';
@@ -33,10 +35,16 @@ class PlayedTabPage extends StatelessWidget {
               Match match = matches.match![index];
               return ListTile(
                 onTap: () {
-                  Navigator.pushNamed(context, "/gameDetail",arguments: match);
+                  Navigator.pushNamed(context, "/gameDetail", arguments: match);
                 },
-                title: Text('${match.name}',style: const TextStyle(fontSize: 14),),
-                subtitle: Text('${match.date}',style: const TextStyle(fontSize: 10),),
+                title: Text(
+                  '${match.name}',
+                  style: const TextStyle(fontSize: 14),
+                ),
+                subtitle: Text(
+                  '${match.date}',
+                  style: const TextStyle(fontSize: 10),
+                ),
               );
             },
             separatorBuilder: (context, index) {

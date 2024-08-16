@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
@@ -46,7 +48,10 @@ class FollowersTabPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                title: Text('@${user.username}',style: const TextStyle(fontSize: 14),),
+                title: Text(
+                  '@${user.username}',
+                  style: const TextStyle(fontSize: 14),
+                ),
               );
             },
             separatorBuilder: (context, index) {

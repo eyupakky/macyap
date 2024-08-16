@@ -5,8 +5,9 @@ import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/page/create/create_game_address.dart';
 import 'package:intl/intl.dart';
 import 'package:repository_eyup/model/create_game.dart';
+
 class CreateGamePage extends StatefulWidget {
-  CreateGamePage({Key? key}) : super(key: key);
+  const CreateGamePage({Key? key}) : super(key: key);
 
   @override
   State<CreateGamePage> createState() => _CreateGamePageState();
@@ -74,7 +75,9 @@ class _CreateGamePageState extends State<CreateGamePage> {
                                 fontFamily: "Montserrat-bold")),
                         TextSpan(text: "ödeme yapıcaklardır.")
                       ])),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   DateTimeField(
                     style: const TextStyle(color: Colors.black, fontSize: 16),
                     textAlign: TextAlign.left,

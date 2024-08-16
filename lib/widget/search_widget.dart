@@ -1,5 +1,5 @@
+// ignore_for_file: must_be_immutable
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha/help/utils.dart';
 
@@ -7,7 +7,8 @@ class SearchWidget extends StatelessWidget {
   String hintText;
   FunctionStringCallback callback;
 
-  SearchWidget({Key? key, required this.hintText,required this.callback}) : super(key: key);
+  SearchWidget({Key? key, required this.hintText, required this.callback})
+      : super(key: key);
   final _debouncer = Debouncer(milliseconds: 700);
 
   @override

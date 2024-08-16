@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:validators/validators.dart';
@@ -58,7 +57,7 @@ class _EdittextWidgetState extends State<EdittextWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(2),
-      padding: const EdgeInsets.only(left: 10,right: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextFormField(
         enabled: widget.readOnly,
         inputFormatters: widget.formatter,
@@ -84,18 +83,18 @@ class _EdittextWidgetState extends State<EdittextWidget> {
             color: widget.textColor, fontWeight: FontWeight.bold, fontSize: 17),
         textAlign: TextAlign.left,
         decoration: InputDecoration(
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: widget.unFocusColor),
-            ),
-            labelText: widget.labelText,
-            hintText: widget.hint,
-            hintStyle: const TextStyle(fontSize: 14),
-            errorText: !_validate ? 'Bu alan boş olamaz' : null,
-            labelStyle: TextStyle(color: widget.labelColor, fontSize: 14),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: widget.focusColor),
-            ),
-            ),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: widget.unFocusColor),
+          ),
+          labelText: widget.labelText,
+          hintText: widget.hint,
+          hintStyle: const TextStyle(fontSize: 14),
+          errorText: !_validate ? 'Bu alan boş olamaz' : null,
+          labelStyle: TextStyle(color: widget.labelColor, fontSize: 14),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: widget.focusColor),
+          ),
+        ),
       ),
     );
   }
@@ -105,8 +104,7 @@ class _EdittextWidgetState extends State<EdittextWidget> {
     RegExp regExp = RegExp(pattern);
     if (value.isEmpty) {
       return false;
-    }
-    else if (!regExp.hasMatch(value)) {
+    } else if (!regExp.hasMatch(value)) {
       return false;
     }
     return true;

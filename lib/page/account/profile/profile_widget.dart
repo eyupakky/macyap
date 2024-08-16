@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, invalid_return_type_for_catch_error
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/help/utils.dart';
@@ -59,125 +61,125 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               ),
               ListTile(
                   title: Container(
-                    alignment: Alignment.centerRight,
-                    width: MediaQuery.of(context).size.width *
-                        (widget.myUser.userId != Constant.userId ? 0.50 : 0.30),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Visibility(
-                            visible: widget.myUser.userId != Constant.userId,
-                            child: OutlinedButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, "/messageDetails",
-                                    arguments: widget.myUser.userId);
-                              },
-                              child: const Text("Mesaj At",
-                                  style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontSize: 10,
-                                      fontFamily: "Montserrat-normal")),
-                            ),
-                          ),
+                alignment: Alignment.centerRight,
+                width: MediaQuery.of(context).size.width *
+                    (widget.myUser.userId != Constant.userId ? 0.50 : 0.30),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Visibility(
+                        visible: widget.myUser.userId != Constant.userId,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, "/messageDetails",
+                                arguments: widget.myUser.userId);
+                          },
+                          child: const Text("Mesaj At",
+                              style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontSize: 10,
+                                  fontFamily: "Montserrat-normal")),
                         ),
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 5),
-                            child: OutlinedButton(
-                              onPressed: snapshot.data!
-                                  ? null
-                                  : () {
-                                widget.controller
-                                    .follow(widget.myUser.userId)
-                                    .then((value) {
-                                  setState(() {
-                                    showToast('${value.description}',
-                                        color: Colors.green);
-                                  });
-                                }).catchError((err) => showToast('$err'));
-                              },
-                              child: Text(
-                                  snapshot.data! ? "Takip ediliyor" : "Takip Et",
-                                  style: const TextStyle(
-                                      color: Colors.redAccent,
-                                      fontSize: 10,
-                                      fontFamily: "Montserrat-normal")),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 5),
-                            child: OutlinedButton(
-                              style: ButtonStyle(backgroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                                      (states) {
-                                    if (states.contains(MaterialState.disabled)) {
-                                      return Colors.grey;
-                                    }
-                                    return widget.myUser.blocked!
-                                        ? Colors.red
-                                        : Colors.transparent;
-                                  })),
-                              onPressed: snapshot.data!
-                                  ? null
-                                  : () {
-                                EasyLoading.show();
-                                widget.myUser.blocked!
-                                    ? widget.controller
-                                    .removeBlockUser(widget.myUser.userId)
-                                    .then((value) {
-                                  setState(() {
-                                    widget.myUser.blocked = false;
-                                    EasyLoading.dismiss();
-                                    showToast(
-                                        "Engelleme kaldırıldı...");
-                                  });
-                                }).catchError((onError) {
-                                  EasyLoading.dismiss();
-                                  showToast(onError);
-                                })
-                                    : widget.controller
-                                    .blockUser(widget.myUser.userId)
-                                    .then((value) {
-                                  setState(() {
-                                    widget.myUser.blocked = true;
-                                    EasyLoading.dismiss();
-                                    showToast("Engelleme başarılı...");
-                                  });
-                                }).catchError((onError) {
-                                  EasyLoading.dismiss();
-                                  showToast(onError);
-                                });
-                              },
-                              child: Text(
-                                  widget.myUser.blocked!
-                                      ? "Engeli Kaldır"
-                                      : "Engelle",
-                                  style: TextStyle(
-                                      color: widget.myUser.blocked!
-                                          ? Colors.white
-                                          : Colors.red,
-                                      fontSize: 10,
-                                      fontFamily: "Montserrat-normal")),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  )
-                // : FlatButton(
-                //     color: Colors.redAccent,
-                //     onPressed: () {},
-                //     child: const Text(
-                //       "Takipten çıkar",
-                //       style: TextStyle(
-                //           color: Colors.white,
-                //           fontSize: 12,
-                //           fontFamily: "Montserrat-normal"),
-                //     )),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 5),
+                        child: OutlinedButton(
+                          onPressed: snapshot.data!
+                              ? null
+                              : () {
+                                  widget.controller
+                                      .follow(widget.myUser.userId)
+                                      .then((value) {
+                                    setState(() {
+                                      showToast('${value.description}',
+                                          color: Colors.green);
+                                    });
+                                  }).catchError((err) => showToast('$err'));
+                                },
+                          child: Text(
+                              snapshot.data! ? "Takip ediliyor" : "Takip Et",
+                              style: const TextStyle(
+                                  color: Colors.redAccent,
+                                  fontSize: 10,
+                                  fontFamily: "Montserrat-normal")),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 5),
+                        child: OutlinedButton(
+                          style: ButtonStyle(backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                                  (states) {
+                            if (states.contains(MaterialState.disabled)) {
+                              return Colors.grey;
+                            }
+                            return widget.myUser.blocked!
+                                ? Colors.red
+                                : Colors.transparent;
+                          })),
+                          onPressed: snapshot.data!
+                              ? null
+                              : () {
+                                  EasyLoading.show();
+                                  widget.myUser.blocked!
+                                      ? widget.controller
+                                          .removeBlockUser(widget.myUser.userId)
+                                          .then((value) {
+                                          setState(() {
+                                            widget.myUser.blocked = false;
+                                            EasyLoading.dismiss();
+                                            showToast(
+                                                "Engelleme kaldırıldı...");
+                                          });
+                                        }).catchError((onError) {
+                                          EasyLoading.dismiss();
+                                          showToast(onError);
+                                        })
+                                      : widget.controller
+                                          .blockUser(widget.myUser.userId)
+                                          .then((value) {
+                                          setState(() {
+                                            widget.myUser.blocked = true;
+                                            EasyLoading.dismiss();
+                                            showToast("Engelleme başarılı...");
+                                          });
+                                        }).catchError((onError) {
+                                          EasyLoading.dismiss();
+                                          showToast(onError);
+                                        });
+                                },
+                          child: Text(
+                              widget.myUser.blocked!
+                                  ? "Engeli Kaldır"
+                                  : "Engelle",
+                              style: TextStyle(
+                                  color: widget.myUser.blocked!
+                                      ? Colors.white
+                                      : Colors.red,
+                                  fontSize: 10,
+                                  fontFamily: "Montserrat-normal")),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+                  // : FlatButton(
+                  //     color: Colors.redAccent,
+                  //     onPressed: () {},
+                  //     child: const Text(
+                  //       "Takipten çıkar",
+                  //       style: TextStyle(
+                  //           color: Colors.white,
+                  //           fontSize: 12,
+                  //           fontFamily: "Montserrat-normal"),
+                  //     )),
 
-              ),
+                  ),
               Divider(
                 color: Colors.grey.shade400,
                 thickness: 1,
@@ -211,25 +213,22 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             color: Colors.black,
                             fontSize: 13),
                         children: [
-                          TextSpan(
-                              text:
+                      TextSpan(
+                          text:
                               "  Maçın oyuncusu %${widget.myUser.realibility} güvenilirlik sağlar  ",
-                              style: const TextStyle(
-                                  fontSize: 13, color: Colors.grey)),
-                        ])),
+                          style: const TextStyle(
+                              fontSize: 13, color: Colors.grey)),
+                    ])),
               ),
               Divider(
                 color: Colors.grey.shade400,
                 thickness: 1,
               ),
-
-
               SizedBox(
                   height: MediaQuery.of(context).size.height * 0.68,
                   child: ProfileTab(user: widget.myUser)),
             ],
           );
         });
-    ;
   }
 }

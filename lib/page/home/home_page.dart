@@ -1,15 +1,14 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print, unused_element
+
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:halisaha/help/utils.dart';
-
 import 'package:halisaha/page/account/account_page.dart';
 import 'package:halisaha/page/home/game_list/main_list.dart';
 import 'package:halisaha/page/home/turnuva_list.dart';
@@ -52,7 +51,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _notification();
-    config=FirebaseRemoteConfig.instance;
+    config = FirebaseRemoteConfig.instance;
     //initPlatformState();
     if (Constant.accessToken.isNotEmpty) {
       getTextList();
@@ -66,11 +65,9 @@ class _HomePageState extends State<HomePage> {
     OneSignal.Notifications.addClickListener((event) {
       _navigateToItemDetail(event.notification);
       print(event.notification.launchUrl);
-
     });
     OneSignal.Notifications.addForegroundWillDisplayListener((event) {
       _showNotificationCustomSound(event.notification);
-
     });
     OneSignal.initialize("13c3cb3f-8feb-4059-a683-da58e2933d5b");
     OneSignal.Notifications.requestPermission(true);
@@ -106,13 +103,14 @@ class _HomePageState extends State<HomePage> {
       sound: RawResourceAndroidNotificationSound('aa'),
     );
 
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
     );
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-    DarwinNotificationDetails(sound: 'aa.wav');
+        DarwinNotificationDetails(sound: 'aa.wav');
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
@@ -232,7 +230,7 @@ class _HomePageState extends State<HomePage> {
         body = const TurnuvaList();
         break;
       case 2:
-        body = PlacesPage();
+        body = const PlacesPage();
         break;
       case 3:
         body = MessagePage();
@@ -364,7 +362,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       title: Stack(
         children: [
-          Container(
+          SizedBox(
               width: 40,
               height: 40,
               child: Image.asset("assets/images/logo_black.png")),
@@ -422,22 +420,20 @@ class _HomePageState extends State<HomePage> {
     int version = config.getInt("ios_preview");
     PackageInfo.fromPlatform().then((value) {
       bool kontrol = version == int.parse(value.version) ? false : true;
-      if(kontrol) {
+      if (kontrol) {
         _homeController.getSmsOnayKontrol().then((value) {
-        if (value.description != "1") {
-          showDialog<bool>(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => _buildPhoneNumberDialog(context),
-          );
-        }
-      }).catchError((onError) {
-        showToast('$onError');
-      });
+          if (value.description != "1") {
+            showDialog<bool>(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) => _buildPhoneNumberDialog(context),
+            );
+          }
+        }).catchError((onError) {
+          showToast('$onError');
+        });
       }
-
     });
-
   }
 
   sendPhoneNumber() {
@@ -482,12 +478,13 @@ class _HomePageState extends State<HomePage> {
             r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{6,6}$)')
         .hasMatch(value ?? '');
   }
+
   Future<bool> getAppVersion() async {
     FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     int buildNumber = int.parse(packageInfo.buildNumber);
     int version;
-    if(Platform.isIOS){
+    if (Platform.isIOS) {
       version = remoteConfig.getInt("ios_version_number");
     } else {
       version = remoteConfig.getInt("android_version_number");
@@ -522,7 +519,7 @@ class _HomePageState extends State<HomePage> {
         },
       );
       return Future.value(false);
-    } else{
+    } else {
       return Future.value(true);
     }
   }

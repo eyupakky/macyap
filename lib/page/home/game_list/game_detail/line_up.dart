@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, unused_field
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -150,7 +152,7 @@ class _LineUpState extends State<LineUp> {
               "${myTeam[index].favoritePosition == "" ? myTeam[index].favoritePosition : ""}",
               style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
-            Divider(),
+            const Divider(),
           ],
         ),
       );

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, implementation_imports, prefer_final_fields, invalid_return_type_for_catch_error, avoid_renaming_method_parameters, body_might_complete_normally_catch_error
+
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -46,8 +48,8 @@ abstract class IAccountRepository {
 
   Future<String> getMyRole();
 
-  Future<BaseResponse>sendAComplaint(String content);
-  Future<BaseResponse>deleteAccount();
+  Future<BaseResponse> sendAComplaint(String content);
+  Future<BaseResponse> deleteAccount();
 
   Future<BaseResponse> updatePassword(
       String? oldPass, String? newPass, String? newPassValid);
@@ -75,8 +77,8 @@ class AccountRepository extends IAccountRepository {
         route: "/wallet",
         item: "Cüzdan",
         icon: Icons.account_balance_wallet_rounded));
-    list.add(
-        AccountModel(route: "/siparisler", item: "Siparişlerim", icon: Icons.shop));
+    list.add(AccountModel(
+        route: "/siparisler", item: "Siparişlerim", icon: Icons.shop));
     list.add(
         AccountModel(route: "/setting", item: "Ayarlar", icon: Icons.settings));
     list.add(AccountModel(
@@ -84,9 +86,10 @@ class AccountRepository extends IAccountRepository {
     list.add(AccountModel(
         route: "/password", item: "Şifre güncelleme", icon: Icons.password));
     list.add(AccountModel(
-        route: "/organizator", item: "Organizatör Ol", icon: Icons.event_note_outlined));
-    list.add(AccountModel(
-        route: "/support", item: "Yardım", icon: Icons.help));
+        route: "/organizator",
+        item: "Organizatör Ol",
+        icon: Icons.event_note_outlined));
+    list.add(AccountModel(route: "/support", item: "Yardım", icon: Icons.help));
     list.add(AccountModel(
         route: "/exit", item: "Çıkış Yap", icon: Icons.exit_to_app));
     list.add(AccountModel(
@@ -232,10 +235,10 @@ class AccountRepository extends IAccountRepository {
 
   @override
   Future<BaseResponse> uploadImage(String image) async {
-    var res = await _dio
-        .post(Constant.baseUrl + Constant.updateImage, data:{"access_token": Constant.accessToken,
-      "image": image})
-        .catchError((onError) {
+    var res = await _dio.post(Constant.baseUrl + Constant.updateImage, data: {
+      "access_token": Constant.accessToken,
+      "image": image
+    }).catchError((onError) {
       return Future.error(onError);
     });
     BaseResponse _baseResponse = BaseResponse.fromJson(res.data);
@@ -258,9 +261,10 @@ class AccountRepository extends IAccountRepository {
   }
 
   @override
-  Future<BaseResponse> blockUser(int? id) async{
+  Future<BaseResponse> blockUser(int? id) async {
     var res = await _dio.post(Constant.baseUrl + Constant.blockUser, data: {
-      "access_token": Constant.accessToken,"blocked_user_id":id
+      "access_token": Constant.accessToken,
+      "blocked_user_id": id
     }).catchError((onError) {});
     if (res.data["success"]) {
       return Future.value(BaseResponse.fromJson(res.data));
@@ -270,10 +274,12 @@ class AccountRepository extends IAccountRepository {
   }
 
   @override
-  Future<BaseResponse> removeBlockUser(int? id)async {
-    var res = await _dio.post(Constant.baseUrl + Constant.removeBlockUser, data: {
-      "access_token": Constant.accessToken,"blocked_user_id":id
-    }).catchError((onError) {});
+  Future<BaseResponse> removeBlockUser(int? id) async {
+    var res = await _dio.post(Constant.baseUrl + Constant.removeBlockUser,
+        data: {
+          "access_token": Constant.accessToken,
+          "blocked_user_id": id
+        }).catchError((onError) {});
     if (res.data["success"]) {
       return Future.value(BaseResponse.fromJson(res.data));
     } else {
@@ -283,9 +289,11 @@ class AccountRepository extends IAccountRepository {
 
   @override
   Future<BaseResponse> createOrganizer(String subject) async {
-    var res = await _dio.post(Constant.baseUrl + Constant.createOrganizer, data: {
-      "access_token": Constant.accessToken,"subject":subject
-    }).catchError((onError) {});
+    var res = await _dio.post(Constant.baseUrl + Constant.createOrganizer,
+        data: {
+          "access_token": Constant.accessToken,
+          "subject": subject
+        }).catchError((onError) {});
     if (res.data["success"]) {
       return Future.value(BaseResponse.fromJson(res.data));
     } else {
@@ -295,8 +303,11 @@ class AccountRepository extends IAccountRepository {
 
   @override
   Future<BaseResponse> sendAComplaint(String content) async {
-    var res = await _dio.post(Constant.baseUrl + Constant.sendAComplaint, data: {
-      "access_token": Constant.accessToken,"content":content,"user_id":Constant.userId
+    var res =
+        await _dio.post(Constant.baseUrl + Constant.sendAComplaint, data: {
+      "access_token": Constant.accessToken,
+      "content": content,
+      "user_id": Constant.userId
     }).catchError((onError) {});
     if (res.data["success"]) {
       return Future.value(BaseResponse.fromJson(res.data));
@@ -306,8 +317,10 @@ class AccountRepository extends IAccountRepository {
   }
 
   @override
-  Future<BaseResponse> deleteAccount() async{
-    var res = await _dio.post(Constant.baseUrl + Constant.deleteAccount).catchError((onError) {});
+  Future<BaseResponse> deleteAccount() async {
+    var res = await _dio
+        .post(Constant.baseUrl + Constant.deleteAccount)
+        .catchError((onError) {});
     if (res.data["success"]) {
       return Future.value(BaseResponse.fromJson(res.data));
     } else {

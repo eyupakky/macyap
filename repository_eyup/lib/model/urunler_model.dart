@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals, unnecessary_this
+
 class UrunlerModel {
   bool? success;
   List<Value>? value;
@@ -9,13 +11,13 @@ class UrunlerModel {
     if (json['value'] != null) {
       value = <Value>[];
       json['value'].forEach((v) {
-        value!.add(new Value.fromJson(v));
+        value!.add(Value.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['success'] = this.success;
     if (this.value != null) {
       data['value'] = this.value!.map((v) => v.toJson()).toList();
@@ -40,7 +42,7 @@ class Value {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['img'] = this.img;
     data['baslik'] = this.baslik;

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals, unnecessary_this
+
 class CountiesModel {
   bool? success;
   List<Counties>? counties;
@@ -38,7 +40,7 @@ class Counties {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['ilce'] = this.ilce;
     data['il_id'] = this.ilId;

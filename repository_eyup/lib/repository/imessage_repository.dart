@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields, avoid_print, body_might_complete_normally_catch_error
+
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/model/message_detail.dart';
@@ -6,7 +8,7 @@ import 'package:repository_eyup/model/message_model.dart';
 abstract class IMessageRepository {
   Future<MessageModel> getLazyMessages();
   Future<MessageDetail> getDetail(int? id);
-  Future<bool> sendMessage(int? id,String? message);
+  Future<bool> sendMessage(int? id, String? message);
 }
 
 class MessageRepository extends IMessageRepository {
@@ -24,18 +26,25 @@ class MessageRepository extends IMessageRepository {
   }
 
   @override
-  Future<MessageDetail> getDetail(int? id) async{
+  Future<MessageDetail> getDetail(int? id) async {
     var response = await _dio.post(Constant.baseUrl + Constant.getMyChat,
-        data: {"access_token": Constant.accessToken,"id":id}).catchError((err) {
+        data: {
+          "access_token": Constant.accessToken,
+          "id": id
+        }).catchError((err) {
       print(err);
     });
     return Future.value(MessageDetail.fromJson(response.data));
   }
 
   @override
-  Future<bool> sendMessage(int? id, String? message)async {
+  Future<bool> sendMessage(int? id, String? message) async {
     var response = await _dio.post(Constant.baseUrl + Constant.sendMessage,
-        data: {"access_token": Constant.accessToken,"id":id,"message":message}).catchError((err) {
+        data: {
+          "access_token": Constant.accessToken,
+          "id": id,
+          "message": message
+        }).catchError((err) {
       print(err);
     });
     return Future.value(response.data);

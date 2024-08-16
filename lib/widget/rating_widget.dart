@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';

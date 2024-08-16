@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, prefer_final_fields, avoid_print
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha/help/payment_card.dart';
@@ -31,7 +33,7 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
   PhoneNumber number = PhoneNumber(isoCode: 'TR');
   VenuesController _venuesController = VenuesController();
   String phoneNumber = "";
-  Venues selectedItem = new Venues();
+  Venues selectedItem = Venues();
   VenusModel venusModel = VenusModel();
 
   @override
@@ -153,8 +155,8 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
 
   Widget comboWidget() {
     return DropdownSearch<Venues>(
-        popupProps: const PopupProps.menu(
-            showSelectedItems: true, showSearchBox: true),
+        popupProps:
+            const PopupProps.menu(showSelectedItems: true, showSearchBox: true),
         itemAsString: (u) => u.name!,
         onChanged: (d) {
           selectedItem = d!;
@@ -170,13 +172,13 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
         items: venusModel.venues!,
         dropdownDecoratorProps: DropDownDecoratorProps(
             dropdownSearchDecoration: InputDecoration(
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: HexColor.fromHex("#f0243a")),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: HexColor.fromHex("#f0243a")),
-              ),
-            )),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: HexColor.fromHex("#f0243a")),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: HexColor.fromHex("#f0243a")),
+          ),
+        )),
         selectedItem: selectedItem);
   }
 
@@ -287,7 +289,8 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
       game: widget.gameModel,
     )));
   }
-  getData(){
+
+  getData() {
     _venuesController.getLazyVenues("").then((value) {
       venusModel.venues!.addAll(value.venues!);
     });

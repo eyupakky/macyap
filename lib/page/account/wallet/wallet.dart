@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:repository_eyup/controller/wallet_controller.dart';
 import 'package:repository_eyup/model/payment_history_model.dart';
-
-import '../../../help/payment_card.dart';
 
 class WalletPage extends StatelessWidget {
   WalletPage({Key? key}) : super(key: key);
@@ -15,8 +12,7 @@ class WalletPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
+    return Scaffold(body: SafeArea(
       child: LayoutBuilder(builder: (context, constraints) {
         return Padding(
           padding: const EdgeInsets.all(8),

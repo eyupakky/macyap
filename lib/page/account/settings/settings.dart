@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/base_widget.dart';
@@ -16,7 +15,7 @@ import 'package:repository_eyup/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -201,9 +200,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                   TextStyle(color: Colors.white, fontSize: 16),
                             ),
                           ),
-                          decoration:  BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Theme.of(context).primaryColor,
-                              borderRadius:const BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(12),
                               )),
                         ),
@@ -221,9 +220,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   selectImage() async {
     var imagePicker = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 50,
-    maxHeight: 100);
+        source: ImageSource.gallery, imageQuality: 50, maxHeight: 100);
     if (imagePicker != null) {
       setState(() {
         image = File(imagePicker.path);

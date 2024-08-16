@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 class CityModel {
   bool? success;
   List<Cities>? cities;
@@ -9,13 +11,13 @@ class CityModel {
     if (json['value'] != null) {
       cities = <Cities>[];
       json['value'].forEach((v) {
-        cities!.add(new Cities.fromJson(v));
+        cities!.add(Cities.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['success'] = success;
     if (cities != null) {
       data['value'] = cities!.map((v) => v.toJson()).toList();
@@ -34,12 +36,14 @@ class Cities {
     id = json['id'];
     il = json['il'];
   }
-  String getCities(){
-    return il??"";
+  String getCities() {
+    return il ?? "";
   }
+
   bool isEqual(Cities? model) {
     return id == model?.id;
   }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;

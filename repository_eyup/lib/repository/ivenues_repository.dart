@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, body_might_complete_normally_catch_error
+
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/comment.dart';
@@ -15,7 +17,8 @@ abstract class IVenuesRepository {
 
   Future<VenusDetailModel> getVenue(int? id);
   Future<UrunDetailModel> getUrun(int? id);
-  Future<BaseResponse2> siparisVer(int urunId,int bedenId,int adet,String adres);
+  Future<BaseResponse2> siparisVer(
+      int urunId, int bedenId, int adet, String adres);
   Future<UrunlerModel> getShopping();
   Future<SiparisList> siparisler();
 
@@ -29,7 +32,7 @@ abstract class IVenuesRepository {
 
   Future<RatingResponse> getVenueRates(int? venueId);
 
-  Future<BaseResponse> addVenueComment(int? venueId,String comment);
+  Future<BaseResponse> addVenueComment(int? venueId, String comment);
 }
 
 class VenuesRepository extends IVenuesRepository {
@@ -124,7 +127,7 @@ class VenuesRepository extends IVenuesRepository {
   }
 
   @override
-  Future<BaseResponse> addVenueComment(int? venueId, String comment)async {
+  Future<BaseResponse> addVenueComment(int? venueId, String comment) async {
     var response = await _dio.post(Constant.baseUrl + Constant.addVenueComment,
         data: {
           "access_token": Constant.accessToken,
@@ -137,18 +140,16 @@ class VenuesRepository extends IVenuesRepository {
   }
 
   @override
-  Future<UrunlerModel> getShopping()async {
+  Future<UrunlerModel> getShopping() async {
     var response = await _dio.post(Constant.baseUrl + Constant.urunlerList,
-        data: {
-          "access_token": Constant.accessToken
-        }).catchError((err) {
+        data: {"access_token": Constant.accessToken}).catchError((err) {
       print(err);
     });
     return Future.value(UrunlerModel.fromJson(response.data));
   }
 
   @override
-  Future<UrunDetailModel> getUrun(int? id) async{
+  Future<UrunDetailModel> getUrun(int? id) async {
     var response = await _dio.post(Constant.baseUrl + Constant.urunlerDetails,
         data: {
           "access_token": Constant.accessToken,
@@ -162,26 +163,25 @@ class VenuesRepository extends IVenuesRepository {
   }
 
   @override
-  Future<BaseResponse2> siparisVer(int urunId, int bedenId, int adet, String adres)async {
-    var response = await _dio.post(Constant.baseUrl + Constant.siparisVer,
-        data: {
-          "access_token": Constant.accessToken,
-          "urun_id": urunId,
-          "bedenid":bedenId,
-          "adet":adet,
-          "adres":adres,
-        }).catchError((err) {
+  Future<BaseResponse2> siparisVer(
+      int urunId, int bedenId, int adet, String adres) async {
+    var response =
+        await _dio.post(Constant.baseUrl + Constant.siparisVer, data: {
+      "access_token": Constant.accessToken,
+      "urun_id": urunId,
+      "bedenid": bedenId,
+      "adet": adet,
+      "adres": adres,
+    }).catchError((err) {
       print(err);
     });
     return Future.value(BaseResponse2.fromJson(response.data));
   }
 
   @override
-  Future<SiparisList> siparisler()async {
+  Future<SiparisList> siparisler() async {
     var response = await _dio.post(Constant.baseUrl + Constant.siparisler,
-        data: {
-          "access_token": Constant.accessToken
-        }).catchError((err) {
+        data: {"access_token": Constant.accessToken}).catchError((err) {
       print(err);
     });
     //response.data = '"{\"success\":true,\"detail\":{\"id\":12,\"Baslik\":\"FENERBAHÇE-KONYASPORMAÇBİLETİ\",\"Aciklama\":\"FENERBAHÇE-KONYASPORMAÇBİLETİ\",\"Img\":\"adf21fed-70d4-4d99-813f-e6b6b9870471.jpg\",\"Img2\":\"07f1c6f4-8a33-4ad9-be7e-62cf7dd7451b.jpg\",\"Img3\":\"c480399d-7d78-4bf2-971f-510a9292f4ab.jpg\",\"Img4\":\"01686b6b-f78a-4fa1-b033-5b8e8e3d77c7.jpg\",\"Fiyat\":599.9,\"Barkod\":\"b4ccab3e-1d2c-450e-b056-131d8838d014\",\"Date\":\"2023-02-22T13:54:35.517\",\"UpdatedDate\":\"2023-02-22T16:01:33.743\",\"Active\":1},\"bedenList\":[{\"id\":68,\"UrunId\":12,\"UrunFiyat\":599.9,\"BedenId\":0,\"Stok\":1,\"Beden\":\"BEDENSİZ\"}]}"';

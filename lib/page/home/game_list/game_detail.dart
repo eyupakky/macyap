@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 import 'package:halisaha/base_widget.dart';
 import 'package:halisaha/help/utils.dart';
@@ -10,7 +11,7 @@ import 'game_detail/comment.dart';
 import 'game_detail/info_tab.dart';
 
 class GameDetailPage extends StatefulWidget {
-  GameDetailPage({Key? key}) : super(key: key);
+  const GameDetailPage({Key? key}) : super(key: key);
 
   @override
   State<GameDetailPage> createState() => _GameDetailPageState();
@@ -27,7 +28,7 @@ class _GameDetailPageState extends State<GameDetailPage>
   @override
   void initState() {
     super.initState();
-    _detail= GameDetail();
+    _detail = GameDetail();
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -75,7 +76,7 @@ class _GameDetailPageState extends State<GameDetailPage>
                 homeController: _homeController,
                 callback: (GameDetail detail) {
                   AppConfig.gameDetail = detail;
-                    _tabController.animateTo(1);
+                  _tabController.animateTo(1);
                 }),
             LineUp(
               homeController: _homeController,

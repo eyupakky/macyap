@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/help/ui_guide.dart';
 import 'package:halisaha/help/utils.dart';
-import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/controller/login_controller.dart';
 
 class HelpLoginPage extends StatefulWidget {
@@ -72,7 +70,9 @@ class _HelpLoginPageState extends State<HelpLoginPage> {
                     borderSide: BorderSide(color: Colors.black)),
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextFormField(
               controller: surname,
               autovalidateMode: mode,
@@ -94,7 +94,9 @@ class _HelpLoginPageState extends State<HelpLoginPage> {
                     borderSide: BorderSide(color: Colors.black)),
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextFormField(
               controller: phone,
               keyboardType: TextInputType.multiline,
@@ -103,7 +105,7 @@ class _HelpLoginPageState extends State<HelpLoginPage> {
               autovalidateMode: mode,
               validator: (value) {
                 if (!RegExp(
-                    r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)')
+                        r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)')
                     .hasMatch(value ?? '')) {
                   return 'Boş geçilemez';
                 }
@@ -118,8 +120,9 @@ class _HelpLoginPageState extends State<HelpLoginPage> {
                     borderSide: BorderSide(color: Colors.black)),
               ),
             ),
-            const SizedBox(height: 10,),
-
+            const SizedBox(
+              height: 10,
+            ),
             TextFormField(
               controller: email,
               autovalidateMode: mode,
@@ -127,9 +130,9 @@ class _HelpLoginPageState extends State<HelpLoginPage> {
               style: const TextStyle(color: Colors.black),
               maxLines: null,
               validator: (value) {
-                if (value!.isNotEmpty && !RegExp(
-                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                    .hasMatch(value)) {
+                if (value!.isNotEmpty &&
+                    !RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                        .hasMatch(value)) {
                   return 'Email doğru giriniz.';
                 }
                 return null;
@@ -143,8 +146,9 @@ class _HelpLoginPageState extends State<HelpLoginPage> {
                     borderSide: BorderSide(color: Colors.black)),
               ),
             ),
-            const SizedBox(height: 10,),
-
+            const SizedBox(
+              height: 10,
+            ),
             TextFormField(
               controller: subject,
               keyboardType: TextInputType.multiline,
@@ -208,16 +212,14 @@ class _HelpLoginPageState extends State<HelpLoginPage> {
   "message": "string"
 }
                    */
-                  LoginController()
-                      .help({
+                  LoginController().help({
                     "name": name.text,
                     "surname": surname.text,
                     "phone": phone.text,
                     "email": email.text,
                     "subject": subject.text,
                     "message": controller.text
-                  })
-                      .then((value) {
+                  }).then((value) {
                     if (value.success!) {
                       EasyLoading.dismiss();
                       showToast("Mesajınız iletildi.", color: Colors.green);
@@ -236,10 +238,7 @@ class _HelpLoginPageState extends State<HelpLoginPage> {
               child: Container(
                 margin: const EdgeInsets.all(8),
                 height: 50,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.5,
+                width: MediaQuery.of(context).size.width * 0.5,
                 child: const Align(
                   child: Text(
                     'Gönder',
@@ -247,9 +246,7 @@ class _HelpLoginPageState extends State<HelpLoginPage> {
                   ),
                 ),
                 decoration: BoxDecoration(
-                    color: Theme
-                        .of(context)
-                        .primaryColor,
+                    color: Theme.of(context).primaryColor,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(12),
                     )),
@@ -261,10 +258,11 @@ class _HelpLoginPageState extends State<HelpLoginPage> {
     );
   }
 }
+
 extension EmailValidator on String {
   bool isValidEmail() {
     return RegExp(
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(this);
   }
 }

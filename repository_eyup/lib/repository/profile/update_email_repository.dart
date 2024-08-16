@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, prefer_final_fields
+
 import 'package:dio/dio.dart';
 
 abstract class IUpdateEmail {
@@ -10,7 +12,6 @@ class UpdateEmail extends IUpdateEmail {
 
   @override
   Future<String> updateEmail() {
-    // TODO: implement updateEmail
     throw UnimplementedError();
   }
 }

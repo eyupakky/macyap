@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields, invalid_return_type_for_catch_error, body_might_complete_normally_catch_error, avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/model/base_response.dart';
@@ -231,8 +233,7 @@ class MatchesRepository extends IMatchesRepository {
 
   @override
   Future<BaseResponse2> getSmsOnayKontrol() async {
-    var response = await _dio.post(
-        Constant.baseUrl + Constant.smsOnayKontrol,
+    var response = await _dio.post(Constant.baseUrl + Constant.smsOnayKontrol,
         data: {"access_token": Constant.accessToken}).catchError((err) {
       return Future.error(err);
     });
@@ -244,11 +245,11 @@ class MatchesRepository extends IMatchesRepository {
 
   @override
   Future<BaseResponse2> sendPhoneNumber(String phoneNumber) async {
-    var response = await _dio
-        .post(Constant.baseUrl + Constant.smsGonderPopup, data: {
-      "access_token": Constant.accessToken,
-      "gsm": phoneNumber
-    }).catchError((err) {
+    var response = await _dio.post(Constant.baseUrl + Constant.smsGonderPopup,
+        data: {
+          "access_token": Constant.accessToken,
+          "gsm": phoneNumber
+        }).catchError((err) {
       return Future.error(err);
     });
     if (response.statusCode == 200) {
@@ -259,11 +260,11 @@ class MatchesRepository extends IMatchesRepository {
 
   @override
   Future<BaseResponse2> smsKontrol(String code) async {
-    var response = await _dio
-        .post(Constant.baseUrl + Constant.smsKontrolPopup, data: {
-      "access_token": Constant.accessToken,
-      "kod": code
-    }).catchError((err) {
+    var response = await _dio.post(Constant.baseUrl + Constant.smsKontrolPopup,
+        data: {
+          "access_token": Constant.accessToken,
+          "kod": code
+        }).catchError((err) {
       return Future.error(err);
     });
     if (response.statusCode == 200) {
@@ -273,11 +274,10 @@ class MatchesRepository extends IMatchesRepository {
   }
 
   @override
-  Future<BaseResponse2> getActiveControl() async{
-    var response = await _dio
-        .post(Constant.testbaseUrl + Constant.activeControl, data: {
-      "access_token": Constant.accessToken
-    }).catchError((err) {
+  Future<BaseResponse2> getActiveControl() async {
+    var response = await _dio.post(
+        Constant.testbaseUrl + Constant.activeControl,
+        data: {"access_token": Constant.accessToken}).catchError((err) {
       return Future.error(err);
     });
     if (response.statusCode == 200) {

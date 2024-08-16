@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha/base_widget.dart';
 import 'package:repository_eyup/controller/message_controller.dart';
@@ -27,7 +26,8 @@ class MessagePage extends StatelessWidget {
                     future: _messageController.getLazyMessage(),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
-                        return const Center(child: Text("Mesajlar yükleniyor..."));
+                        return const Center(
+                            child: Text("Mesajlar yükleniyor..."));
                       } else if (snapshot.data!.messageItem!.isEmpty) {
                         return const Center(child: Text("Mesaj bulunamadı..."));
                       }
@@ -36,16 +36,17 @@ class MessagePage extends StatelessWidget {
                           itemCount: message!.messageItem!.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            MessageItem item  =message.messageItem![index];
+                            MessageItem item = message.messageItem![index];
                             return Card(
                               child: ListTile(
                                   onTap: () {
                                     Navigator.pushNamed(
-                                        context, "/messageDetails",arguments: item.userId);
+                                        context, "/messageDetails",
+                                        arguments: item.userId);
                                   },
-                                  title:  Text(
+                                  title: Text(
                                     "@${item.username}",
-                                    style:const TextStyle(fontSize: 13),
+                                    style: const TextStyle(fontSize: 13),
                                   ),
                                   leading: Container(
                                     height: 35,
@@ -64,14 +65,12 @@ class MessagePage extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                     // TextOverflow.clip // TextOverflow.fade
                                     text: TextSpan(
-                                      text:
-                                          item.message??'',
+                                      text: item.message ?? '',
                                       style: TextStyle(
                                           color: Colors.grey.shade400,
                                           fontSize: 12),
                                     ),
-                                  )
-                              ),
+                                  )),
                             );
                           });
                     }),

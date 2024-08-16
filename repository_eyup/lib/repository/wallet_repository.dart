@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports, prefer_final_fields, invalid_return_type_for_catch_error, body_might_complete_normally_catch_error, avoid_print, unnecessary_brace_in_string_interps
+
 import 'package:dio/src/dio.dart';
 import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/payment_history_model.dart';

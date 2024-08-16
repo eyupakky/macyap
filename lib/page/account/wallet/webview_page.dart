@@ -1,6 +1,5 @@
-import 'dart:io';
+// ignore_for_file: avoid_print
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -28,7 +27,7 @@ class _WebviewPageState extends State<WebviewPage> {
     arguments = ModalRoute.of(context)!.settings.arguments as String;
     // arguments["info"].videoId;
     return Scaffold(
-      resizeToAvoidBottomInset:true,
+      resizeToAvoidBottomInset: true,
       body: Container(
         padding: const EdgeInsets.all(35),
         color: Colors.white,
@@ -57,7 +56,6 @@ class _WebviewPageState extends State<WebviewPage> {
                       selectItem();
                     }
                   });
-
                 });
           },
           onConsoleMessage: (controller, consoleMessage) {

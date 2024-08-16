@@ -1,6 +1,5 @@
-import 'dart:convert';
+// ignore_for_file: must_be_immutable
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CheckBoxButton extends StatefulWidget {
@@ -8,8 +7,7 @@ class CheckBoxButton extends StatefulWidget {
   final VoidCallback? callback;
   bool? select;
 
-  CheckBoxButton(
-      {Key? key, this.text1, this.callback, this.select})
+  CheckBoxButton({Key? key, this.text1, this.callback, this.select})
       : super(key: key);
 
   @override
@@ -17,7 +15,6 @@ class CheckBoxButton extends StatefulWidget {
 }
 
 class _CheckBoxButtonState extends State<CheckBoxButton> {
-
   @override
   void initState() {
     super.initState();

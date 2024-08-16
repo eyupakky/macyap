@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields, unused_field
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:halisaha/help/app_context.dart';
@@ -9,7 +11,6 @@ import 'package:halisaha/widget/custom_button.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/controller/login_controller.dart';
-import "package:http/http.dart" as http;
 
 // GoogleSignIn _googleSignIn = GoogleSignIn(
 //   // Optional clientId
@@ -21,7 +22,7 @@ import "package:http/http.dart" as http;
 // );
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -84,24 +85,6 @@ class _LoginState extends State<LoginPage> {
   //     }
   //   });
   // }
-
-  String? _pickFirstNamedContact(Map<String, dynamic> data) {
-    final List<dynamic>? connections = data['connections'];
-    final Map<String, dynamic>? contact = connections?.firstWhere(
-      (dynamic contact) => contact['names'] != null,
-      orElse: () => null,
-    );
-    if (contact != null) {
-      final Map<String, dynamic>? name = contact['names'].firstWhere(
-        (dynamic name) => name['displayName'] != null,
-        orElse: () => null,
-      );
-      if (name != null) {
-        return name['displayName'];
-      }
-    }
-    return null;
-  }
 
   // Future<void> _handleSignIn() async {
   //   try {
@@ -221,21 +204,21 @@ class _LoginState extends State<LoginPage> {
               onTap: () {
                 Navigator.pushNamed(context, "/register");
               },
-              child: createUser("ÜYE OL!",true,FontWeight.bold)),
-        const SizedBox(height: 50,),
+              child: createUser("ÜYE OL!", true, FontWeight.bold)),
+          const SizedBox(
+            height: 50,
+          ),
           InkWell(
               onTap: () {
                 Navigator.pushNamed(context, "/help");
               },
-              child: createUser("Yardım",false,FontWeight.normal)),
+              child: createUser("Yardım", false, FontWeight.normal)),
         ],
-
       ),
-
     );
   }
 
-  Widget createUser(String text,bool icon,FontWeight fontWeight) {
+  Widget createUser(String text, bool icon, FontWeight fontWeight) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: SizedBox(

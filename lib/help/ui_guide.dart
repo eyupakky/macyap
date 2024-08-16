@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class UIGuide {
   static const String pirpleLogo = "assets/test.png";
   static const String macyap = "assets/images/macyap.png";

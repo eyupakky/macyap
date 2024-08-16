@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha/page/account/followers/following_tab_page.dart';
 import 'package:repository_eyup/constant.dart';
@@ -30,9 +29,10 @@ class _FollowersTabState extends State<FollowersTab>
         child: Column(
           children: [
             ListTile(
-              title:  Text(
+              title: Text(
                 Constant.userName,
-                style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               leading: IconButton(
                   onPressed: () {
@@ -41,7 +41,7 @@ class _FollowersTabState extends State<FollowersTab>
                   icon: const Icon(Icons.arrow_back)),
             ),
             // give the tab bar a height [can change hheight to preferred height]
-            Container(
+            SizedBox(
               height: 45,
               // decoration: BoxDecoration(
               // color: Colors.grey[300],

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, prefer_final_fields
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/help/payment_card.dart';

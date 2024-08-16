@@ -1,6 +1,7 @@
+// ignore_for_file: unused_field, prefer_final_fields
+
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha/base_widget.dart';
 import 'package:halisaha/help/hex_color.dart';
@@ -10,7 +11,7 @@ import 'package:repository_eyup/controller/message_controller.dart';
 import 'package:repository_eyup/model/message_detail.dart';
 
 class MessageDetails extends StatefulWidget {
-  MessageDetails({Key? key}) : super(key: key);
+  const MessageDetails({Key? key}) : super(key: key);
 
   @override
   State<MessageDetails> createState() => _MessageDetailsState();
@@ -29,16 +30,18 @@ class _MessageDetailsState extends State<MessageDetails> {
     super.initState();
     startTimer();
   }
+
   @override
   void dispose() {
     super.dispose();
     _timer.cancel();
   }
+
   void startTimer() {
     const oneSec = Duration(seconds: 15);
     _timer = Timer.periodic(
       oneSec,
-          (Timer timer) {
+      (Timer timer) {
         if (_start == 0) {
           setState(() {
             timer.cancel();
@@ -51,22 +54,24 @@ class _MessageDetailsState extends State<MessageDetails> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     int id = ModalRoute.of(context)!.settings.arguments as int;
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: const Text("Mesaj"),
       ),
-      body: MessageDetailsTemp(id: id,),
+      body: MessageDetailsTemp(
+        id: id,
+      ),
     );
   }
-
-
 }
+
 class MessageDetailsTemp extends StatefulWidget {
   final int id;
-  const MessageDetailsTemp({Key? key,  required this.id}) : super(key: key);
+  const MessageDetailsTemp({Key? key, required this.id}) : super(key: key);
 
   @override
   _MessageDetailsTempState createState() => _MessageDetailsTempState();
@@ -106,7 +111,7 @@ class _MessageDetailsTempState extends State<MessageDetailsTemp> {
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             MessageDetailItem item =
-                            snapshot.data!.messageDetailItem![index];
+                                snapshot.data!.messageDetailItem![index];
                             return ListTile(
                               tileColor: Colors.redAccent,
                               trailing: item.userId == Constant.userId
@@ -182,9 +187,9 @@ class _MessageDetailsTempState extends State<MessageDetailsTemp> {
           ],
         ),
       ),
-
     );
   }
+
   Widget getImageWidget(String? url) {
     return Container(
       height: 35,

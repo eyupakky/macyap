@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, avoid_print, deprecated_member_use
+
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,6 +32,7 @@ import 'package:halisaha/page/login/help.dart';
 import 'package:halisaha/page/login/login_page.dart';
 import 'package:halisaha/page/login/login_with_number.dart';
 import 'package:halisaha/page/login/new_password.dart';
+import 'package:halisaha/page/login/new_register.dart';
 import 'package:halisaha/page/login/register_page.dart';
 import 'package:halisaha/page/message/message_details.dart';
 import 'package:halisaha/page/splash_page.dart';
@@ -126,6 +129,7 @@ Future<void> main() async {
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onDidReceiveNotificationResponse:
           (NotificationResponse notificationResponse) async {
+    // ignore: unnecessary_null_comparison
     if (notificationResponse != null) {
       debugPrint('notification payload: $notificationResponse');
     }
@@ -224,22 +228,23 @@ class _MyAppState extends State<MyApp> {
         routes: {
           "/home": (context) => const HomePage(),
           "/splash": (context) => const SplashPage(),
-          "/": (context) => RemoteConfigPage(),
-          "/messageDetails": (context) => MessageDetails(),
+          "/": (context) => const RemoteConfigPage(),
+          "/messageDetails": (context) => const MessageDetails(),
           "/profile": (context) => ProfilePage(),
-          "/followers": (context) => FollowersPage(),
+          "/followers": (context) => const FollowersPage(),
           "/wallet": (context) => WalletPage(),
-          "/email": (context) => UpdateEmailPage(),
-          "/setting": (context) => SettingsPage(),
+          "/email": (context) => const UpdateEmailPage(),
+          "/setting": (context) => const SettingsPage(),
           "/siparisler": (context) => const SiparislerimPage(),
-          "/password": (context) => PasswordUpdatePage(),
-          "/login": (context) => LoginPage(),
+          "/password": (context) => const PasswordUpdatePage(),
+          "/login": (context) => const LoginPage(),
           "/loginwithnumber": (context) => const LoginWithNumber(),
           "/register": (context) => const RegisterPage(),
-          "/gameDetail": (context) => GameDetailPage(),
-          "/venuesDetail": (context) => VenuesDetail(),
-          "/createGame": (context) => CreateGamePage(),
-          "/uploadMoney": (context) => UploadMoney(),
+          "/newRegister": (context) => const NewRegister(),
+          "/gameDetail": (context) => const GameDetailPage(),
+          "/venuesDetail": (context) => const VenuesDetail(),
+          "/createGame": (context) => const CreateGamePage(),
+          "/uploadMoney": (context) => const UploadMoney(),
           "/tcCheck": (context) => const TcCheckController(),
           "/webview": (context) => const WebviewPage(),
           "/forgatMyPassword": (context) => const ForgatMyPassword(),

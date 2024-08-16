@@ -1,10 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:halisaha/help/input_formatter.dart';
-import 'package:halisaha/help/payment_card.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:repository_eyup/controller/wallet_controller.dart';
 
@@ -78,9 +73,7 @@ class _PromosyonKoduPageState extends State<PromosyonKoduPage> {
                     ),
                     keyboardType: TextInputType.number,
                     validator: (val) {
-                      return val!.isNotEmpty
-                          ? null
-                          : "Boş Geçilemez";
+                      return val!.isNotEmpty ? null : "Boş Geçilemez";
                     },
                     onChanged: (val) {},
                     controller: promosyonController,
@@ -124,7 +117,7 @@ class _PromosyonKoduPageState extends State<PromosyonKoduPage> {
     _walletController.setPromosyon(promosyonController.text).then((value) {
       EasyLoading.dismiss();
       showToast("${value.description}");
-      value.success!?Navigator.pop(context):null;
+      value.success! ? Navigator.pop(context) : null;
     }).catchError((onError) {
       EasyLoading.dismiss();
       showToast(onError);

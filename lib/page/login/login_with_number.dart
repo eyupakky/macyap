@@ -21,8 +21,7 @@ class LoginWithNumber extends StatelessWidget {
                   children: <Widget>[
                     Positioned(
                       child: Image.asset(
-                          color: const Color.fromRGBO(255, 0, 0, 1)
-                              .withOpacity(.7),
+                          color: Colors.red.withOpacity(.7),
                           'assets/images/background.png'),
                     ),
                     Positioned(
@@ -92,9 +91,7 @@ class LoginWithNumber extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                  color:
-                                      const Color.fromRGBO(143, 148, 251, 1)),
+                              border: Border.all(color: Colors.red),
                               boxShadow: const [
                                 BoxShadow(
                                     color: Color.fromRGBO(143, 148, 251, .2),
@@ -125,17 +122,18 @@ class LoginWithNumber extends StatelessWidget {
                     FadeInUp(
                         duration: const Duration(milliseconds: 1900),
                         child: Container(
-                          height: 50,
+                          height: 60,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               gradient: const LinearGradient(colors: [
-                                Color.fromRGBO(255, 0, 0, 1),
+                                Colors.red,
                                 Color.fromRGBO(255, 176, 176, 1),
                               ])),
                           child: const Center(
                             child: Text(
                               "Giriş Yap",
                               style: TextStyle(
+                                  fontSize: 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -146,11 +144,10 @@ class LoginWithNumber extends StatelessWidget {
                         duration: const Duration(milliseconds: 2000),
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, "/register");
+                            Navigator.pushNamed(context, "/newRegister");
                           },
                           child: const Text("Üye değil misin?",
-                              style: TextStyle(
-                                  color: Color.fromRGBO(255, 86, 56, 1))),
+                              style: TextStyle(color: Colors.red)),
                         )),
                   ],
                 ),

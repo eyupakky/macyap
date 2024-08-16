@@ -1,5 +1,6 @@
+// ignore_for_file: must_be_immutable, deprecated_member_use
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
@@ -7,7 +8,9 @@ import 'package:repository_eyup/model/game_detail.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../help/utils.dart';
+
 typedef FunctionGameDetail = Function(GameDetail gameDetail);
+
 class GameDetailInfoTab extends StatelessWidget {
   int? id;
   FunctionGameDetail callback;
@@ -48,8 +51,9 @@ class GameDetailInfoTab extends StatelessWidget {
                       imageUrl: "${gameDetail.imageVenue}",
                       fit: BoxFit.fill,
                       placeholder: (context, url) =>
-                      const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                     ListTile(
                       leading: const Icon(
@@ -122,17 +126,25 @@ class GameDetailInfoTab extends StatelessWidget {
                           ),
                         ),
                       ),
-                      subtitle:  Column(
-                        crossAxisAlignment:CrossAxisAlignment.start ,
-                        children:  [
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           const Text(
                             'Organizatör',
                             style: TextStyle(fontSize: 12),
                           ),
-                          const SizedBox(height: 5,),
-                          InkWell(onTap: (){
-                            launch('tel:${gameDetail.orgTel}');
-                          },child: Text('${gameDetail.orgTel}',style: const TextStyle(color: Colors.black,fontSize: 12),))
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          InkWell(
+                              onTap: () {
+                                launch('tel:${gameDetail.orgTel}');
+                              },
+                              child: Text(
+                                '${gameDetail.orgTel}',
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 12),
+                              ))
                         ],
                       ),
                     ),

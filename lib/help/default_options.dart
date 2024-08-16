@@ -12,12 +12,7 @@ class DefaultFirebaseOptions {
       default:
         return android;
     }
-
-    throw UnsupportedError(
-      'DefaultFirebaseOptions are not supported for this platform.',
-    );
   }
-
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDiYy6VctZF4zh6GfGIsfdbmozS7vJfu1o',
@@ -36,10 +31,9 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://macyap-a07f4-default-rtdb.firebaseio.com',
     storageBucket: 'macyap-a07f4.appspot.com',
     androidClientId:
-    '45316533176-cepgpdp16h0ckaf7ugjki25sinmqdefm.apps.googleusercontent.com',
+        '45316533176-cepgpdp16h0ckaf7ugjki25sinmqdefm.apps.googleusercontent.com',
     iosClientId:
-    '45316533176-av4dbdpccrvec5mtjitmuqdhmdmev5ak.apps.googleusercontent.com',
+        '45316533176-av4dbdpccrvec5mtjitmuqdhmdmev5ak.apps.googleusercontent.com',
     iosBundleId: 'com.eyupakky.halisaha',
   );
-
 }
