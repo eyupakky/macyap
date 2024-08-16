@@ -21,7 +21,6 @@ class _SplashPageState extends State<SplashPage> {
       getAccessToken(context);
       // _notification();
     });
-
   }
 
   @override
@@ -52,16 +51,15 @@ class _SplashPageState extends State<SplashPage> {
         Constant.image = image!;
         Constant.userId = int.parse('$userId');
         _homeController.getActiveControl().then((res) {
-          if(res.success){
+          if (res.success) {
             Navigator.pushReplacementNamed(context, "/home");
-          } else{
+          } else {
             value.clear();
             Navigator.pushReplacementNamed(context, "/login");
           }
         });
-
       } else {
-        Navigator.pushReplacementNamed(context, "/login");
+        Navigator.pushReplacementNamed(context, "/loginwithnumber");
       }
     });
   }

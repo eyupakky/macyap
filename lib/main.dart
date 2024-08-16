@@ -28,6 +28,7 @@ import 'package:halisaha/page/home/turnuva_list.dart';
 import 'package:halisaha/page/login/forgat_my_password.dart';
 import 'package:halisaha/page/login/help.dart';
 import 'package:halisaha/page/login/login_page.dart';
+import 'package:halisaha/page/login/login_with_number.dart';
 import 'package:halisaha/page/login/new_password.dart';
 import 'package:halisaha/page/login/register_page.dart';
 import 'package:halisaha/page/message/message_details.dart';
@@ -67,10 +68,12 @@ class ReceivedNotification {
   final String? body;
   final String? payload;
 }
+
 class Mutable<T> {
   Mutable(this.value);
   T value;
 }
+
 late AndroidNotificationChannel channel;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -99,7 +102,7 @@ Future<void> main() async {
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   final DarwinInitializationSettings initializationSettingsIOS =
-  DarwinInitializationSettings(
+      DarwinInitializationSettings(
           requestAlertPermission: false,
           requestBadgePermission: false,
           requestSoundPermission: false,
@@ -121,7 +124,8 @@ Future<void> main() async {
   final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {
+      onDidReceiveNotificationResponse:
+          (NotificationResponse notificationResponse) async {
     if (notificationResponse != null) {
       debugPrint('notification payload: $notificationResponse');
     }
@@ -141,8 +145,8 @@ Future<void> main() async {
     return true;
   };
   Bloc.observer = AppBlocObserver();
-      runApp(ContextProvider(
-          current: appContext, key: UniqueKey(), child: const MyApp()));
+  runApp(ContextProvider(
+      current: appContext, key: UniqueKey(), child: const MyApp()));
 }
 
 class AppBlocObserver extends BlocObserver {
@@ -230,6 +234,7 @@ class _MyAppState extends State<MyApp> {
           "/siparisler": (context) => const SiparislerimPage(),
           "/password": (context) => PasswordUpdatePage(),
           "/login": (context) => LoginPage(),
+          "/loginwithnumber": (context) => const LoginWithNumber(),
           "/register": (context) => const RegisterPage(),
           "/gameDetail": (context) => GameDetailPage(),
           "/venuesDetail": (context) => VenuesDetail(),

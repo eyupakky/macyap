@@ -1,11 +1,10 @@
-
-class Constant{
-  static String accessToken="";
+class Constant {
+  static String accessToken = "";
   static String userName = "";
-  static String name="";
-  static String surname="";
-  static String image="";
-  static int userId =0;
+  static String name = "";
+  static String surname = "";
+  static String image = "";
+  static int userId = 0;
   static String testbaseUrl = "http://78.111.98.76:5241/";
   static String baseUrl = "http://78.111.98.76:1505/";
 
@@ -36,9 +35,9 @@ class Constant{
   static String quitGame = "Games/QuitGame";
 
   // şifremi unuttum
-  static String lostMyPassword ="Home/LostMyPassword";
-  static String resetMyPassword ="Home/ResetMyPassword";
-  static String activeControl ="Home/ActiveControl";
+  static String lostMyPassword = "Home/LostMyPassword";
+  static String resetMyPassword = "Home/ResetMyPassword";
+  static String activeControl = "Home/ActiveControl";
   // Account
   static String getMyUser = "Account/GetMyUserProfile";
   static String getUserProfile = "Account/GetUserProfile";
@@ -87,5 +86,4 @@ class Constant{
   //firebase
   static String sendGuid = "FireBase/SendGuid";
   static String sendLocation = "FireBase/SendLocation";
-
 }
