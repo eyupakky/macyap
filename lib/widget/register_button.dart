@@ -80,7 +80,7 @@ class _RegisterButtonState extends State<RegisterButton>
       child: Transform.scale(
         scale: _scale,
         child: Container(
-          margin: const EdgeInsets.all(10),
+          margin: const EdgeInsets.all(5),
           height: 50,
           width: 100,
           decoration: BoxDecoration(

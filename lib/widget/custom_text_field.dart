@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
     this.hintText,
     this.textInputType,
     required this.icon,
+    this.textInputAction,
   });
 
   final TextEditingController nameController;
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
   final String? hintText;
   final TextInputType? textInputType;
   final IconData icon;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class CustomTextField extends StatelessWidget {
           controller: nameController,
           autovalidateMode: validate,
           keyboardType: textInputType,
+          textInputAction: textInputAction,
           style: GoogleFonts.montserrat(
             fontWeight: FontWeight.bold,
             fontSize: 16,

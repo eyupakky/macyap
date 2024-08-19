@@ -41,7 +41,6 @@ class _CheckBoxButtonState extends State<CheckBoxHizmetButton> {
           value: check,
           onChanged: (value) {
             widget.callback();
-
             setState(() {
               check = value!;
             });

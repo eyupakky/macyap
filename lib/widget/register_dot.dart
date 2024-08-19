@@ -11,7 +11,8 @@ class RegisterDot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
       width: width,
       height: 10,
       margin: const EdgeInsets.all(2),
