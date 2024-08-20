@@ -90,7 +90,13 @@ class _NewRegisterState extends State<NewRegister> {
         children: [
           Transform.translate(
             offset: const Offset(-100, -100),
-            child: Image.asset(scale: .7, 'assets/images/blob.png'),
+            child: Opacity(
+              opacity: .7,
+              child: Image.asset(
+                scale: .7,
+                'assets/images/blob.png',
+              ),
+            ),
           ),
           Column(
             children: [
@@ -101,7 +107,7 @@ class _NewRegisterState extends State<NewRegister> {
                     child: Column(
                       children: [
                         Image.asset(
-                          color: Colors.red,
+                          color: Colors.redAccent,
                           UIGuide.pirpleLogo,
                           width: 150,
                           fit: BoxFit.contain,
@@ -119,9 +125,10 @@ class _NewRegisterState extends State<NewRegister> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      SizedBox(height: 50),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
+                                            vertical: 10),
                                         child: FadeInRight(
                                           child: InternationalPhoneNumberInput(
                                             locale: "tr_TR",
@@ -140,8 +147,6 @@ class _NewRegisterState extends State<NewRegister> {
                                             textStyle: TextStyle(
                                               fontWeight: FontWeight.bold,
                                             ),
-                                            keyboardAction:
-                                                TextInputAction.next,
                                             inputDecoration: InputDecoration(
                                               enabledBorder: OutlineInputBorder(
                                                 borderRadius:
@@ -614,8 +619,8 @@ class _NewRegisterState extends State<NewRegister> {
                     key: UniqueKey(),
                   ),
                   TextButton(
-                    onPressed: () =>
-                        Navigator.pushNamed(context, "/loginwithnumber"),
+                    onPressed: () => Navigator.pushReplacementNamed(
+                        context, "/loginwithnumber"),
                     child: RichText(
                       text: TextSpan(
                         text: 'Üye misin? ',
@@ -635,11 +640,19 @@ class _NewRegisterState extends State<NewRegister> {
             ],
           ),
           Positioned(
-              bottom: -120,
-              right: -120,
-              child: Transform.rotate(
-                  angle: 3.14,
-                  child: Image.asset(scale: .7, 'assets/images/blob.png'))),
+            bottom: -120,
+            right: -120,
+            child: Transform.rotate(
+              angle: 3.14,
+              child: Opacity(
+                opacity: .7,
+                child: Image.asset(
+                  scale: .7,
+                  'assets/images/blob.png',
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
