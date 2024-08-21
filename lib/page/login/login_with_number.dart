@@ -2,11 +2,9 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:halisaha/help/app_context.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-// import 'package:repository_eyup/controller/account_controller.dart';
-// import 'package:repository_eyup/controller/new_login_controller.dart';
+import 'package:repository_eyup/controller/login_controller.dart';
 
 class LoginWithNumber extends StatefulWidget {
   const LoginWithNumber({super.key});
@@ -17,42 +15,38 @@ class LoginWithNumber extends StatefulWidget {
 
 class _LoginWithNumberState extends State<LoginWithNumber> {
   String phoneNumber = "";
-  PhoneNumber number = PhoneNumber(isoCode: 'TR');
-
-  // final NewLoginController _newLoginController = NewLoginController();
-  // final AccountController _accountController = AccountController();
-  BaseContext get appContext => ContextProvider.of(context)!.current;
   bool isPhoneValid = false;
+  PhoneNumber number = PhoneNumber(isoCode: 'TR');
+  final LoginController _loginController = LoginController();
 
   @override
   Widget build(BuildContext context) {
     void login() async {
       EasyLoading.show(status: "Giriş yapılıyor...");
+
       if (isPhoneValid) {
-        EasyLoading.dismiss();
-        Navigator.pushNamed(context, "/otp",
-            arguments: {"phoneNumber": phoneNumber});
+        bool isExist = await _loginController.isPhoneInDatabase(phoneNumber);
+
+        if (isExist) {
+          _loginController.loginWithPhone(phoneNumber).then((value) {
+            Map<String, dynamic> map = {
+              "pin": value,
+              "phoneNumber": phoneNumber
+            };
+            EasyLoading.dismiss();
+            Navigator.pushNamed(context, "/otp", arguments: map);
+          }).catchError((onError) {
+            EasyLoading.dismiss();
+            showToast('Giriş Başarısız', color: Colors.redAccent);
+          });
+        } else {
+          EasyLoading.dismiss();
+          showToast('Telefon Numarası Kayıtlı Değil', color: Colors.redAccent);
+        }
       } else {
         EasyLoading.dismiss();
         showToast('Geçersiz Telefon Numarası', color: Colors.redAccent);
       }
-
-      // _newLoginController.login(phoneNumber).then((value) {
-      //   appContext.setAccessToken(value);
-
-      //   _accountController.getMyUser().then((value) {
-      //     Constant.image = value.image!;
-      //     Constant.userId = value.userId!;
-      //     Constant.userName = value.username!;
-      //     Constant.name = value.firstname!;
-      //     Constant.surname = value.lastname!;
-      //     appContext.setMyUser(value);
-      //     Navigator.pushReplacementNamed(context, "/home");
-      //   });
-      // }).catchError((err) {
-      //   EasyLoading.dismiss();
-      //   showToast(err, color: Colors.redAccent);
-      // });
     }
 
     return Scaffold(
@@ -66,7 +60,9 @@ class _LoginWithNumberState extends State<LoginWithNumber> {
                 children: <Widget>[
                   Positioned(
                     child: Image.asset(
-                        color: Colors.red, 'assets/images/background.png'),
+                        fit: BoxFit.cover,
+                        color: Colors.red,
+                        'assets/images/background.png'),
                   ),
                   // Positioned(
                   //   left: 30,

@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:halisaha/help/app_context.dart';
+import 'package:halisaha/help/utils.dart';
 import 'package:pinput/pinput.dart';
+import 'package:repository_eyup/constant.dart';
+import 'package:repository_eyup/controller/account_controller.dart';
+import 'package:repository_eyup/controller/login_controller.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 class OTPPage extends StatefulWidget {
@@ -11,6 +17,10 @@ class OTPPage extends StatefulWidget {
 }
 
 class _OTPPageState extends State<OTPPage> {
+  final LoginController _loginController = LoginController();
+  final AccountController _accountController = AccountController();
+  BaseContext get appContext => ContextProvider.of(context)!.current;
+
   late final SmsRetriever smsRetriever;
   late final TextEditingController pinController;
   late final FocusNode focusNode;
@@ -24,12 +34,6 @@ class _OTPPageState extends State<OTPPage> {
     pinController = TextEditingController();
     focusNode = FocusNode();
     smsRetriever = SmsRetrieverImpl(SmartAuth());
-
-    Future.delayed(const Duration(seconds: 5), () {
-      setState(() {
-        correctPin = '222222';
-      });
-    });
   }
 
   @override
@@ -39,9 +43,31 @@ class _OTPPageState extends State<OTPPage> {
     super.dispose();
   }
 
+  Future<void> authenticate() async {
+    _loginController.loginWithPhone(widget.phoneNumber!).then((value) {
+      appContext.setAccessToken(value);
+
+      _accountController.getMyUser().then((value) {
+        Constant.image = value.image!;
+        Constant.userId = value.userId!;
+        Constant.userName = value.username!;
+        Constant.name = value.firstname!;
+        Constant.surname = value.lastname!;
+        appContext.setMyUser(value);
+        Navigator.pushReplacementNamed(context, "/home");
+      });
+    }).catchError((err) {
+      EasyLoading.dismiss();
+      showToast(err, color: Colors.redAccent);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    final Map<String, dynamic> arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+    correctPin = arguments['pin'];
 
     const focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
     const fillColor = Color.fromRGBO(243, 246, 249, 0);
@@ -105,7 +131,6 @@ class _OTPPageState extends State<OTPPage> {
                           ),
                         );
                       }
-
                       return Directionality(
                         textDirection: TextDirection.ltr,
                         child: Pinput(

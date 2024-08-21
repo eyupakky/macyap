@@ -1,5 +1,6 @@
 class Constant {
   static String accessToken = "";
+  static String pin = "";
   static String userName = "";
   static String name = "";
   static String surname = "";
@@ -10,6 +11,8 @@ class Constant {
 
   // Register
   static String login = "Home/Login";
+  static String loginWithPhone = "Home/LoginWithPhone";
+  static String isPhoneInDatabase = "Home/IsPhoneInDatabase";
   static String help = "Support/Help";
   static String register = "Home/Register";
   static String getCounties = "Home/GetCounties";

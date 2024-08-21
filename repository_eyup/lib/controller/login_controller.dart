@@ -8,6 +8,14 @@ class LoginController {
     return Future.value(loginRepository.login(email, password));
   }
 
+  Future<String> loginWithPhone(String phoneNumber) {
+    return Future.value(loginRepository.loginWithPhone(phoneNumber));
+  }
+
+  Future<bool> isPhoneInDatabase(String phoneNumber) {
+    return Future.value(loginRepository.isPhoneInDatabase(phoneNumber));
+  }
+
   Future<BaseResponse> help(Map<String, String> map) {
     return Future.value(loginRepository.help(map));
   }

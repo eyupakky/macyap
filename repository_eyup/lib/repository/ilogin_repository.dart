@@ -9,6 +9,8 @@ import 'package:repository_eyup/model/register_model.dart';
 
 abstract class ILoginRepository {
   Future<String> login(String username, String password);
+  Future<String> loginWithPhone(String phoneNumber);
+  Future<bool> isPhoneInDatabase(String phoneNumber);
   Future<BaseResponse> help(Map<String, String> map);
 
   Future<BaseResponse> register(RegisterModel registerModel);
@@ -32,6 +34,37 @@ class LoginRepository implements ILoginRepository {
       return Future.value(res.data["access_token"]);
     }
     return Future.error("Giriş Başarısız.");
+  }
+
+  @override
+  Future<String> loginWithPhone(String phoneNumber) async {
+    Map<String, String> body = {"phone_number": phoneNumber};
+    try {
+      var res = await _dio.post(Constant.baseUrl + Constant.loginWithPhone,
+          data: body);
+      if (res.statusCode == 200 && res.data["success"]) {
+        Constant.pin = res.data["pin"];
+        return Future.value(res.data["pin"]);
+      }
+      return Future.error("Giriş Başarısız.");
+    } catch (onError) {
+      return Future.error(onError);
+    }
+  }
+
+  @override
+  Future<bool> isPhoneInDatabase(String phoneNumber) async {
+    try {
+      var body = {"phone_number": phoneNumber};
+      var res = await _dio.post(Constant.baseUrl + Constant.isPhoneInDatabase,
+          data: body);
+      if (res.statusCode == 200 && res.data["success"]) {
+        return Future.value(res.data["isPhoneInDatabase"]);
+      }
+      return Future.value(false);
+    } catch (onError) {
+      return Future.value(false);
+    }
   }
 
   @override
