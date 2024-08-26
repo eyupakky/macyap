@@ -8,7 +8,7 @@ class LoginController {
     return Future.value(loginRepository.login(email, password));
   }
 
-  Future<String> loginWithPhone(String phoneNumber) {
+  Future<Map<String, dynamic>> loginWithPhone(String phoneNumber) {
     return Future.value(loginRepository.loginWithPhone(phoneNumber));
   }
 

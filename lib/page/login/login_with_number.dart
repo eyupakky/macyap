@@ -31,7 +31,8 @@ class _LoginWithNumberState extends State<LoginWithNumber> {
           _loginController.loginWithPhone(phoneNumber).then((value) {
             Map<String, dynamic> map = {
               "pin": value,
-              "phoneNumber": phoneNumber
+              "phoneNumber": phoneNumber,
+              "token": value["token"]
             };
             EasyLoading.dismiss();
             Navigator.pushNamed(context, "/otp", arguments: map);

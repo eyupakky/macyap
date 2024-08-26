@@ -31,13 +31,12 @@ class CustomTextField extends StatelessWidget {
           keyboardType: textInputType,
           textInputAction: textInputAction,
           style: GoogleFonts.montserrat(
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w500,
             fontSize: 16,
+            color: Colors.black,
           ),
           decoration: InputDecoration(
-            prefixIcon: Icon(
-              icon,
-            ),
+            prefixIcon: Icon(icon),
             focusColor: Colors.black,
             hintText: hintText,
             hintStyle: GoogleFonts.montserrat(

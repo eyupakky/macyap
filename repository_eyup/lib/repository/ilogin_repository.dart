@@ -9,7 +9,7 @@ import 'package:repository_eyup/model/register_model.dart';
 
 abstract class ILoginRepository {
   Future<String> login(String username, String password);
-  Future<String> loginWithPhone(String phoneNumber);
+  Future<Map<String, dynamic>> loginWithPhone(String phoneNumber);
   Future<bool> isPhoneInDatabase(String phoneNumber);
   Future<BaseResponse> help(Map<String, String> map);
 
@@ -37,14 +37,14 @@ class LoginRepository implements ILoginRepository {
   }
 
   @override
-  Future<String> loginWithPhone(String phoneNumber) async {
-    Map<String, String> body = {"phone_number": phoneNumber};
+  Future<Map<String, dynamic>> loginWithPhone(String phoneNumber) async {
+    Map<String, String> body = {"phoneNumber": phoneNumber};
     try {
       var res = await _dio.post(Constant.baseUrl + Constant.loginWithPhone,
           data: body);
-      if (res.statusCode == 200 && res.data["success"]) {
+      if (res.statusCode == 200 && res.data["isSuccess"]) {
         Constant.pin = res.data["pin"];
-        return Future.value(res.data["pin"]);
+        return Future.value(res.data);
       }
       return Future.error("Giriş Başarısız.");
     } catch (onError) {

@@ -58,6 +58,7 @@ class _NewRegisterState extends State<NewRegister> {
   bool sartlarVeKosullar = false;
   bool gizlilikPolitikasi = false;
   List<Counties>? countiesList = [];
+  bool isPhoneValid = false;
 
   @override
   void initState() {
@@ -145,8 +146,8 @@ class _NewRegisterState extends State<NewRegister> {
                                                     trailingSpace: false),
                                             initialValue: number,
                                             textStyle: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
                                             inputDecoration: InputDecoration(
                                               enabledBorder: OutlineInputBorder(
                                                 borderRadius:
@@ -173,11 +174,8 @@ class _NewRegisterState extends State<NewRegister> {
                                                 signed: true, decimal: true),
                                             inputBorder:
                                                 const OutlineInputBorder(),
-                                            onSaved: (PhoneNumber number) {
-                                              if (kDebugMode) {
-                                                print('On Saved: $number');
-                                              }
-                                            },
+                                            onInputValidated: (value) =>
+                                                isPhoneValid = value,
                                           ),
                                         ),
                                       ),
@@ -661,6 +659,22 @@ class _NewRegisterState extends State<NewRegister> {
   void register() async {
     EasyLoading.show(status: 'Yükleniyor...');
     Map<String, dynamic> body = {};
+
+    if (nameController.text.isEmpty ||
+        surnameController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        phoneNumber.isEmpty ||
+        selectedCity == 0 ||
+        selectedCountry == 0 ||
+        userNameController.text.isEmpty ||
+        mahalleController.text.isEmpty ||
+        seciliAlan == null) {
+      EasyLoading.dismiss();
+      showToast("Tüm alanları doldurunuz...");
+      return;
+    }
+
     body.putIfAbsent("firstname", () => nameController.text);
     body.putIfAbsent("lastname", () => surnameController.text);
     body.putIfAbsent("password", () => passwordController.text);
@@ -677,17 +691,28 @@ class _NewRegisterState extends State<NewRegister> {
     body.putIfAbsent("gender", () => selectedGender);
     body.putIfAbsent("alan", () => '$seciliAlan');
     body.putIfAbsent("neighborhood", () => mahalleController.text);
-    registerController.register(body).then((value) {
-      EasyLoading.dismiss();
-      if (value.success!) {
-        showToast(value.description ?? "", color: Colors.green);
-        Navigator.pop(context);
+
+    checkPhone(body);
+  }
+
+  void checkPhone(Map<String, dynamic> registerData) async {
+    if (isPhoneValid) {
+      bool isExist = await _loginController.isPhoneInDatabase(phoneNumber);
+
+      if (!isExist) {
+        Map<String, dynamic> map = {
+          "phoneNumber": phoneNumber,
+          "registerData": registerData
+        };
+        EasyLoading.dismiss();
+        Navigator.pushNamed(context, "/confirmpage", arguments: map);
       } else {
-        showToast(value.description ?? "", color: Colors.red);
+        EasyLoading.dismiss();
+        showToast('Telefon Numarası Zaten Kayıtlı', color: Colors.redAccent);
       }
-    }).catchError((onError) {
+    } else {
       EasyLoading.dismiss();
-      showToast(onError, color: Colors.red);
-    });
+      showToast('Geçersiz Telefon Numarası', color: Colors.redAccent);
+    }
   }
 }
