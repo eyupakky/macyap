@@ -140,73 +140,78 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white.withAlpha(240),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            LayoutBuilder(builder: (context, constraints) {
-              this.constraints = constraints;
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 40),
-                child: changeBottomItem(_selectedIndex),
-              );
-            }),
-            Visibility(
-              visible: visib,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 40,
-                  color: Colors.red,
-                  alignment: Alignment.center,
-                  child: TextScroll(
-                    text,
-                    intervalSpaces: 10,
-                    velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white.withAlpha(240),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              LayoutBuilder(builder: (context, constraints) {
+                this.constraints = constraints;
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: changeBottomItem(_selectedIndex),
+                );
+              }),
+              Visibility(
+                visible: visib,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 40,
+                    color: Colors.red,
+                    alignment: Alignment.center,
+                    child: TextScroll(
+                      text,
+                      intervalSpaces: 10,
+                      velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
+                    ),
                   ),
                 ),
+              )
+            ],
+          ),
+        ),
+        bottomNavigationBar: FlashyTabBar(
+          selectedIndex: _selectedIndex,
+          showElevation: true,
+          onItemSelected: (index) => setState(() {
+            _selectedIndex = index;
+            // context.read<ChangeBottomCubit>().changeFlushBar(index);
+          }),
+          items: [
+            FlashyTabBarItem(
+              icon: const Icon(Icons.home_outlined),
+              activeColor: Colors.redAccent,
+              title: const Text('Anasayfa'),
+            ),
+            FlashyTabBarItem(
+              icon: const Icon(Icons.tour),
+              activeColor: Colors.redAccent,
+              title: const Text(
+                'Turnuvalar',
+                style: TextStyle(fontSize: 12),
               ),
+            ),
+            FlashyTabBarItem(
+                icon: const Icon(Icons.shop),
+                activeColor: Colors.redAccent,
+                title: const Text('Mağaza')),
+            FlashyTabBarItem(
+              icon: const Icon(Icons.message_outlined),
+              activeColor: Colors.redAccent,
+              title: const Text('Mesajlar'),
+            ),
+            FlashyTabBarItem(
+              icon: const Icon(Icons.person),
+              title: const Text('Hesabım'),
+              activeColor: Colors.redAccent,
             )
           ],
         ),
-      ),
-      bottomNavigationBar: FlashyTabBar(
-        selectedIndex: _selectedIndex,
-        showElevation: true,
-        onItemSelected: (index) => setState(() {
-          _selectedIndex = index;
-          // context.read<ChangeBottomCubit>().changeFlushBar(index);
-        }),
-        items: [
-          FlashyTabBarItem(
-            icon: const Icon(Icons.home_outlined),
-            activeColor: Colors.redAccent,
-            title: const Text('Anasayfa'),
-          ),
-          FlashyTabBarItem(
-            icon: const Icon(Icons.tour),
-            activeColor: Colors.redAccent,
-            title: const Text(
-              'Turnuvalar',
-              style: TextStyle(fontSize: 12),
-            ),
-          ),
-          FlashyTabBarItem(
-              icon: const Icon(Icons.shop),
-              activeColor: Colors.redAccent,
-              title: const Text('Mağaza')),
-          FlashyTabBarItem(
-            icon: const Icon(Icons.message_outlined),
-            activeColor: Colors.redAccent,
-            title: const Text('Mesajlar'),
-          ),
-          FlashyTabBarItem(
-            icon: const Icon(Icons.person),
-            title: const Text('Hesabım'),
-            activeColor: Colors.redAccent,
-          )
-        ],
       ),
     );
   }

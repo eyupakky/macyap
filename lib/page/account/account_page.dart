@@ -109,7 +109,7 @@ class AccountPage extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     prefs.remove("accessToken");
-    Navigator.pushNamed(context, "/login");
+    Navigator.pushReplacementNamed(context, "/loginwithnumber");
   }
 
   void deleteAccount(context) {

@@ -5,11 +5,12 @@ import 'package:halisaha/help/utils.dart';
 import 'package:pinput/pinput.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
-import 'package:repository_eyup/controller/register_controller.dart';
+import 'package:repository_eyup/controller/login_controller.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 class ConfirmPage extends StatefulWidget {
-  const ConfirmPage({Key? key}) : super(key: key);
+  final Map<String, dynamic>? data;
+  const ConfirmPage({Key? key, this.data}) : super(key: key);
 
   @override
   State<ConfirmPage> createState() => _ConfirmPageState();
@@ -17,26 +18,25 @@ class ConfirmPage extends StatefulWidget {
 
 class _ConfirmPageState extends State<ConfirmPage> {
   final AccountController _accountController = AccountController();
-  final RegisterController registerController = RegisterController();
+  final LoginController _loginController = LoginController();
   BaseContext get appContext => ContextProvider.of(context)!.current;
 
   late final SmsRetriever smsRetriever;
   late final TextEditingController pinController;
   late final FocusNode focusNode;
   late final GlobalKey<FormState> formKey;
-  String correctPin = '';
-  String token = '';
+  late final int userId;
   String phoneNumber = '';
-  Map<String, dynamic> registerData = {};
 
   @override
   void initState() {
     super.initState();
+    phoneNumber = widget.data!["phoneNumber"];
+    userId = widget.data!["userId"];
     formKey = GlobalKey<FormState>();
     pinController = TextEditingController();
     focusNode = FocusNode();
     smsRetriever = SmsRetrieverImpl(SmartAuth());
-    sendOTPCode();
   }
 
   @override
@@ -46,37 +46,17 @@ class _ConfirmPageState extends State<ConfirmPage> {
     super.dispose();
   }
 
-  Future<void> sendOTPCode() async {
-    //int? userId = await registerController.sendOTPCode(phoneNumber);
-    int? userId = 12345;
-
-    if (userId > 0) {
-      //correctPin = await registerController.getOTPCode(userId);
-
-      setState(() {
-        correctPin = "444444";
-      });
-    } else {
-      showToast("Doğrulama Kodu Gönderilemedi", color: Colors.red);
-      Navigator.pop(context);
-    }
-  }
-
-  Future<void> register() async {
-    registerController.register(registerData).then((value) {
-      EasyLoading.dismiss();
-      if (value.success!) {
-        showToast(value.description ?? "", color: Colors.green);
-        Constant.accessToken = "temp access token";
-        authenticate("temp access token");
-      } else {
-        showToast(value.description ?? "", color: Colors.red);
-        Navigator.pop(context);
+  Future<void> login(int code, int userId) async {
+    EasyLoading.show(status: "Kontrol ediliyor...");
+    _loginController.smsVerification(code, userId).then((value) {
+      if (value["isSuccess"] ?? false) {
+        EasyLoading.dismiss();
+        Constant.accessToken = value["userToken"];
+        authenticate(value["userToken"]);
       }
     }).catchError((err) {
       EasyLoading.dismiss();
       showToast(err, color: Colors.redAccent);
-      Navigator.pop(context);
     });
   }
 
@@ -100,12 +80,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> arguments =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-
-    phoneNumber = arguments['phoneNumber'];
-    registerData = arguments['registerData'];
-
     const focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
     const fillColor = Color.fromRGBO(243, 246, 249, 0);
     const borderColor = Color.fromRGBO(23, 171, 144, 0.4);
@@ -147,7 +121,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                             style: TextStyle(fontSize: 18)),
                         const SizedBox(height: 10),
                         Text(
-                          arguments['phoneNumber'],
+                          phoneNumber,
                           style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black54,
@@ -155,82 +129,65 @@ class _ConfirmPageState extends State<ConfirmPage> {
                         ),
                       ],
                     ),
-                    Builder(
-                      builder: (context) {
-                        if (correctPin.isEmpty) {
-                          return const Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                LinearProgressIndicator(),
-                                SizedBox(height: 10),
-                                Text("Doğrulama Kodu Bekleniyor"),
-                              ],
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Pinput(
+                        errorBuilder: (errorText, pin) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                errorText ?? '',
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                ),
+                              ),
                             ),
                           );
-                        }
-                        return Directionality(
-                          textDirection: TextDirection.ltr,
-                          child: Pinput(
-                            errorBuilder: (errorText, pin) {
-                              return Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    textAlign: TextAlign.center,
-                                    errorText ?? '',
-                                    style: const TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            smsRetriever: smsRetriever,
-                            length: correctPin.length,
-                            controller: pinController,
-                            focusNode: focusNode,
-                            defaultPinTheme: defaultPinTheme,
-                            separatorBuilder: (index) =>
-                                const SizedBox(width: 8),
-                            validator: (value) {
-                              return value == correctPin
-                                  ? null
-                                  : 'Doğrulama Kodu Hatalı';
-                            },
-                            hapticFeedbackType: HapticFeedbackType.lightImpact,
-                            cursor: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 9),
-                                  width: 22,
-                                  height: 1,
-                                  color: focusedBorderColor,
-                                ),
-                              ],
+                        },
+                        smsRetriever: smsRetriever,
+                        length: 6,
+                        controller: pinController,
+                        focusNode: focusNode,
+                        defaultPinTheme: defaultPinTheme,
+                        separatorBuilder: (index) => const SizedBox(width: 8),
+                        // validator: (value) {
+                        //   return value == correctPin
+                        //       ? null
+                        //       : 'Doğrulama Kodu Hatalı';
+                        // },
+                        hapticFeedbackType: HapticFeedbackType.lightImpact,
+                        cursor: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 9),
+                              width: 22,
+                              height: 1,
+                              color: focusedBorderColor,
                             ),
-                            focusedPinTheme: defaultPinTheme.copyWith(
-                              decoration: defaultPinTheme.decoration!.copyWith(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: focusedBorderColor),
-                              ),
-                            ),
-                            submittedPinTheme: defaultPinTheme.copyWith(
-                              decoration: defaultPinTheme.decoration!.copyWith(
-                                color: fillColor,
-                                borderRadius: BorderRadius.circular(19),
-                                border: Border.all(color: focusedBorderColor),
-                              ),
-                            ),
-                            errorPinTheme: defaultPinTheme.copyBorderWith(
-                              border: Border.all(color: Colors.redAccent),
-                            ),
+                          ],
+                        ),
+                        focusedPinTheme: defaultPinTheme.copyWith(
+                          decoration: defaultPinTheme.decoration!.copyWith(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: focusedBorderColor),
                           ),
-                        );
-                      },
+                        ),
+                        submittedPinTheme: defaultPinTheme.copyWith(
+                          decoration: defaultPinTheme.decoration!.copyWith(
+                            color: fillColor,
+                            borderRadius: BorderRadius.circular(19),
+                            border: Border.all(color: focusedBorderColor),
+                          ),
+                        ),
+                        errorPinTheme: defaultPinTheme.copyBorderWith(
+                          border: Border.all(color: Colors.redAccent),
+                        ),
+                      ),
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -238,11 +195,14 @@ class _ConfirmPageState extends State<ConfirmPage> {
                       ),
                       onPressed: () {
                         focusNode.unfocus();
-                        final answer = formKey.currentState!.validate();
+                        // final answer = formKey.currentState!.validate();
 
-                        if (answer) {
-                          register();
-                        }
+                        // if (answer) {
+                        //   login();
+                        // }
+
+                        login(
+                            int.tryParse(pinController.text) ?? 000000, userId);
                       },
                       child: const Text(
                         "Devam Et",

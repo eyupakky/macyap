@@ -7,12 +7,14 @@ class Constant {
   static String image = "";
   static int userId = 0;
   static String testbaseUrl = "http://78.111.98.76:5241/";
-  static String baseUrl = "http://78.111.98.76:1505/";
+  // static String baseUrl = "http://78.111.98.76:1505/";
+  static String baseUrl = "https://t3h709lb-65521.euw.devtunnels.ms/";
 
   // Register
   static String login = "Home/Login";
-  static String loginWithPhone = "Home/LoginWithPhone";
-  static String isPhoneInDatabase = "Home/IsPhoneInDatabase";
+  // static String loginWithPhone = "Home/LoginWithPhone";
+  static String loginWithPhone = "sms-login";
+  static String smsVerification = "sms-verification";
   static String help = "Support/Help";
   static String register = "Home/Register";
   static String getCounties = "Home/GetCounties";

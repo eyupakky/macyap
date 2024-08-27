@@ -692,24 +692,25 @@ class _NewRegisterState extends State<NewRegister> {
     body.putIfAbsent("alan", () => '$seciliAlan');
     body.putIfAbsent("neighborhood", () => mahalleController.text);
 
-    checkPhone(body);
+    check(body);
   }
 
-  void checkPhone(Map<String, dynamic> registerData) async {
+  void check(Map<String, dynamic> registerData) async {
     if (isPhoneValid) {
-      bool isExist = await _loginController.isPhoneInDatabase(phoneNumber);
-
-      if (!isExist) {
-        Map<String, dynamic> map = {
-          "phoneNumber": phoneNumber,
-          "registerData": registerData
-        };
+      registerController.register(registerData).then((value) {
+        if (value.success ?? false) {
+          EasyLoading.dismiss();
+          showToast('Kayıt Başarılı', color: Colors.green);
+          Navigator.pushNamed(context, "/loginwithnumber");
+        } else {
+          EasyLoading.dismiss();
+          showToast(value.description ?? "Kayıt Başarısız",
+              color: Colors.redAccent);
+        }
+      }).catchError((onError) {
         EasyLoading.dismiss();
-        Navigator.pushNamed(context, "/confirmpage", arguments: map);
-      } else {
-        EasyLoading.dismiss();
-        showToast('Telefon Numarası Zaten Kayıtlı', color: Colors.redAccent);
-      }
+        showToast(onError, color: Colors.redAccent);
+      });
     } else {
       EasyLoading.dismiss();
       showToast('Geçersiz Telefon Numarası', color: Colors.redAccent);

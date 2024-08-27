@@ -12,11 +12,11 @@ class LoginController {
     return Future.value(loginRepository.loginWithPhone(phoneNumber));
   }
 
-  Future<bool> isPhoneInDatabase(String phoneNumber) {
-    return Future.value(loginRepository.isPhoneInDatabase(phoneNumber));
-  }
-
   Future<BaseResponse> help(Map<String, String> map) {
     return Future.value(loginRepository.help(map));
+  }
+
+  Future<Map<String, dynamic>> smsVerification(int code, int userId) {
+    return Future.value(loginRepository.smsVerification(code, userId));
   }
 }

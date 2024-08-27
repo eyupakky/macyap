@@ -10,8 +10,8 @@ import 'package:repository_eyup/model/register_model.dart';
 abstract class ILoginRepository {
   Future<String> login(String username, String password);
   Future<Map<String, dynamic>> loginWithPhone(String phoneNumber);
-  Future<bool> isPhoneInDatabase(String phoneNumber);
   Future<BaseResponse> help(Map<String, String> map);
+  Future<Map<String, dynamic>> smsVerification(int code, int userId);
 
   Future<BaseResponse> register(RegisterModel registerModel);
 }
@@ -38,33 +38,13 @@ class LoginRepository implements ILoginRepository {
 
   @override
   Future<Map<String, dynamic>> loginWithPhone(String phoneNumber) async {
-    Map<String, String> body = {"phoneNumber": phoneNumber};
-    try {
-      var res = await _dio.post(Constant.baseUrl + Constant.loginWithPhone,
-          data: body);
-      if (res.statusCode == 200 && res.data["isSuccess"]) {
-        Constant.pin = res.data["pin"];
-        return Future.value(res.data);
-      }
-      return Future.error("Giriş Başarısız.");
-    } catch (onError) {
-      return Future.error(onError);
+    Map<String, String> body = {"phone": phoneNumber.substring(3)};
+    var res =
+        await _dio.post(Constant.baseUrl + Constant.loginWithPhone, data: body);
+    if (res.statusCode == 200 && res.data["isSuccess"]) {
+      return Future.value(res.data);
     }
-  }
-
-  @override
-  Future<bool> isPhoneInDatabase(String phoneNumber) async {
-    try {
-      var body = {"phone_number": phoneNumber};
-      var res = await _dio.post(Constant.baseUrl + Constant.isPhoneInDatabase,
-          data: body);
-      if (res.statusCode == 200 && res.data["success"]) {
-        return Future.value(res.data["isPhoneInDatabase"]);
-      }
-      return Future.value(false);
-    } catch (onError) {
-      return Future.value(false);
-    }
+    return Future.error(res.data["message"]);
   }
 
   @override
@@ -87,5 +67,16 @@ class LoginRepository implements ILoginRepository {
       return Future.value(BaseResponse.fromJson(res.data));
     }
     return Future.error("Giriş Başarısız.");
+  }
+
+  @override
+  Future<Map<String, dynamic>> smsVerification(int code, int userId) async {
+    Map<String, dynamic> body = {"code": code, "userId": userId};
+    var res = await _dio.post(Constant.baseUrl + Constant.smsVerification,
+        data: body);
+    if (res.statusCode == 200 && res.data["isSuccess"]) {
+      return Future.value(res.data);
+    }
+    return Future.error(res.data["message"]);
   }
 }

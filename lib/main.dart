@@ -34,7 +34,6 @@ import 'package:halisaha/page/login/login_page.dart';
 import 'package:halisaha/page/login/login_with_number.dart';
 import 'package:halisaha/page/login/new_password.dart';
 import 'package:halisaha/page/login/new_register.dart';
-import 'package:halisaha/page/login/otp_page.dart';
 import 'package:halisaha/page/login/register_page.dart';
 import 'package:halisaha/page/message/message_details.dart';
 import 'package:halisaha/page/splash_page.dart';
@@ -256,7 +255,6 @@ class _MyAppState extends State<MyApp> {
           "/help": (context) => const HelpLoginPage(),
           "/turnuva": (context) => const TurnuvaList(),
           "/promosyonKodu": (context) => const PromosyonKoduPage(),
-          "/otp": (context) => const OTPPage(),
           "/confirmpage": (context) => const ConfirmPage(),
         },
         localizationsDelegates: const [
