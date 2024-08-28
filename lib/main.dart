@@ -275,16 +275,16 @@ class _MyAppState extends State<MyApp> {
             indicatorColor: HexColor.fromHex("#f0243a"),
             primaryColorLight: Colors.white60,
             textTheme: const TextTheme(
-              subtitle2: TextStyle(
+              titleSmall: TextStyle(
                   color: Colors.white60,
                   fontSize: 14,
                   fontWeight: FontWeight.w400),
-              subtitle1: TextStyle(
+              titleMedium: TextStyle(
                   color: Colors.red, fontSize: 14, fontWeight: FontWeight.w400),
             ),
-            backgroundColor: Colors.white,
             fontFamily: "Montserrat-bold",
-            primarySwatch: Colors.red),
+            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red)
+                .copyWith(background: Colors.white)),
         debugShowCheckedModeBanner: false,
       ),
     );

@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:repository_eyup/constant.dart';
-import 'package:repository_eyup/model/base_response.dart';
 import 'package:repository_eyup/model/city_model.dart';
 import 'package:repository_eyup/model/count_model.dart';
 
@@ -13,7 +12,7 @@ abstract class IRegisterRepository {
 
   Future<List<Counties>> getCounties(int cityId);
 
-  Future<BaseResponse> register(Map<String, dynamic> map);
+  Future<Map<String, dynamic>> register(Map<String, dynamic> map);
 }
 
 class RegisterRepository extends IRegisterRepository {
@@ -48,17 +47,34 @@ class RegisterRepository extends IRegisterRepository {
   }
 
   @override
-  Future<BaseResponse> register(Map<String, dynamic> body) async {
+  Future<Map<String, dynamic>> register(Map<String, dynamic> body) async {
     print(jsonEncode(body));
-    var res = await _dio
-        .post(Constant.baseUrl + Constant.register, data: body)
-        .catchError((onError) {
-      print(onError);
-    });
-    if (res.statusCode == 200) {
-      return Future.value(BaseResponse.fromJson(res.data));
-    } else {
-      return Future.error("Kayıt işlemi sırasında hata oluştu.");
+    try {
+      var res =
+          await _dio.post(Constant.baseUrl + Constant.register, data: body);
+
+      if (res.statusCode == 200) {
+        return Future.value(res.data);
+      } else {
+        return Future.error("Kayıt olurken bir hata oluştu.");
+      }
+    } catch (error) {
+      if (error is DioError) {
+        Map<String, dynamic> errorMessages = error.response?.data['errors'];
+        String errorText = '';
+
+        errorMessages.forEach((key, value) {
+          errorText += value[0] + '\n';
+        });
+
+        if (errorText.isNotEmpty) {
+          return Future.error(errorText);
+        } else {
+          return Future.error("Bilinmeyen bir hata oluştu.");
+        }
+      } else {
+        return Future.error("Bilinmeyen bir hata oluştu.");
+      }
     }
   }
 }

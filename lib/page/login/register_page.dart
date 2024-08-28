@@ -578,12 +578,12 @@ class _RegisterPageState extends State<RegisterPage> {
     body.putIfAbsent("neighborhood", () => mahalleController.text);
     registerController.register(body).then((value) {
       EasyLoading.dismiss();
-      if (value.success!) {
-        showToast(value.description ?? "", color: Colors.green);
-        Navigator.pop(context);
-      } else {
-        showToast(value.description ?? "", color: Colors.red);
-      }
+      // if (value.success!) {
+      //   showToast(value.description ?? "", color: Colors.green);
+      //   Navigator.pop(context);
+      // } else {
+      //   showToast(value.description ?? "", color: Colors.red);
+      // }
     }).catchError((onError) {
       EasyLoading.dismiss();
       showToast(onError, color: Colors.red);

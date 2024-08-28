@@ -10,6 +10,7 @@ import 'package:halisaha/help/app_context.dart';
 import 'package:halisaha/help/hex_color.dart';
 import 'package:halisaha/help/ui_guide.dart';
 import 'package:halisaha/help/utils.dart';
+import 'package:halisaha/page/login/pick_date.dart';
 import 'package:halisaha/widget/check_hizmet_sozlesmesi.dart';
 import 'package:halisaha/widget/custom_text_field.dart';
 import 'package:halisaha/widget/register_button.dart';
@@ -44,6 +45,7 @@ class _NewRegisterState extends State<NewRegister> {
   TextEditingController mahalleController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController idConteroller = TextEditingController();
   AutovalidateMode validate = AutovalidateMode.always;
   final _formKey = GlobalKey<FormState>();
   List<Gender> gender = [];
@@ -59,6 +61,7 @@ class _NewRegisterState extends State<NewRegister> {
   bool gizlilikPolitikasi = false;
   List<Counties>? countiesList = [];
   bool isPhoneValid = false;
+  String birthDate = "";
 
   @override
   void initState() {
@@ -132,6 +135,7 @@ class _NewRegisterState extends State<NewRegister> {
                                             vertical: 10),
                                         child: FadeInRight(
                                           child: InternationalPhoneNumberInput(
+                                            countries: const ['TR'],
                                             locale: "tr_TR",
                                             onInputChanged:
                                                 (PhoneNumber number) {
@@ -203,7 +207,7 @@ class _NewRegisterState extends State<NewRegister> {
                                             nameController: surnameController,
                                             validate: validate,
                                             hintText: "Soyadınız",
-                                            icon: Icons.person,
+                                            icon: Icons.badge,
                                             textInputType:
                                                 TextInputType.emailAddress,
                                           ),
@@ -225,6 +229,48 @@ class _NewRegisterState extends State<NewRegister> {
                                             textInputAction:
                                                 TextInputAction.done,
                                           ),
+                                          CustomTextField(
+                                            nameController: idConteroller,
+                                            validate: validate,
+                                            hintText: "TC Kimlik Numarası",
+                                            icon: Icons.credit_card,
+                                            textInputType: TextInputType.number,
+                                            textInputAction:
+                                                TextInputAction.done,
+                                            suffixIcon: IconButton(
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title:
+                                                          const Text("Bilgi"),
+                                                      content: const Text(
+                                                          "Kimlik numaranızı TC vatandaşı olduğunuzu kontrol etmek için kullanıyoruz ve hiçbir şekilde kaydetmiyoruz. Kontrol adına adınızı, soyadınızı ve doğum tarihinizi lütfen kimlikteki gibi giriniz."),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: const Text(
+                                                              "Tamam"),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              icon: const Icon(
+                                                Icons.info_outline,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 5),
+                                          PickDate(
+                                            onDateChanged: (value) =>
+                                                birthDate = value,
+                                          )
                                         ],
                                       ),
                                     ],
@@ -669,7 +715,9 @@ class _NewRegisterState extends State<NewRegister> {
         selectedCountry == 0 ||
         userNameController.text.isEmpty ||
         mahalleController.text.isEmpty ||
-        seciliAlan == null) {
+        seciliAlan == null ||
+        idConteroller.text.isEmpty ||
+        birthDate.isEmpty) {
       EasyLoading.dismiss();
       showToast("Tüm alanları doldurunuz...");
       return;
@@ -682,7 +730,7 @@ class _NewRegisterState extends State<NewRegister> {
     body.putIfAbsent(
         "tel",
         () => phoneNumber.isNotEmpty
-            ? phoneNumber.substring(2, phoneNumber.length)
+            ? phoneNumber.substring(3, phoneNumber.length)
             : "5555555555");
     body.putIfAbsent("city", () => selectedCity);
     body.putIfAbsent("county", () => selectedCountry);
@@ -691,6 +739,8 @@ class _NewRegisterState extends State<NewRegister> {
     body.putIfAbsent("gender", () => selectedGender);
     body.putIfAbsent("alan", () => '$seciliAlan');
     body.putIfAbsent("neighborhood", () => mahalleController.text);
+    body.putIfAbsent("idNumber", () => idConteroller.text);
+    body.putIfAbsent("birthDate", () => birthDate);
 
     check(body);
   }
@@ -698,13 +748,13 @@ class _NewRegisterState extends State<NewRegister> {
   void check(Map<String, dynamic> registerData) async {
     if (isPhoneValid) {
       registerController.register(registerData).then((value) {
-        if (value.success ?? false) {
+        if (value['success'] ?? false) {
           EasyLoading.dismiss();
           showToast('Kayıt Başarılı', color: Colors.green);
-          Navigator.pushNamed(context, "/loginwithnumber");
+          Navigator.pushReplacementNamed(context, "/loginwithnumber");
         } else {
           EasyLoading.dismiss();
-          showToast(value.description ?? "Kayıt Başarısız",
+          showToast(value['description'] ?? "Kayıt Başarısız",
               color: Colors.redAccent);
         }
       }).catchError((onError) {

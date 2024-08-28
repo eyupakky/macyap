@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
     this.hintText,
     this.textInputType,
     required this.icon,
+    this.suffixIcon,
     this.textInputAction,
   });
 
@@ -18,6 +19,7 @@ class CustomTextField extends StatelessWidget {
   final String? hintText;
   final TextInputType? textInputType;
   final IconData icon;
+  final Widget? suffixIcon;
   final TextInputAction? textInputAction;
 
   @override
@@ -37,6 +39,7 @@ class CustomTextField extends StatelessWidget {
           ),
           decoration: InputDecoration(
             prefixIcon: Icon(icon),
+            suffixIcon: suffixIcon,
             focusColor: Colors.black,
             hintText: hintText,
             hintStyle: GoogleFonts.montserrat(

@@ -30,7 +30,8 @@ class _LoginWithNumberState extends State<LoginWithNumber> {
           if (value["isSuccess"] ?? false) {
             value.putIfAbsent("phoneNumber", () => phoneNumber);
             EasyLoading.dismiss();
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) {
               return ConfirmPage(data: value);
             }));
           } else {
@@ -48,10 +49,7 @@ class _LoginWithNumberState extends State<LoginWithNumber> {
       }
     }
 
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
+    return PopScope(
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -131,6 +129,7 @@ class _LoginWithNumberState extends State<LoginWithNumber> {
                     FadeInRight(
                       child: InternationalPhoneNumberInput(
                         locale: "tr_TR",
+                        countries: const ["TR"],
                         onInputChanged: (PhoneNumber number) {
                           phoneNumber = number.phoneNumber!;
                         },

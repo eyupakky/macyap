@@ -269,10 +269,7 @@ class _MainListState extends State<MainList> with LocationMixin {
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
-          return WillPopScope(
-            onWillPop: () {
-              return Future.value(true);
-            },
+          return PopScope(
             child: AlertDialog(
               title: const Text("Uyarı"),
               content: const Text("Lütfen uygulamayı güncelleyiniz..."),
