@@ -47,6 +47,14 @@ class _NewRegisterState extends State<NewRegister> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController idConteroller = TextEditingController();
   AutovalidateMode validate = AutovalidateMode.always;
+  final FocusNode userNameFocusNode = FocusNode();
+  final FocusNode nameFocusNode = FocusNode();
+  final FocusNode surnameFocusNode = FocusNode();
+  final FocusNode emailFocusNode = FocusNode();
+  final FocusNode passwordFocusNode = FocusNode();
+  final FocusNode idFocusNode = FocusNode();
+  final FocusNode mahalleFocusNode = FocusNode();
+  final FocusNode phoneFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   List<Gender> gender = [];
   List<Gender> alan = [];
@@ -73,6 +81,14 @@ class _NewRegisterState extends State<NewRegister> {
       setState(() {
         if (_pageController.page != null) {
           _currentPage = _pageController.page!.toInt();
+          userNameFocusNode.unfocus();
+          nameFocusNode.unfocus();
+          surnameFocusNode.unfocus();
+          emailFocusNode.unfocus();
+          passwordFocusNode.unfocus();
+          idFocusNode.unfocus();
+          mahalleFocusNode.unfocus();
+          phoneFocusNode.unfocus();
         }
       });
     });
@@ -84,6 +100,20 @@ class _NewRegisterState extends State<NewRegister> {
     alan.add(Gender(1, 'Voleybol'));
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    userNameFocusNode.dispose();
+    nameFocusNode.dispose();
+    surnameFocusNode.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    idFocusNode.dispose();
+    mahalleFocusNode.dispose();
+    phoneFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -135,6 +165,7 @@ class _NewRegisterState extends State<NewRegister> {
                                             vertical: 10),
                                         child: FadeInRight(
                                           child: InternationalPhoneNumberInput(
+                                            focusNode: phoneFocusNode,
                                             countries: const ['TR'],
                                             locale: "tr_TR",
                                             onInputChanged:
@@ -188,6 +219,7 @@ class _NewRegisterState extends State<NewRegister> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           CustomTextField(
+                                            focusNode: userNameFocusNode,
                                             nameController: userNameController,
                                             validate: validate,
                                             hintText: "Kullanıcı adınız",
@@ -196,6 +228,7 @@ class _NewRegisterState extends State<NewRegister> {
                                                 TextInputType.emailAddress,
                                           ),
                                           CustomTextField(
+                                            focusNode: nameFocusNode,
                                             nameController: nameController,
                                             validate: validate,
                                             hintText: "Adınız",
@@ -204,6 +237,7 @@ class _NewRegisterState extends State<NewRegister> {
                                                 TextInputType.emailAddress,
                                           ),
                                           CustomTextField(
+                                            focusNode: surnameFocusNode,
                                             nameController: surnameController,
                                             validate: validate,
                                             hintText: "Soyadınız",
@@ -212,6 +246,7 @@ class _NewRegisterState extends State<NewRegister> {
                                                 TextInputType.emailAddress,
                                           ),
                                           CustomTextField(
+                                            focusNode: emailFocusNode,
                                             nameController: emailController,
                                             validate: validate,
                                             hintText: "E-posta adresiniz",
@@ -220,6 +255,7 @@ class _NewRegisterState extends State<NewRegister> {
                                                 TextInputType.emailAddress,
                                           ),
                                           CustomTextField(
+                                            focusNode: passwordFocusNode,
                                             nameController: passwordController,
                                             validate: validate,
                                             hintText: "Şifreniz",
@@ -230,6 +266,7 @@ class _NewRegisterState extends State<NewRegister> {
                                                 TextInputAction.done,
                                           ),
                                           CustomTextField(
+                                            focusNode: idFocusNode,
                                             nameController: idConteroller,
                                             validate: validate,
                                             hintText: "TC Kimlik Numarası",
@@ -246,7 +283,8 @@ class _NewRegisterState extends State<NewRegister> {
                                                       title:
                                                           const Text("Bilgi"),
                                                       content: const Text(
-                                                          "Kimlik numaranızı TC vatandaşı olduğunuzu kontrol etmek için kullanıyoruz ve hiçbir şekilde kaydetmiyoruz. Kontrol adına adınızı, soyadınızı ve doğum tarihinizi lütfen kimlikteki gibi giriniz."),
+                                                        "Kimlik numaranızı TC vatandaşı olduğunuzu kontrol etmek için kullanıyoruz ve hiçbir şekilde kaydetmiyoruz. Kontrol adına adınızı, soyadınızı ve doğum tarihinizi lütfen kimlikteki gibi giriniz.",
+                                                      ),
                                                       actions: [
                                                         TextButton(
                                                           onPressed: () {
@@ -591,6 +629,7 @@ class _NewRegisterState extends State<NewRegister> {
                                               }),
                                         ),
                                         CustomTextField(
+                                          focusNode: mahalleFocusNode,
                                           nameController: mahalleController,
                                           validate: validate,
                                           hintText: "Mahalle",

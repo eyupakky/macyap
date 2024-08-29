@@ -8,7 +8,7 @@ class Constant {
   static int userId = 0;
   static String testbaseUrl = "http://78.111.98.76:5241/";
   // static String baseUrl = "http://78.111.98.76:1505/";
-  static String baseUrl = "https://gfjn0k3m-65521.euw.devtunnels.ms/";
+  static String baseUrl = "https://7hqslz0p-65521.euw.devtunnels.ms/";
 
   // Register
   static String login = "Home/Login";

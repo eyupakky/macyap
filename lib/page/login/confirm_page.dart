@@ -23,8 +23,9 @@ class _ConfirmPageState extends State<ConfirmPage> {
 
   late final SmsRetriever smsRetriever;
   late final TextEditingController pinController;
-  late final FocusNode focusNode;
+  late final ScrollController scrollController;
   late final GlobalKey<FormState> formKey;
+  late final FocusNode focusNode;
   late final int userId;
   String phoneNumber = '';
 
@@ -35,14 +36,16 @@ class _ConfirmPageState extends State<ConfirmPage> {
     userId = widget.data!["userId"];
     formKey = GlobalKey<FormState>();
     pinController = TextEditingController();
-    focusNode = FocusNode();
     smsRetriever = SmsRetrieverImpl(SmartAuth());
+    focusNode = FocusNode();
+    scrollController = ScrollController();
   }
 
   @override
   void dispose() {
     pinController.dispose();
     focusNode.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -100,6 +103,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          controller: scrollController,
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
             child: Padding(
@@ -117,7 +121,9 @@ class _ConfirmPageState extends State<ConfirmPage> {
                     ),
                     Column(
                       children: [
-                        const Text("Doğrulama kodu şuraya gönderildi",
+                        const Text(
+                            textAlign: TextAlign.center,
+                            "Doğrulama kodu şuraya gönderildi",
                             style: TextStyle(fontSize: 18)),
                         const SizedBox(height: 10),
                         Text(
@@ -129,63 +135,68 @@ class _ConfirmPageState extends State<ConfirmPage> {
                         ),
                       ],
                     ),
-                    Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: Pinput(
-                        errorBuilder: (errorText, pin) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                textAlign: TextAlign.center,
-                                errorText ?? '',
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 14,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Pinput(
+                          errorBuilder: (errorText, pin) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  textAlign: TextAlign.center,
+                                  errorText ?? '',
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                        smsRetriever: smsRetriever,
-                        length: 6,
-                        controller: pinController,
-                        focusNode: focusNode,
-                        defaultPinTheme: defaultPinTheme,
-                        separatorBuilder: (index) => const SizedBox(width: 8),
-                        // validator: (value) {
-                        //   return value == correctPin
-                        //       ? null
-                        //       : 'Doğrulama Kodu Hatalı';
-                        // },
-                        hapticFeedbackType: HapticFeedbackType.lightImpact,
-                        cursor: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 9),
-                              width: 22,
-                              height: 1,
-                              color: focusedBorderColor,
-                            ),
-                          ],
-                        ),
-                        focusedPinTheme: defaultPinTheme.copyWith(
-                          decoration: defaultPinTheme.decoration!.copyWith(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: focusedBorderColor),
+                            );
+                          },
+                          focusNode: focusNode,
+                          smsRetriever: smsRetriever,
+                          length: 6,
+                          controller: pinController,
+                          defaultPinTheme: defaultPinTheme,
+                          separatorBuilder: (index) => const SizedBox(width: 8),
+                          hapticFeedbackType: HapticFeedbackType.lightImpact,
+                          onTap: () {
+                            scrollController.animateTo(
+                              scrollController.position.maxScrollExtent,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeOut,
+                            );
+                          },
+                          cursor: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 9),
+                                width: 22,
+                                height: 1,
+                                color: focusedBorderColor,
+                              ),
+                            ],
                           ),
-                        ),
-                        submittedPinTheme: defaultPinTheme.copyWith(
-                          decoration: defaultPinTheme.decoration!.copyWith(
-                            color: fillColor,
-                            borderRadius: BorderRadius.circular(19),
-                            border: Border.all(color: focusedBorderColor),
+                          focusedPinTheme: defaultPinTheme.copyWith(
+                            decoration: defaultPinTheme.decoration!.copyWith(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: focusedBorderColor),
+                            ),
                           ),
-                        ),
-                        errorPinTheme: defaultPinTheme.copyBorderWith(
-                          border: Border.all(color: Colors.redAccent),
+                          submittedPinTheme: defaultPinTheme.copyWith(
+                            decoration: defaultPinTheme.decoration!.copyWith(
+                              color: fillColor,
+                              borderRadius: BorderRadius.circular(19),
+                              border: Border.all(color: focusedBorderColor),
+                            ),
+                          ),
+                          errorPinTheme: defaultPinTheme.copyBorderWith(
+                            border: Border.all(color: Colors.redAccent),
+                          ),
                         ),
                       ),
                     ),
@@ -195,12 +206,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
                       ),
                       onPressed: () {
                         focusNode.unfocus();
-                        // final answer = formKey.currentState!.validate();
-
-                        // if (answer) {
-                        //   login();
-                        // }
-
                         login(
                             int.tryParse(pinController.text) ?? 000000, userId);
                       },
