@@ -23,6 +23,8 @@ import 'package:repository_eyup/model/city_model.dart';
 import 'package:repository_eyup/model/count_model.dart';
 import 'package:repository_eyup/model/gender.dart';
 
+bool sartlarVeKosullar = false;
+
 class NewRegister extends StatefulWidget {
   const NewRegister({super.key});
 
@@ -65,7 +67,6 @@ class _NewRegisterState extends State<NewRegister> {
   int? selectedGender = 0;
   String? seciliAlan = "Futbol";
   List<Cities>? cityList = [];
-  bool sartlarVeKosullar = false;
   bool gizlilikPolitikasi = false;
   List<Counties>? countiesList = [];
   bool isPhoneValid = false;

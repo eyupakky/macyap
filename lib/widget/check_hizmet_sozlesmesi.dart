@@ -4,6 +4,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'custom_button.dart';
 
+bool check = false;
+
 class CheckBoxHizmetButton extends StatefulWidget {
   final String text1;
   final String text2;
@@ -23,8 +25,6 @@ class CheckBoxHizmetButton extends StatefulWidget {
 }
 
 class _CheckBoxButtonState extends State<CheckBoxHizmetButton> {
-  bool check = false;
-
   @override
   void initState() {
     super.initState();
