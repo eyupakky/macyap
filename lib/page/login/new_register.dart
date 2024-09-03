@@ -160,7 +160,6 @@ class _NewRegisterState extends State<NewRegister> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      SizedBox(height: 50),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10),
@@ -270,7 +269,7 @@ class _NewRegisterState extends State<NewRegister> {
                                             focusNode: idFocusNode,
                                             nameController: idConteroller,
                                             validate: validate,
-                                            hintText: "TC Kimlik Numarası",
+                                            hintText: "TC Kimlik Numaranız",
                                             icon: Icons.credit_card,
                                             textInputType: TextInputType.number,
                                             textInputAction:
