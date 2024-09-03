@@ -106,6 +106,15 @@ class _NewRegisterState extends State<NewRegister> {
   @override
   void dispose() {
     _pageController.dispose();
+    emailController.dispose();
+    userNameController.dispose();
+    nameController.dispose();
+    surnameController.dispose();
+    mahalleController.dispose();
+    cityController.dispose();
+    passwordController.dispose();
+    idConteroller.dispose();
+
     userNameFocusNode.dispose();
     nameFocusNode.dispose();
     surnameFocusNode.dispose();
