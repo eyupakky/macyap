@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +17,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(milliseconds: 2000), () {
       getAccessToken(context);
       // _notification();
     });
@@ -25,13 +25,24 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: Image.asset("assets/images/giris_ng.jpg").image,
-              fit: BoxFit.fill)),
-      child: Center(child: Image.asset("assets/test.png")),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Padding(
+            padding: const EdgeInsets.all(50),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(color: Colors.red, "assets/test.png"),
+                Lottie.asset("assets/images/footbaall.json"),
+                const CircularProgressIndicator(),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
