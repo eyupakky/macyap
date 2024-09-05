@@ -6,6 +6,7 @@ import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/page/login/confirm_page.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:repository_eyup/controller/login_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginWithNumber extends StatefulWidget {
   const LoginWithNumber({super.key});
@@ -167,7 +168,7 @@ class _LoginWithNumberState extends State<LoginWithNumber> {
                       ),
                     ),
                     const SizedBox(height: 50),
-                    FadeInUp(
+                    FadeInRight(
                       duration: const Duration(milliseconds: 1900),
                       child: GestureDetector(
                         onTap: () => login(),
@@ -196,14 +197,67 @@ class _LoginWithNumberState extends State<LoginWithNumber> {
                     ),
                     const SizedBox(height: 20),
                     FadeInUp(
-                      duration: const Duration(milliseconds: 2000),
                       child: TextButton(
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          minimumSize: const Size(40, 30),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        onPressed: () {
+                          String path =
+                              "https://macyap.com.tr/tr/account/settings#tel";
+
+                          Uri uri = Uri.parse(path);
+                          launchUrl(uri);
+                        },
+                        child: RichText(
+                          text: const TextSpan(
+                            text: "Telefon numaran mı yok? ",
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.black,
+                                fontFamily: "Montserrat-bold"),
+                            children: [
+                              TextSpan(
+                                text: "Sitemizden ekle",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontFamily: "Montserrat-bold",
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    FadeInUp(
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          minimumSize: const Size(40, 30),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
                         onPressed: () {
                           Navigator.pushReplacementNamed(
                               context, "/newRegister");
                         },
-                        child: const Text("Üye değil misin?",
-                            style: TextStyle(color: Colors.red)),
+                        child: RichText(
+                          text: const TextSpan(
+                            text: "Hesabınız yok mu? ",
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontFamily: "Montserrat-bold",
+                                color: Colors.black),
+                            children: [
+                              TextSpan(
+                                text: "Üye Ol",
+                                style: TextStyle(
+                                    fontFamily: "Montserrat-bold",
+                                    color: Colors.red),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ],

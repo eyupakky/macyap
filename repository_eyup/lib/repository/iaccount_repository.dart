@@ -215,13 +215,11 @@ class AccountRepository extends IAccountRepository {
       "old_password": oldPass,
       "new_password_one": newPass,
       "new_password_two": newPassValid
-    }).catchError((onError) {
-      return Future.error(onError);
     });
     if (res.statusCode == 200 && res.data["success"]) {
       return Future.value(BaseResponse.fromJson(res.data));
     }
-    return Future.error(res.data["success"]);
+    return Future.error(res.data["description"]);
   }
 
   @override
