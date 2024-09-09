@@ -49,9 +49,9 @@ class _ConfirmPageState extends State<ConfirmPage> {
     super.dispose();
   }
 
-  Future<void> login(int code, int userId) async {
+  Future<void> login(int code, int userId, String phone) async {
     EasyLoading.show(status: "Kontrol ediliyor...");
-    _loginController.smsVerification(code, userId).then((value) {
+    _loginController.smsVerification(code, userId, phone).then((value) {
       if (value["isSuccess"] ?? false) {
         EasyLoading.dismiss();
         Constant.accessToken = value["userToken"];
@@ -77,7 +77,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
     }).catchError((err) {
       EasyLoading.dismiss();
       showToast(err, color: Colors.redAccent);
-      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, "/loginwithnumber");
     });
   }
 
@@ -206,8 +206,8 @@ class _ConfirmPageState extends State<ConfirmPage> {
                       ),
                       onPressed: () {
                         focusNode.unfocus();
-                        login(
-                            int.tryParse(pinController.text) ?? 000000, userId);
+                        login(int.tryParse(pinController.text) ?? 000000,
+                            userId, phoneNumber.substring(3));
                       },
                       child: const Text(
                         "Devam Et",

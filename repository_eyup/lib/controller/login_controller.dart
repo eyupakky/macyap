@@ -16,7 +16,17 @@ class LoginController {
     return Future.value(loginRepository.help(map));
   }
 
-  Future<Map<String, dynamic>> smsVerification(int code, int userId) {
-    return Future.value(loginRepository.smsVerification(code, userId));
+  Future<Map<String, dynamic>> smsVerification(
+      int code, int userId, String phone) {
+    return Future.value(loginRepository.smsVerification(code, userId, phone));
+  }
+
+  Future<Map<String, dynamic>> phoneIsVerified(String token) {
+    return Future.value(loginRepository.phoneIsVerified(token));
+  }
+
+  Future<Map<String, dynamic>> phoneVerification(
+      String phoneNumber, String token) {
+    return Future.value(loginRepository.phoneVerification(phoneNumber, token));
   }
 }

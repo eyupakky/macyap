@@ -288,7 +288,7 @@ class _NewRegisterState extends State<NewRegister> {
                                                 showDialog(
                                                   context: context,
                                                   builder: (context) {
-                                                    return AlertDialog(
+                                                    return AlertDialog.adaptive(
                                                       title:
                                                           const Text("Bilgi"),
                                                       content: const Text(

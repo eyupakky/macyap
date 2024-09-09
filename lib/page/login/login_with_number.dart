@@ -204,29 +204,51 @@ class _LoginWithNumberState extends State<LoginWithNumber> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () {
-                          String path =
-                              "https://macyap.com.tr/tr/account/settings#tel";
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog.adaptive(
+                                  title: const Text("Bilgi"),
+                                  content: const Text(
+                                      "Eski kullanıcı iseniz telefon numaranızı sitemizden güncelleyebilirsiniz. \n \n Giriş Yap > Ayarlar > Telefon Numarası"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("Kapat"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        String path =
+                                            "https://macyap.com.tr/tr/account/settings#tel";
 
-                          Uri uri = Uri.parse(path);
-                          launchUrl(uri);
+                                        Uri uri = Uri.parse(path);
+                                        launchUrl(uri);
+                                      },
+                                      child: const Text("Siteye Git"),
+                                    ),
+                                  ],
+                                );
+                              });
                         },
-                        child: RichText(
-                          text: const TextSpan(
-                            text: "Telefon numaran mı yok? ",
-                            style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.black,
-                                fontFamily: "Montserrat-bold"),
-                            children: [
-                              TextSpan(
-                                text: "Sitemizden ekle",
-                                style: TextStyle(
-                                  color: Colors.red,
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Giriş yapamıyor musunuz?",
+                              style: TextStyle(
+                                  fontSize: 13,
                                   fontFamily: "Montserrat-bold",
-                                ),
-                              ),
-                            ],
-                          ),
+                                  color: Colors.black),
+                            ),
+                            SizedBox(width: 5),
+                            Icon(
+                              Icons.help,
+                              color: Colors.red,
+                            ),
+                          ],
                         ),
                       ),
                     ),

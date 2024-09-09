@@ -27,6 +27,7 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:halisaha/page/home/turnuva_list.dart';
+import 'package:halisaha/page/login/add_phone.dart';
 import 'package:halisaha/page/login/confirm_page.dart';
 import 'package:halisaha/page/login/forgat_my_password.dart';
 import 'package:halisaha/page/login/help.dart';
@@ -256,6 +257,7 @@ class _MyAppState extends State<MyApp> {
           "/turnuva": (context) => const TurnuvaList(),
           "/promosyonKodu": (context) => const PromosyonKoduPage(),
           "/confirmpage": (context) => const ConfirmPage(),
+          "/addphone": (context) => const AddPhone(),
         },
         localizationsDelegates: const [
           DefaultMaterialLocalizations.delegate,

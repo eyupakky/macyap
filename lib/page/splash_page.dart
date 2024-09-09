@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:halisaha/help/utils.dart';
+import 'package:halisaha/page/login/add_phone.dart';
 import 'package:lottie/lottie.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
+import 'package:repository_eyup/controller/login_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashPage extends StatefulWidget {
@@ -13,6 +16,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   final HomeController _homeController = HomeController();
+  final LoginController _loginController = LoginController();
 
   @override
   void initState() {
@@ -47,6 +51,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void getAccessToken(BuildContext context) {
+    bool isVerified = false;
     SharedPreferences.getInstance().then((value) {
       String? token = value.getString("accessToken");
       String? userName = value.getString("username");
@@ -61,14 +66,35 @@ class _SplashPageState extends State<SplashPage> {
         Constant.surname = surname!;
         Constant.image = image!;
         Constant.userId = int.parse('$userId');
-        _homeController.getActiveControl().then((res) {
-          if (res.success) {
-            Navigator.pushReplacementNamed(context, "/home");
-          } else {
-            value.clear();
-            Navigator.pushReplacementNamed(context, "/loginwithnumber");
-          }
-        });
+
+        _loginController.phoneIsVerified(token).then(
+          (data) {
+            if (data["status"]) {
+              isVerified = true;
+            } else {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddPhone(token: token),
+                ),
+              );
+            }
+          },
+        ).catchError((err) {
+          showToast(err, color: Colors.redAccent);
+          isVerified = false;
+        }).then(
+          (_) {
+            _homeController.getActiveControl().then((res) {
+              if (res.success && isVerified) {
+                Navigator.pushReplacementNamed(context, "/home");
+              } else {
+                value.clear();
+                Navigator.pushReplacementNamed(context, "/loginwithnumber");
+              }
+            });
+          },
+        );
       } else {
         Navigator.pushReplacementNamed(context, "/loginwithnumber");
       }

@@ -15,6 +15,8 @@ class Constant {
   // static String loginWithPhone = "Home/LoginWithPhone";
   static String loginWithPhone = "sms-login";
   static String smsVerification = "sms-verification";
+  static String phoneIsVerified = "phone-is-verificated";
+  static String phoneVerification = "phone-verification";
   static String help = "Support/Help";
   static String register = "Home/Register";
   static String getCounties = "Home/GetCounties";
