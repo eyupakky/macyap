@@ -17,8 +17,8 @@ class _CreateGamePageState extends State<CreateGamePage> {
   DateTime selectedDate = DateTime.now();
   TextEditingController timeCtl = TextEditingController();
   TextEditingController dateController = TextEditingController();
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  // TextEditingController titleController = TextEditingController();
+  // TextEditingController descriptionController = TextEditingController();
 
   final format = DateFormat("dd-MM-yyyy");
 
@@ -144,57 +144,57 @@ class _CreateGamePageState extends State<CreateGamePage> {
                       return null;
                     },
                   ),
-                  TextFormField(
-                    maxLines: 1,
-                    controller: titleController,
-                    textInputAction: TextInputAction.search,
-                    onChanged: (String val) {
-                      // comment = val;
-                    },
-                    validator: (val) {
-                      return val!.isNotEmpty ? null : Strings.fieldReq;
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Başlık *",
-                      icon: const Icon(
-                        Icons.title,
-                        color: Colors.redAccent,
-                      ),
-                      labelStyle: const TextStyle(fontSize: 11),
-                      hintStyle: TextStyle(
-                          fontSize: 12, color: Colors.grey.withAlpha(150)),
-                      // prefixIcon: const Icon(Icons.search),
-                      // border: const OutlineInputBorder(
-                      //     borderRadius: BorderRadius.all(
-                      //         Radius.circular(25.0)))
-                    ),
-                  ),
-                  TextFormField(
-                    textInputAction: TextInputAction.search,
-                    onChanged: (String val) {
-                      // comment = val;
-                    },
-                    validator: (val) {
-                      return val!.isNotEmpty ? null : Strings.fieldReq;
-                    },
-                    minLines: 3,
-                    maxLines: 4,
-                    controller: descriptionController,
-                    decoration: InputDecoration(
-                      hintText: "Açıklama *",
-                      icon: const Icon(
-                        Icons.description,
-                        color: Colors.redAccent,
-                      ),
-                      labelStyle: const TextStyle(fontSize: 11),
-                      hintStyle: TextStyle(
-                          fontSize: 12, color: Colors.grey.withAlpha(150)),
-                      // prefixIcon: const Icon(Icons.search),
-                      // border: const OutlineInputBorder(
-                      //     borderRadius: BorderRadius.all(
-                      //         Radius.circular(25.0)))
-                    ),
-                  ),
+                  // TextFormField(
+                  //   maxLines: 1,
+                  //   controller: titleController,
+                  //   textInputAction: TextInputAction.search,
+                  //   onChanged: (String val) {
+                  //     // comment = val;
+                  //   },
+                  //   validator: (val) {
+                  //     return val!.isNotEmpty ? null : Strings.fieldReq;
+                  //   },
+                  //   decoration: InputDecoration(
+                  //     hintText: "Başlık *",
+                  //     icon: const Icon(
+                  //       Icons.title,
+                  //       color: Colors.redAccent,
+                  //     ),
+                  //     labelStyle: const TextStyle(fontSize: 11),
+                  //     hintStyle: TextStyle(
+                  //         fontSize: 12, color: Colors.grey.withAlpha(150)),
+                  //     // prefixIcon: const Icon(Icons.search),
+                  //     // border: const OutlineInputBorder(
+                  //     //     borderRadius: BorderRadius.all(
+                  //     //         Radius.circular(25.0)))
+                  //   ),
+                  // ),
+                  // TextFormField(
+                  //   textInputAction: TextInputAction.search,
+                  //   onChanged: (String val) {
+                  //     // comment = val;
+                  //   },
+                  //   validator: (val) {
+                  //     return val!.isNotEmpty ? null : Strings.fieldReq;
+                  //   },
+                  //   minLines: 3,
+                  //   maxLines: 4,
+                  //   controller: descriptionController,
+                  //   decoration: InputDecoration(
+                  //     hintText: "Açıklama *",
+                  //     icon: const Icon(
+                  //       Icons.description,
+                  //       color: Colors.redAccent,
+                  //     ),
+                  //     labelStyle: const TextStyle(fontSize: 11),
+                  //     hintStyle: TextStyle(
+                  //         fontSize: 12, color: Colors.grey.withAlpha(150)),
+                  //     // prefixIcon: const Icon(Icons.search),
+                  //     // border: const OutlineInputBorder(
+                  //     //     borderRadius: BorderRadius.all(
+                  //     //         Radius.circular(25.0)))
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -240,12 +240,11 @@ class _CreateGamePageState extends State<CreateGamePage> {
   }
 
   void navigate() {
-    gameMode.gameDesc = descriptionController.text;
-    gameMode.gameTitle = titleController.text;
+    gameMode.gameDesc = 'Açıklama';
+    gameMode.gameTitle = 'Başlık';
     //21-01-2022 02:02
     gameMode.gameDate = dateController.text + ' ' + timeCtl.text;
-    Navigator.of(context).push(createRoute(CreateGameAddress(
-      gameModel: gameMode,
-    )));
+    Navigator.of(context)
+        .push(createRoute(CreateGameAddress(gameModel: gameMode)));
   }
 }

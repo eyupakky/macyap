@@ -18,21 +18,21 @@ class CreateGame {
 
   CreateGame(
       {this.accessToken,
-        this.gameTitle,
-        this.gameDesc,
-        this.gameDate,
-        this.gameLimit,
-        this.gender,
-        this.venueId,
-        this.gamePrice,
-        this.gameType,
-        this.tagler,
-        this.ozelSahaAdress,
-        this.ozelSahaTel,
-        this.ozelSahaIsim,
-        this.ozelOyun,
-        this.ksha,
-        this.ksha1});
+      this.gameTitle,
+      this.gameDesc,
+      this.gameDate,
+      this.gameLimit,
+      this.gender,
+      this.venueId,
+      this.gamePrice,
+      this.gameType,
+      this.tagler,
+      this.ozelSahaAdress,
+      this.ozelSahaTel,
+      this.ozelSahaIsim,
+      this.ozelOyun,
+      this.ksha,
+      this.ksha1});
 
   CreateGame.fromJson(Map<String, dynamic> json) {
     accessToken = json['access_token'];
@@ -71,6 +71,7 @@ class CreateGame {
     data['ozel_oyun'] = ozelOyun;
     data['ksha'] = ksha;
     data['ksha_1'] = ksha1;
+
     return data;
   }
 }

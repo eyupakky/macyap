@@ -252,7 +252,7 @@ class _CreateGameTeamState extends State<CreateGameTeam> {
           context, "/home", ModalRoute.withName('/createGame'));
     }).catchError((onError) {
       EasyLoading.dismiss();
-      showToast(onError);
+      showToast(onError, color: Colors.red);
     });
   }
 }

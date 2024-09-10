@@ -155,31 +155,53 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
 
   Widget comboWidget() {
     return DropdownSearch<Venues>(
-        popupProps:
-            const PopupProps.menu(showSelectedItems: true, showSearchBox: true),
-        itemAsString: (u) => u.name!,
-        onChanged: (d) {
-          selectedItem = d!;
-        },
-        enabled: true,
-        dropdownButtonProps: const DropdownButtonProps(
-          icon: Icon(
-            Icons.arrow_drop_down,
-            size: 24,
-            color: Colors.white60,
+      popupProps: PopupProps.menu(
+        showSelectedItems: true,
+        showSearchBox: true,
+        searchFieldProps: TextFieldProps(
+          decoration: InputDecoration(
+            hintText: 'Arama yapın...',
+            hintStyle: const TextStyle(color: Colors.grey),
+            border: const OutlineInputBorder(borderSide: BorderSide.none),
+            filled: true,
+            fillColor: Colors.grey[200], // Arama kutusunun arka plan rengi
           ),
         ),
-        items: venusModel.venues!,
-        dropdownDecoratorProps: DropDownDecoratorProps(
-            dropdownSearchDecoration: InputDecoration(
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: HexColor.fromHex("#f0243a")),
+      ),
+      itemAsString: (u) => u.name ?? 'Saha Seçiniz',
+      onChanged: (d) {
+        if (d != null) {
+          selectedItem = d;
+        }
+      },
+      enabled: true,
+      dropdownButtonProps: const DropdownButtonProps(
+        icon: Icon(
+          Icons.arrow_drop_down,
+          size: 24,
+          color: Colors.black,
+        ),
+      ),
+      compareFn: (Venues a, Venues b) => a.id == b.id,
+      items: venusModel.venues!,
+      dropdownDecoratorProps: DropDownDecoratorProps(
+        dropdownSearchDecoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: HexColor.fromHex("#f0243a"), width: 1.5),
           ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: HexColor.fromHex("#f0243a")),
+          focusedBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: HexColor.fromHex("#f0243a"), width: 1.5),
           ),
-        )),
-        selectedItem: selectedItem);
+          disabledBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: HexColor.fromHex("#f0243a"), width: 1.5),
+          ),
+        ),
+      ),
+      selectedItem: selectedItem,
+    );
   }
 
   Widget kendiSahamVar() {
@@ -282,9 +304,17 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
       game.ozelSahaIsim = nameController.text;
       game.ozelSahaTel = phoneNumber;
     }
-    if (selectedItem.id != 0) {
+
+    if (selectedItem.id != 0 && selectedItem.id != null) {
       game.venueId = selectedItem.id;
+    } else {
+      showToast("Lütfen mekan seçiniz.");
+      return;
     }
+
+    widget.gameModel.gameDesc = selectedItem.name;
+    widget.gameModel.gameTitle = selectedItem.name;
+
     Navigator.of(context).push(createRoute(CreateGameTeam(
       game: widget.gameModel,
     )));
