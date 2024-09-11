@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/base_widget.dart';
+import 'package:halisaha/page/login/add_phone.dart';
 import 'package:repository_eyup/constant.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/model/account_model.dart';
@@ -22,7 +23,8 @@ class AccountPage extends StatelessWidget {
             children: [
               Container(
                   alignment: Alignment.center,
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(5),
+                  decoration: const BoxDecoration(color: Colors.white),
                   child: Text(
                     Constant.userName,
                     style: const TextStyle(
@@ -41,59 +43,89 @@ class AccountPage extends StatelessWidget {
                           itemCount: data!.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            return ListTile(
-                              onTap: () {
-                                if (data[index].route == "/profile") {
-                                  Navigator.pushNamed(
-                                      context, data[index].route,
-                                      arguments: Constant.userId);
-                                } else if (data[index].route ==
-                                    "/removeAccount") {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext contx) {
-                                        return AlertDialog(
-                                          title: const Text(
-                                              'Kullanıcını Silmek istediğine emin misin ?'),
-                                          actions: [
-                                            MaterialButton(
-                                              // FlatButton widget is used to make a text to work like a button
-                                              textColor: Colors.black,
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              }, // function used to perform after pressing the button
-                                              child: const Text('İptal'),
-                                            ),
-                                            MaterialButton(
-                                              textColor: Colors.black,
-                                              onPressed: () {
-                                                deleteAccount(context);
-                                              },
-                                              child: const Text('Onayla'),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                } else if (data[index].route != "/exit") {
-                                  Navigator.pushNamed(
-                                      context, data[index].route);
-                                } else {
-                                  exitApp(context);
-                                }
-                              },
-                              title: Text(
-                                data[index].item,
-                                style: const TextStyle(fontSize: 13),
-                              ),
-                              leading: Container(
-                                height: 35,
-                                width: 35,
-                                margin: const EdgeInsets.only(right: 8),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Icon(data[index].icon),
+                            return Column(
+                              children: [
+                                ListTile(
+                                  onTap: () {
+                                    if (data[index].token != null) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => AddPhone(
+                                              token: data[index].token!),
+                                        ),
+                                      );
+                                    } else if (data[index].route ==
+                                        "/profile") {
+                                      Navigator.pushNamed(
+                                          context, data[index].route,
+                                          arguments: Constant.userId);
+                                    } else if (data[index].route ==
+                                        "/removeAccount") {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext contx) {
+                                            return AlertDialog(
+                                              title: const Text(
+                                                  'Kullanıcını Silmek istediğine emin misin ?'),
+                                              actions: [
+                                                MaterialButton(
+                                                  // FlatButton widget is used to make a text to work like a button
+                                                  textColor: Colors.black,
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  }, // function used to perform after pressing the button
+                                                  child: const Text('İptal'),
+                                                ),
+                                                MaterialButton(
+                                                  textColor: Colors.black,
+                                                  onPressed: () {
+                                                    deleteAccount(context);
+                                                  },
+                                                  child: const Text('Onayla'),
+                                                ),
+                                              ],
+                                            );
+                                          });
+                                    } else if (data[index].route != "/exit") {
+                                      Navigator.pushNamed(
+                                          context, data[index].route);
+                                    } else {
+                                      exitApp(context);
+                                    }
+                                  },
+                                  title: Text(
+                                    data[index].item,
+                                    style: const TextStyle(fontSize: 13),
+                                  ),
+                                  leading: CircleAvatar(
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 216, 120, 120)
+                                            .withOpacity(0.2),
+                                    child: SizedBox(
+                                      height: 35,
+                                      width: 35,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Center(
+                                          child: Icon(
+                                              color: Colors.red,
+                                              data[index].icon),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Divider(
+                                    height: 1,
+                                    color: Colors.grey.withOpacity(0.5),
+                                  ),
+                                ),
+                              ],
                             );
                           });
                     }),

@@ -84,7 +84,10 @@ class AccountRepository extends IAccountRepository {
     list.add(AccountModel(
         route: "/email", item: "Email güncelleme", icon: Icons.email));
     list.add(AccountModel(
-        route: "/password", item: "Şifre güncelleme", icon: Icons.password));
+        route: "/addphone",
+        item: "Telefon güncelleme",
+        icon: Icons.phone,
+        token: Constant.accessToken));
     list.add(AccountModel(
         route: "/organizator",
         item: "Organizatör Ol",

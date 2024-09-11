@@ -148,27 +148,29 @@ class _HomePageState extends State<HomePage> {
             children: [
               LayoutBuilder(builder: (context, constraints) {
                 this.constraints = constraints;
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 40),
-                  child: changeBottomItem(_selectedIndex),
-                );
+                return changeBottomItem(_selectedIndex);
               }),
-              Visibility(
-                visible: visib,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 40,
-                    color: Colors.red,
-                    alignment: Alignment.center,
-                    child: TextScroll(
-                      text,
-                      intervalSpaces: 10,
-                      velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
+              Builder(builder: (context) {
+                if (visib) {
+                  return Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 40,
+                      color: Colors.red,
+                      alignment: Alignment.center,
+                      child: TextScroll(
+                        style: const TextStyle(color: Colors.white),
+                        text,
+                        intervalSpaces: 10,
+                        velocity:
+                            const Velocity(pixelsPerSecond: Offset(50, 0)),
+                      ),
                     ),
-                  ),
-                ),
-              )
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              }),
             ],
           ),
         ),
@@ -464,8 +466,8 @@ class _HomePageState extends State<HomePage> {
 
   getTextList() {
     _homeController.getText().then((value) {
-      visib = value.success;
-      if (value.success) {
+      if (value.success && value.text.isNotEmpty) {
+        visib = true;
         setState(() {
           text = value.text;
         });

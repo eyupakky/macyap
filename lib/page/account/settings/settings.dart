@@ -35,8 +35,17 @@ class _SettingsPageState extends State<SettingsPage> {
   late Uint8List decoded;
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    _nameController.dispose();
+    _surnameController.dispose();
+    _usernameController.dispose();
+    super.dispose();
+  }
+
+  void _updateControllers(User user) {
+    _nameController.text = user.firstname!;
+    _surnameController.text = user.lastname!;
+    _usernameController.text = user.username!;
   }
 
   @override
@@ -74,9 +83,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     } else {
                       User user = snapshot.data!;
 
-                      _nameController.text = user.firstname!;
-                      _surnameController.text = user.lastname!;
-                      _usernameController.text = user.username!;
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _updateControllers(user);
+                      });
                       return Stack(
                         children: <Widget>[
                           Container(

@@ -6,9 +6,10 @@ class Constant {
   static String surname = "";
   static String image = "";
   static int userId = 0;
-  static String testbaseUrl = "http://78.111.98.76:5241/";
+  static String testbaseUrl = "http://163.172.76.107/";
   // static String baseUrl = "http://78.111.98.76:1505/";
-  static String baseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
+  //static String baseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
+  static String baseUrl = "http://163.172.76.107/";
 
   // Register
   static String login = "Home/Login";

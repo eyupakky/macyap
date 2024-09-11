@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/base_widget.dart';
@@ -11,6 +12,7 @@ import 'package:halisaha/widget/filter_drawer.dart';
 import 'package:halisaha/widget/search_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:launch_review/launch_review.dart';
+import 'package:lottie/lottie.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/controller/firebase_controller.dart';
@@ -178,9 +180,19 @@ class _MainListState extends State<MainList> with LocationMixin {
                                     height: 200,
                                     child: Center(
                                         child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         snapshot.data == null
-                                            ? const CircularProgressIndicator()
+                                            ? Column(
+                                                children: [
+                                                  Lottie.asset(
+                                                      "assets/images/footbaall.json",
+                                                      width: 100,
+                                                      height: 100),
+                                                  const SizedBox(height: 10),
+                                                ],
+                                              )
                                             : const SizedBox(),
                                         Text(snapshot.data == null
                                             ? "Maç aranıyor..."
@@ -216,7 +228,7 @@ class _MainListState extends State<MainList> with LocationMixin {
               return Container(
                 width: 50,
                 height: 50,
-                margin: const EdgeInsets.only(bottom: 50),
+                margin: const EdgeInsets.only(bottom: 30),
                 child: FloatingActionButton.small(
                   onPressed: () {
                     Navigator.pushNamed(context, "/createGame");

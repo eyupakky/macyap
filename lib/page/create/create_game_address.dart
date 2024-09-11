@@ -164,7 +164,7 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
             hintStyle: const TextStyle(color: Colors.grey),
             border: const OutlineInputBorder(borderSide: BorderSide.none),
             filled: true,
-            fillColor: Colors.grey[200], // Arama kutusunun arka plan rengi
+            fillColor: Colors.grey[200],
           ),
         ),
       ),
@@ -308,7 +308,7 @@ class _CreateGameAddressState extends State<CreateGameAddress> {
     if (selectedItem.id != 0 && selectedItem.id != null) {
       game.venueId = selectedItem.id;
     } else {
-      showToast("Lütfen mekan seçiniz.");
+      showToast("Lütfen saha seçiniz.");
       return;
     }
 

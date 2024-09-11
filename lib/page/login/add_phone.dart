@@ -39,7 +39,7 @@ class _AddPhoneState extends State<AddPhone> {
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
-                        "Mevcut hesabınızda oturum açmak için telefon numaranızı ekleyin"),
+                        "Devam etmek için telefon numaranızı güncelleyin"),
                     Lottie.asset("assets/images/phone.json"),
                     FadeInRight(
                       child: InternationalPhoneNumberInput(

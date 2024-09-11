@@ -97,8 +97,8 @@ class _CreateGamePageState extends State<CreateGamePage> {
                       return showDatePicker(
                           firstDate: DateTime.now(),
                           initialDate: DateTime.now(),
-                          lastDate: DateTime(
-                              DateTime.now().year, DateTime.now().month + 2),
+                          lastDate: DateTime(DateTime.now().year + 5,
+                              DateTime.now().month + 2),
                           context: context);
                     },
                     validator: (value) {
@@ -130,8 +130,12 @@ class _CreateGamePageState extends State<CreateGamePage> {
                       TimeOfDay? picked = await showTimePicker(
                           context: context, initialTime: time);
                       if (picked != null && picked != time) {
-                        timeCtl.text =
-                            '${picked.hour}:${picked.minute}'; // add this line.
+                        if (picked.minute < 10) {
+                          timeCtl.text = '${picked.hour}:0${picked.minute}';
+                        } else {
+                          timeCtl.text = '${picked.hour}:${picked.minute}';
+                        }
+
                         setState(() {
                           time = picked;
                         });
@@ -242,8 +246,13 @@ class _CreateGamePageState extends State<CreateGamePage> {
   void navigate() {
     gameMode.gameDesc = 'Açıklama';
     gameMode.gameTitle = 'Başlık';
+
     //21-01-2022 02:02
     gameMode.gameDate = dateController.text + ' ' + timeCtl.text;
+    if (gameMode.gameDate == null || gameMode.gameDate!.isEmpty) {
+      showToast('Lütfen tarih ve saat seçiniz');
+      return;
+    }
     Navigator.of(context)
         .push(createRoute(CreateGameAddress(gameModel: gameMode)));
   }

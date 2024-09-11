@@ -106,27 +106,36 @@ class _TurnuvaListState extends State<TurnuvaList> with LocationMixin {
                                   return Card(
                                     child: Column(
                                       children: [
-                                        Image.network(
-                                          "https://macyap.com.tr/Content/Turnuva/İmg/${snapshot.data!.turnuvalar?[index].img}",
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.3,
-                                          fit: BoxFit.cover,
+                                        ClipRRect(
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(12),
+                                              topRight: Radius.circular(12)),
+                                          child: Image.network(
+                                            "https://macyap.com.tr/Content/Turnuva/İmg/${snapshot.data!.turnuvalar?[index].img}",
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.3,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                         Container(
                                             margin: const EdgeInsets.only(
-                                                left: 8, top: 4),
+                                                left: 8, top: 10),
                                             alignment: Alignment.centerLeft,
                                             child: Text(
                                               "${snapshot.data!.turnuvalar?[index].turnuvaName}",
                                               style:
                                                   const TextStyle(fontSize: 18),
                                             )),
-                                        HtmlWidget(
-                                            '${snapshot.data!.turnuvalar![index].aciklama}'),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: HtmlWidget(
+                                              '${snapshot.data!.turnuvalar![index].aciklama}'),
+                                        ),
                                         MaterialButton(
                                             minWidth: MediaQuery.of(context)
                                                 .size
