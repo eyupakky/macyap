@@ -54,7 +54,30 @@ class _CreateGameTeamState extends State<CreateGameTeam> {
                   TextFormField(
                     controller: playerCountController, // add this line.
                     keyboardType: TextInputType.number,
+
                     decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.info),
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Oyuncu Sayısı"),
+                                    content: const Text(
+                                        "Takımlar en az 5'er, en çok 14'er kişi olabilir. Gireceğiniz değer 2 ile çarpılarak takım sayısı oluşturulacaktır."),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text("Kapat"),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                        ),
                         hintText: 'Takımlardaki oyuncu sayısı (5-14 arası)',
                         labelStyle: const TextStyle(fontSize: 11),
                         hintStyle: TextStyle(
@@ -63,12 +86,13 @@ class _CreateGameTeamState extends State<CreateGameTeam> {
                           Icons.person,
                           color: Colors.red,
                         )),
+
                     validator: (value) {
                       return value!.isEmpty
                           ? "Bu alan gereklidir.."
                           : (int.parse(value) > 4 && int.parse(value) < 15
                               ? null
-                              : "Takımlar en az 5, en çok 14 kişi olabilir.");
+                              : "Takımlar en az 5'er, en çok 14'er kişilik olabilir.");
                     },
                   ),
                   const SizedBox(

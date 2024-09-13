@@ -247,7 +247,7 @@ class _SettingsPageState extends State<SettingsPage> {
       utils();
     }).catchError((err) {
       EasyLoading.dismiss();
-      showToast(err.error);
+      showToast(err.description);
     });
   }
 
