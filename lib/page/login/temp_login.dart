@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:halisaha/help/app_context.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/widget/custom_text_field.dart';

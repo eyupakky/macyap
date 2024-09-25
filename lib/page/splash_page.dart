@@ -3,7 +3,6 @@ import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/page/login/add_phone.dart';
 import 'package:lottie/lottie.dart';
 import 'package:repository_eyup/constant.dart';
-import 'package:repository_eyup/controller/home_controller.dart';
 import 'package:repository_eyup/controller/login_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +14,6 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  final HomeController _homeController = HomeController();
   final LoginController _loginController = LoginController();
 
   @override
