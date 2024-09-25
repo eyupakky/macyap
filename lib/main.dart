@@ -36,6 +36,7 @@ import 'package:halisaha/page/login/login_with_number.dart';
 import 'package:halisaha/page/login/new_password.dart';
 import 'package:halisaha/page/login/new_register.dart';
 import 'package:halisaha/page/login/register_page.dart';
+import 'package:halisaha/page/login/temp_login.dart';
 import 'package:halisaha/page/message/message_details.dart';
 import 'package:halisaha/page/splash_page.dart';
 import 'package:halisaha/page/venues/venues_detail.dart';
@@ -241,6 +242,7 @@ class _MyAppState extends State<MyApp> {
           "/password": (context) => const PasswordUpdatePage(),
           "/login": (context) => const LoginPage(),
           "/loginwithnumber": (context) => const LoginWithNumber(),
+          "/templogin": (context) => const TempLogin(),
           "/register": (context) => const RegisterPage(),
           "/newRegister": (context) => const NewRegister(),
           "/gameDetail": (context) => const GameDetailPage(),

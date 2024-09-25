@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     this.textInputAction,
     this.focusNode,
+    this.passwordVisible,
   });
 
   final TextEditingController nameController;
@@ -23,6 +24,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
+  final bool? passwordVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: FadeInRight(
         child: TextFormField(
+          obscureText: passwordVisible ?? false,
           focusNode: focusNode,
           controller: nameController,
           autovalidateMode: validate,

@@ -6,10 +6,11 @@ class Constant {
   static String surname = "";
   static String image = "";
   static int userId = 0;
-  static String testbaseUrl = "http://163.172.76.107/";
+  static String testbaseUrl = "https://api.macyap.com.tr/";
+  // static String testbaseUrl = "http://163.172.76.107/";
   // static String baseUrl = "http://78.111.98.76:1505/";
   //static String baseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
-  static String baseUrl = "http://163.172.76.107/";
+  static String baseUrl = "https://api.macyap.com.tr/";
 
   // Register
   static String login = "Home/Login";
@@ -20,6 +21,7 @@ class Constant {
   static String phoneVerification = "phone-verification";
   static String help = "Support/Help";
   static String register = "Home/Register";
+  static String registerNew = "Home/register-new";
   static String getCounties = "Home/GetCounties";
   static String getCities = "Home/GetCities";
 

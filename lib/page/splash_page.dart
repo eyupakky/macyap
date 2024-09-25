@@ -51,7 +51,6 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void getAccessToken(BuildContext context) {
-    bool isVerified = false;
     SharedPreferences.getInstance().then((value) {
       String? token = value.getString("accessToken");
       String? userName = value.getString("username");
@@ -68,33 +67,21 @@ class _SplashPageState extends State<SplashPage> {
         Constant.userId = int.parse('$userId');
 
         _loginController.phoneIsVerified(token).then(
-          (data) {
+          (data) async {
             if (data["status"]) {
-              isVerified = true;
+              Navigator.pushReplacementNamed(context, "/home");
             } else {
-              Navigator.pushReplacement(
+              await Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddPhone(token: token),
+                  builder: (context) => AddPhone(token: token, isLogin: true),
                 ),
               );
             }
           },
         ).catchError((err) {
           showToast(err, color: Colors.redAccent);
-          isVerified = false;
-        }).then(
-          (_) {
-            _homeController.getActiveControl().then((res) {
-              if (res.success && isVerified) {
-                Navigator.pushReplacementNamed(context, "/home");
-              } else {
-                value.clear();
-                Navigator.pushReplacementNamed(context, "/loginwithnumber");
-              }
-            });
-          },
-        );
+        });
       } else {
         Navigator.pushReplacementNamed(context, "/loginwithnumber");
       }

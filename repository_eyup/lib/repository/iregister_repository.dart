@@ -51,7 +51,7 @@ class RegisterRepository extends IRegisterRepository {
     print(jsonEncode(body));
     try {
       var res =
-          await _dio.post(Constant.baseUrl + Constant.register, data: body);
+          await _dio.post(Constant.baseUrl + Constant.registerNew, data: body);
 
       if (res.statusCode == 200) {
         return Future.value(res.data);
@@ -60,15 +60,32 @@ class RegisterRepository extends IRegisterRepository {
       }
     } catch (error) {
       if (error is DioError) {
-        Map<String, dynamic> errorMessages = error.response?.data['errors'];
-        String errorText = '';
+        var errorData = error.response?.data;
 
-        errorMessages.forEach((key, value) {
-          errorText += value[0] + '\n';
-        });
+        if (errorData is Map<String, dynamic>) {
+          if (errorData.isEmpty) {
+            return Future.error("Bilinmeyen bir hata oluştu.");
+          }
 
-        if (errorText.isNotEmpty) {
-          return Future.error(errorText);
+          var value = errorData['errors'];
+          String errorText = '';
+
+          if (value is List && value.isNotEmpty) {
+            errorText += value[0] + '\n';
+          }
+
+          errorText = errorText.trim();
+
+          if (errorText.isNotEmpty) {
+            return Future.error(errorText);
+          } else {
+            return Future.error("Bilinmeyen bir hata oluştu.");
+          }
+        } else if (errorData is String) {
+          if (errorData.isEmpty) {
+            return Future.error("Bilinmeyen bir hata oluştu.");
+          }
+          return Future.error(errorData);
         } else {
           return Future.error("Bilinmeyen bir hata oluştu.");
         }

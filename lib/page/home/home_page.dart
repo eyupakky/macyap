@@ -141,6 +141,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
+      canPop: false,
       child: Scaffold(
         backgroundColor: Colors.white.withAlpha(240),
         body: SafeArea(
