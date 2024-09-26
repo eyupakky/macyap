@@ -21,7 +21,7 @@ class Constant {
   static String phoneVerification = "phone-verification";
   static String help = "Support/Help";
   static String register = "Home/Register";
-  static String registerNew = "Home/register-new";
+  static String registerNew = "register-new";
   static String getCounties = "Home/GetCounties";
   static String getCities = "Home/GetCities";
 

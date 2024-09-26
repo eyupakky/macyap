@@ -62,30 +62,15 @@ class RegisterRepository extends IRegisterRepository {
       if (error is DioError) {
         var errorData = error.response?.data;
 
-        if (errorData is Map<String, dynamic>) {
-          if (errorData.isEmpty) {
-            return Future.error("Bilinmeyen bir hata oluştu.");
-          }
+        Map<String, dynamic> value = errorData['errors'];
+        String errorText = '';
 
-          var value = errorData['errors'];
-          String errorText = '';
+        value.forEach((key, val) {
+          errorText += val.toString() + '\n';
+        });
 
-          if (value is List && value.isNotEmpty) {
-            errorText += value[0] + '\n';
-          }
-
-          errorText = errorText.trim();
-
-          if (errorText.isNotEmpty) {
-            return Future.error(errorText);
-          } else {
-            return Future.error("Bilinmeyen bir hata oluştu.");
-          }
-        } else if (errorData is String) {
-          if (errorData.isEmpty) {
-            return Future.error("Bilinmeyen bir hata oluştu.");
-          }
-          return Future.error(errorData);
+        if (errorText.isNotEmpty) {
+          return Future.error(errorText);
         } else {
           return Future.error("Bilinmeyen bir hata oluştu.");
         }
