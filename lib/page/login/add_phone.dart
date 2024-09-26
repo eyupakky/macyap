@@ -6,13 +6,11 @@ import 'package:halisaha/page/login/confirm_page.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:lottie/lottie.dart';
 import 'package:repository_eyup/controller/login_controller.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AddPhone extends StatefulWidget {
   final String? token;
   final bool? isLogin;
-  final SharedPreferences? prefs;
-  const AddPhone({super.key, this.token, this.isLogin, this.prefs});
+  const AddPhone({super.key, this.token, this.isLogin});
 
   @override
   State<AddPhone> createState() => _AddPhoneState();
@@ -40,7 +38,6 @@ class _AddPhoneState extends State<AddPhone> {
                     ),
                     onPressed: () {
                       if (widget.isLogin ?? false) {
-                        widget.prefs?.clear();
                         Navigator.pushReplacementNamed(
                             context, "/loginwithnumber");
                       } else {

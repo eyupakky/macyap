@@ -69,6 +69,15 @@ class _SplashPageState extends State<SplashPage> {
             if (data["status"]) {
               Navigator.pushReplacementNamed(context, "/home");
             } else {
+              value.clear();
+
+              Constant.accessToken = "";
+              Constant.userName = "";
+              Constant.name = "";
+              Constant.surname = "";
+              Constant.image = "";
+              Constant.userId = 0;
+
               await Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
