@@ -111,7 +111,7 @@ class _TurnuvaListState extends State<TurnuvaList> with LocationMixin {
                                               topLeft: Radius.circular(12),
                                               topRight: Radius.circular(12)),
                                           child: Image.network(
-                                            "https://macyap.com.tr/Content/Turnuva/İmg/${snapshot.data!.turnuvalar?[index].img}",
+                                            "https://macyap.com.tr/Content/Turnuva/Img/${snapshot.data!.turnuvalar?[index].img}",
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width,

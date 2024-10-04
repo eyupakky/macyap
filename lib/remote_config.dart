@@ -42,7 +42,7 @@ class _RemoteConfigPageState extends State<RemoteConfigPage> {
           (BuildContext context, AsyncSnapshot<FirebaseRemoteConfig> snapshot) {
         if (snapshot.hasData) {
           //  Constant.baseUrl = snapshot.requireData.getString("api_path");
-          //  Constant.baseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
+          // Constant.baseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
           //  Constant.baseUrl = "http://163.172.76.107/";
           Constant.baseUrl = "https://api.macyap.com.tr/";
           if (snapshot.requireData.getString("api_path") == "") {

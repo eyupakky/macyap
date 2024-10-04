@@ -7,9 +7,9 @@ class Constant {
   static String image = "";
   static int userId = 0;
   static String testbaseUrl = "https://api.macyap.com.tr/";
-  // static String testbaseUrl = "http://163.172.76.107/";
+  //static String testbaseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
   // static String baseUrl = "http://78.111.98.76:1505/";
-  //static String baseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
+  // static String baseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
   static String baseUrl = "https://api.macyap.com.tr/";
 
   // Register
