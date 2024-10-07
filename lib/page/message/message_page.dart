@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:halisaha/base_widget.dart';
+import 'package:lottie/lottie.dart';
 import 'package:repository_eyup/controller/message_controller.dart';
 import 'package:repository_eyup/model/message_model.dart';
 
@@ -29,7 +30,16 @@ class MessagePage extends StatelessWidget {
                         return const Center(
                             child: Text("Mesajlar yükleniyor..."));
                       } else if (snapshot.data!.messageItem!.isEmpty) {
-                        return const Center(child: Text("Mesaj bulunamadı..."));
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.asset('assets/images/message.json',
+                                  width: 100, height: 100),
+                              const Text("Mesajınız yok"),
+                            ],
+                          ),
+                        );
                       }
                       var message = snapshot.data;
                       return ListView.builder(

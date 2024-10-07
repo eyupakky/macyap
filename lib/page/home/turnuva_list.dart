@@ -10,6 +10,7 @@ import 'package:halisaha/cubit/cubit_abstract.dart';
 import 'package:halisaha/help/utils.dart';
 import 'package:halisaha/widget/filter_drawer.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:repository_eyup/controller/account_controller.dart';
 import 'package:repository_eyup/controller/firebase_controller.dart';
 import 'package:repository_eyup/controller/home_controller.dart';
@@ -83,12 +84,16 @@ class _TurnuvaListState extends State<TurnuvaList> with LocationMixin {
                             } else if (snapshot.data == null) {
                               EasyLoading.isShow ? EasyLoading.dismiss() : null;
                               return SizedBox(
-                                height: 200,
+                                height: MediaQuery.of(context).size.height,
                                 child: Center(
                                     child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     snapshot.data == null
-                                        ? const CircularProgressIndicator()
+                                        ? Lottie.asset(
+                                            "assets/images/footbaall.json",
+                                            width: 100,
+                                            height: 100)
                                         : const SizedBox(),
                                     Text(snapshot.data == null
                                         ? "Turnuvalar aranıyor..."
