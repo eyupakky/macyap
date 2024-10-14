@@ -40,15 +40,26 @@ class _RemoteConfigPageState extends State<RemoteConfigPage> {
       future: setupRemoteConfig(),
       builder:
           (BuildContext context, AsyncSnapshot<FirebaseRemoteConfig> snapshot) {
+        // if (snapshot.hasData) {
+        //   //  Constant.baseUrl = snapshot.requireData.getString("api_path");
+        //   // Constant.baseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
+        //   //  Constant.baseUrl = "http://163.172.76.107/";
+        //   Constant.baseUrl = "https://api.macyap.com.tr/";
+        //   if (snapshot.requireData.getString("api_path") == "") {
+        //     // Constant.baseUrl = "http://78.111.98.76:5241/";
+        //     // Constant.baseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
+        //     // Constant.baseUrl = "http://163.172.76.107/";
+        //     Constant.baseUrl = "https://api.macyap.com.tr/";
+        //   }
+        // }
+        // return snapshot.hasData
+        //     ? const SplashPage()
+        //     : const Center(
+        //         child: CircularProgressIndicator(),
+        //       );
         if (snapshot.hasData) {
-          //  Constant.baseUrl = snapshot.requireData.getString("api_path");
-          // Constant.baseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
-          //  Constant.baseUrl = "http://163.172.76.107/";
-          Constant.baseUrl = "https://api.macyap.com.tr/";
+          Constant.baseUrl = snapshot.requireData.getString("api_path");
           if (snapshot.requireData.getString("api_path") == "") {
-            // Constant.baseUrl = "http://78.111.98.76:5241/";
-            // Constant.baseUrl = "https://v5pwsh9k-65521.euw.devtunnels.ms/";
-            // Constant.baseUrl = "http://163.172.76.107/";
             Constant.baseUrl = "https://api.macyap.com.tr/";
           }
         }
